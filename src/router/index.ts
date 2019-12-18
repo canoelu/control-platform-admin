@@ -1,30 +1,68 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Router from "vue-router";
+import routeAppend from "./route-append";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+import VueCookies from "vue-cookies";
+const baseModule = require("./base");
 
-Vue.use(VueRouter);
+let role: string | number = "admin";
 
-const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: Home
-  },
-  {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
-];
+Vue.use(Router);
 
-const router = new VueRouter({
+const ROUTER = new Router({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  },
+  routes: [...routeAppend, ...baseModule]
+});
+function _goLogin(next: any, to: any) {
+  next({
+    name: "login",
+    query: {
+      redirect: ""
+    }
+  });
+}
+function _validateToken(to: any, from: any, next: any, role: string | number) {
+  if (to.path.indexOf("login") > -1) {
+    next();
+  } else {
+    let hasLogin = true;
+    if (hasLogin) {
+      let { name, query, params } = to;
+      if (!query.sysPlat && !name.includes("login")) {
+        next();
+      } else {
+        next();
+      }
+    } else {
+      _goLogin(next, to);
+    }
+  }
+}
+ROUTER.beforeEach((to, from, next) => {
+  // 进度条
+  if (to.name !== from.name) {
+    NProgress.start();
+  }
+
+  // 非登录页面
+  if (!to.meta.withoutAuth) {
+    _validateToken(to, from, next, role);
+  } else {
+    next();
+  }
+});
+ROUTER.afterEach(to => {
+  // 进度条
+  NProgress.done();
 });
 
-export default router;
+export default ROUTER;

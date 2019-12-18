@@ -1,0 +1,125 @@
+@function wToPercent($px, $defWidth: 1600px) {
+  //$px为百分比
+  @return percentage($px / $defWidth);
+}
+
+@function hToPercent($px, $defHeight: 680px) {
+  //$px为百分比
+  @return percentage($px / $defHeight);
+}
+
+@mixin smallFont($px) {
+  font-size: px2rem($px);
+  @if $px <12 {
+    transform: scale($px/12);
+    //transform-origin: 0 center;
+  }
+}
+//文本溢出省略号显示
+@mixin ellipsis($line: 1) {
+  @if $line==1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+@mixin commonBtn($w: 120, $h: 40, $bg, $br: 2, $c: #fff) {
+  width: px2rem($w);
+  height: px2rem($h);
+  line-height: px2rem($h);
+  text-align: center;
+  color: $c;
+  background: $bg;
+  border-radius: px2rem($br);
+  border: 1px solid;
+}
+@mixin wh($w: null, $h: auto, $mw: null, $mh: null, $lh: null) {
+  @if ($w) {
+    width: $w;
+  }
+  height: $h;
+  @if ($mw) {
+    min-width: $mw;
+  }
+  @if ($mh) {
+    min-height: $mh;
+  }
+  @if ($lh) {
+    line-height: $lh;
+  }
+}
+@mixin posSet($type: absolute, $left: null, $top: null, $right: null, $bottom: null) {
+  position: $type;
+  @if ($left) {
+    left: $left;
+  }
+  @if ($right) {
+    right: $right;
+  }
+  @if ($top) {
+    top: $top;
+  }
+  @if ($bottom) {
+    bottom: $bottom;
+  }
+}
+@mixin commonDisplay($w, $h, $bg, $color, $fs, $display: block, $bColor) {
+  display: $display;
+  width: $w;
+  height: $h;
+  font-size: $fs;
+  color: $color;
+  background: $bg;
+  border: 1px solid $bColor;
+}
+@mixin flexCenter($dir: row) {
+  display: flex;
+  flex-direction: $dir;
+  align-items: center;
+  justify-content: center;
+}
+@mixin flexSet($dir: row, $jContent: null, $alignItem: null, $fw: null) {
+  display: flex;
+  flex-direction: $dir;
+  @if ($jContent) {
+    justify-content: $jContent;
+  }
+  @if ($alignItem) {
+    align-items: $alignItem;
+  }
+  @if ($fw) {
+    flex-wrap: $fw;
+  }
+}
+@mixin fontSet($c, $fs: px2rem(14), $fw: null, $tAlign: null) {
+  color: $c;
+  font-size: $fs;
+  font-weight: $fw;
+  @if ($tAlign) {
+    text-align: $tAlign;
+  }
+}
+@mixin borderSet($bc, $br) {
+  border: 1px solid $bc;
+  border-radius: $br;
+}
+@mixin marginSet($t: null, $r: null, $b: null, $l: null) {
+  @if ($t) {
+    margin-top: $t;
+  }
+  @if ($r) {
+    margin-right: $r;
+  }
+  @if ($b) {
+    margin-bottom: $b;
+  }
+  @if ($l) {
+    margin-left: $l;
+  }
+}
