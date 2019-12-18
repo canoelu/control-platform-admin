@@ -19,14 +19,24 @@ import addDialog from "./components/addDialog.vue";
 export default class extends Vue {
   dialog: any = {
     show: false,
-    title: "添加图例"
+    title: "添加系统"
   };
   get constant() {
     return new Const(this).const;
   }
   addSystem() {
     this.dialog.show = true;
+    this.dialog.type = "system";
   }
+  addDevice() {
+    this.dialog.show = true;
+    this.dialog.type = "device";
+  }
+  addPoint() {
+    this.dialog.show = true;
+    this.dialog.type = "point";
+  }
+
   handleClose() {
     this.dialog.show = false;
   }

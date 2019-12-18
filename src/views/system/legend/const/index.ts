@@ -27,7 +27,8 @@ const LEGEND_PROPS = (vm: any) => {
     {
       tag: "input",
       prop: "name",
-      placeholder: "图例名称"
+      placeholder: "请输入图例名称",
+      label: "图例名称"
     },
     {
       tag: "textarea",
@@ -35,6 +36,10 @@ const LEGEND_PROPS = (vm: any) => {
       placeholder: "图例代码"
     }
   ];
+};
+const LEGEND_RULES = {
+  area: { required: true, message: "请选择状态", trigger: "change" },
+  name: { required: true, message: "请输入图例名称", trigger: "blur" }
 };
 const LEGEND_SEARCH_CONFIG = (vm: any) => {
   return {
@@ -48,7 +53,7 @@ const LEGEND_SEARCH_CONFIG = (vm: any) => {
     ],
     addBtn: {
       label: "添加图例",
-      handler: (vm: any) => vm.addLegend
+      handler: () => vm.addLegend()
     }
   };
 };
@@ -90,7 +95,8 @@ class ConstConfig {
     this.const = {
       LEGEND_PROPS: LEGEND_PROPS(vm),
       LEGEND_SEARCH_CONFIG: LEGEND_SEARCH_CONFIG(vm),
-      LEGEND_COLUMN: LEGEND_COLUMN(vm)
+      LEGEND_COLUMN: LEGEND_COLUMN(vm),
+      LEGEND_RULES
     };
   }
 }

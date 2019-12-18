@@ -1,9 +1,9 @@
 <!--图例管理-->
 <template>
-  <div>
+  <el-card>
     <search-table :data="[{}]" :searchConfig="constant.LEGEND_SEARCH_CONFIG" :tableColumns="constant.LEGEND_COLUMN" />
-    <add-dialog></add-dialog>
-  </div>
+    <add-dialog :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
+  </el-card>
 </template>
 
 <script lang="ts">
@@ -26,6 +26,9 @@ export default class extends Vue {
   }
   addLegend() {
     this.dialog.show = true;
+  }
+  handleClose() {
+    this.dialog.show = false;
   }
   created() {}
 }

@@ -16,16 +16,21 @@ const METADATA_SYSTEM_PROPS = (vm: any) => {
   return [
     {
       tag: "input",
-      prop: "typeName",
+      prop: "type",
       placeholder: "请输入系统类别",
       label: "系统类别"
     },
     {
       tag: "input",
-      prop: "id",
-      placeholder: "标识ID"
+      prop: "identifyId",
+      placeholder: "请输入标识ID",
+      label: "标识ID"
     }
   ];
+};
+const METADATA_SYSTEM_RULES = {
+  type: { required: true, message: "请输入系统类别", trigger: "blur" },
+  identifyId: { required: true, message: "请输入标识ID", trigger: "blur" }
 };
 const METADATA_DEVICE_PROPS = (vm: any) => {
   return [
@@ -37,10 +42,15 @@ const METADATA_DEVICE_PROPS = (vm: any) => {
     },
     {
       tag: "input",
-      prop: "id",
+      prop: "identifyId",
+      label: "请输入标识ID",
       placeholder: "标识ID"
     }
   ];
+};
+const METADATA_DEVICE_RULES = {
+  deviceName: { required: true, message: "请输入设备类型名称", trigger: "blur" },
+  identifyId: { required: true, message: "请输入标识ID", trigger: "blur" }
 };
 const METADATA_POINT_PROPS = (vm: any) => {
   return [
@@ -52,9 +62,9 @@ const METADATA_POINT_PROPS = (vm: any) => {
     },
     {
       tag: "input",
-      prop: "id",
+      prop: "identifyId",
       label: "标识ID",
-      placeholder: "标识ID"
+      placeholder: "请输入标识ID"
     },
     {
       tag: "select",
@@ -64,6 +74,11 @@ const METADATA_POINT_PROPS = (vm: any) => {
       options: POINT_TYPES
     }
   ];
+};
+const METADATA_POINT_RULES = {
+  pointName: { required: true, message: "请输入点位名称", trigger: "blur" },
+  identifyId: { required: true, message: "请输入标识ID", trigger: "blur" },
+  type: { required: true, message: "请选择类型", trigger: "change" }
 };
 const METADATA_SEARCH_CONFIG = (vm: any) => {
   return {
@@ -114,7 +129,10 @@ class ConstConfig {
       METADATA_DEVICE_PROPS: METADATA_DEVICE_PROPS(vm),
       METADATA_SEARCH_CONFIG: METADATA_SEARCH_CONFIG(vm),
       METADATA_POINT_PROPS: METADATA_POINT_PROPS(vm),
-      METADATA_COLUMN: METADATA_COLUMN(vm)
+      METADATA_COLUMN: METADATA_COLUMN(vm),
+      METADATA_SYSTEM_RULES,
+      METADATA_DEVICE_RULES,
+      METADATA_POINT_RULES
     };
   }
 }

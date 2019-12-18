@@ -48,7 +48,7 @@ const METHOD_SEARCH_CONFIG = (vm: any) => {
     ],
     addBtn: {
       label: "添加方法",
-      handler: (vm: any) => vm.addMethod
+      handler: () => vm.addMethod()
     }
   };
 };
@@ -67,7 +67,7 @@ const METHOD_COLUMN = (vm: any) => [
   },
   {
     title: "类别",
-    key: "name"
+    key: "type"
   },
   {
     title: "操作",

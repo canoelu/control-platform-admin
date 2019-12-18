@@ -12,7 +12,24 @@ import conLayout from "@/components/layout/index.vue";
 @Component({
   components: { conLayout }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  /**
+   * 计算REM
+   */
+  calSize() {
+    let designSize = 1920; // 设计图尺寸
+    let html = document.documentElement;
+    let cW = html.clientWidth; // 窗口宽度
+    let rem = (cW * 100) / designSize;
+    document.documentElement.style.fontSize = rem + "px";
+  }
+  mounted() {
+    window.onresize = (e: any) => {
+      this.calSize();
+    };
+    this.calSize();
+  }
+}
 </script>
 
 <style>

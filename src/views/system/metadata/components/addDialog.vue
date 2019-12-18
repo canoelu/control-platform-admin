@@ -1,20 +1,34 @@
 <!--图例管理-->
 <template>
   <el-dialog
-    class="goods-dialog"
     :title="dialogObj.title"
     :visible.sync="dialogObj.show"
-    width="80%"
+    width="50%"
     :before-close="handleClose"
     append-to-body
   >
     <!--添加系统-->
-    <common-form :props="constant.METADATA_SYSTEM_PROPS" />
+    <common-form
+      v-if="dialogObj.type === 'system'"
+      :form="systemForm"
+      :rules="constant.METADATA_SYSTEM_RULES"
+      :props="constant.METADATA_SYSTEM_PROPS"
+    />
     <!--添加设备-->
-    <common-form :props="constant.METADATA_DEVICE_PROPS" />
+    <common-form
+      v-if="dialogObj.type === 'device'"
+      :form="deviceForm"
+      :rules="constant.METADATA_DEVICE_RULES"
+      :props="constant.METADATA_DEVICE_PROPS"
+    />
     <!--添加点位-->
-    <common-form :props="constant.METADATA_POINT_PROPS" />
-    <div class="">
+    <common-form
+      v-if="dialogObj.type === 'point'"
+      :form="pointForm"
+      :rules="constant.METADATA_POINT_RULES"
+      :props="constant.METADATA_POINT_PROPS"
+    />
+    <div class="flexCenter">
       <el-button size="small">关闭</el-button>
       <el-button size="small" type="primary">保存</el-button>
     </div>
@@ -30,6 +44,9 @@ import Const from "../const/";
 })
 export default class extends Vue {
   @Prop({ default: false }) private dialogObj: any;
+  systemForm: any = {};
+  deviceForm: any = {};
+  pointForm: any = {};
   get constant() {
     return new Const(this).const;
   }

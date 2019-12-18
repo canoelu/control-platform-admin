@@ -1,12 +1,9 @@
 <!--图例管理-->
 <template>
-  <div>
-    <search-table
-      :searchConfig="constant.METHOD_SEARCH_CONFIG"
-      :tableColumns="constant.METHOD_SEARCH_CONFIG"
-    />
-    <add-dialog></add-dialog>
-  </div>
+  <el-card>
+    <search-table :searchConfig="constant.METHOD_SEARCH_CONFIG" :tableColumns="constant.METHOD_COLUMN" />
+    <add-dialog :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
+  </el-card>
 </template>
 
 <script lang="ts">
@@ -30,8 +27,12 @@ export default class extends Vue {
   addMethod() {
     this.dialog.show = true;
   }
+
   edit() {}
   delete() {}
+  handleClose() {
+    this.dialog.show = false;
+  }
   created() {}
 }
 </script>

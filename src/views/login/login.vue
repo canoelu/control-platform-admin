@@ -118,12 +118,6 @@ export default class App extends Vue {
   private login() {
     this.ruleForm.validate((valid: boolean) => {
       if (valid) {
-        if (!this.hasAccount) {
-          return;
-        }
-        if (!this.formLogin.codeId) {
-          return;
-        }
         this._submitLoginApi();
       }
     });
@@ -135,6 +129,9 @@ export default class App extends Vue {
       formLogin: { username, password, codeId, codeValue },
       role
     } = this;
+    this.$router.push({
+      path: "/system/metadata/index"
+    });
   }
   // 登录成功
   _loginSuccess(data: any) {}

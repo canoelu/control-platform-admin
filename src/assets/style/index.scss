@@ -52,14 +52,24 @@
   display: flex;
   align-items: center;
 }
+.flexCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 .cursor {
   cursor: pointer;
 }
 .text-overflow-ellipsis {
   @include ellipsis();
 }
+.el-dialog__wrapper {
+  font-size: 14px;
+}
 .el-dialog__header {
   border-bottom: 1px solid #eee;
+  padding: 20px;
 }
 
 .el-dialog__title {
