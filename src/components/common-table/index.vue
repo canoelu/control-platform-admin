@@ -14,8 +14,10 @@
       :show-summary="showSummary"
       :summary-method="getSummaries"
       @current-change="singleSelectChange"
-      v-bind="$attrs"
+      :rowKey="rowKey"
+      :tree-props="treeProps"
     >
+      v-bind="$attrs" >
       <el-table-column type="selection" width="55" v-if="tableColumns && tableColumns[0].type === 'selection'">
       </el-table-column>
       <!-- eslint-disable vue/no-use-v-if-with-v-for -->
@@ -93,6 +95,8 @@ export default class CommonTable extends Vue {
   @Prop({ default: undefined }) private spanMethod?: Function;
   @Prop({ default: undefined }) private summaryMethod?: Function;
   @Prop({ default: true }) private showPage!: boolean;
+  @Prop({ default: "" }) private rowKey?: string;
+  @Prop({ default: () => {} }) private treeProps!: any;
   @Prop({ default: false }) private showSummary!: boolean;
   @Prop({ default: "prev, pager, next, sizes, jumper,total" })
   private layout!: string;

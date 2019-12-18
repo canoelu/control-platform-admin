@@ -15,8 +15,8 @@ const service: any = axios.create({
 service.interceptors.request.use(
   (config: any) => {
     if (config.url.indexOf("login") === -1) {
-      let token: string = StoreInfoSetting.getUserToken();
-      config.headers["token"] = token;
+      // let token: string = StoreInfoSetting.getUserToken();
+      // config.headers["token"] = token;
     }
     return config;
   },
@@ -52,6 +52,7 @@ service.interceptors.response.use(
     }
   },
   (error: any) => {
+    console.log(error);
     if (error && error.response) {
       switch (error.response.status) {
         case 400:

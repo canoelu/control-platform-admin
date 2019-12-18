@@ -16,53 +16,53 @@ const METADATA_SYSTEM_PROPS = (vm: any) => {
   return [
     {
       tag: "input",
-      prop: "type",
-      placeholder: "请输入系统类别",
-      label: "系统类别"
+      prop: "name",
+      placeholder: "请输入系统名称",
+      label: "系统名称"
     },
     {
       tag: "input",
-      prop: "identifyId",
+      prop: "selfId",
       placeholder: "请输入标识ID",
       label: "标识ID"
     }
   ];
 };
 const METADATA_SYSTEM_RULES = {
-  type: { required: true, message: "请输入系统类别", trigger: "blur" },
-  identifyId: { required: true, message: "请输入标识ID", trigger: "blur" }
+  name: { required: true, message: "请输入系统名称", trigger: "blur" },
+  selfId: { required: true, message: "请输入标识ID", trigger: "blur" }
 };
 const METADATA_DEVICE_PROPS = (vm: any) => {
   return [
     {
       tag: "input",
-      prop: "deviceName",
+      prop: "name",
       placeholder: "请输入设备类型名称",
       label: "设备类型名称"
     },
     {
       tag: "input",
-      prop: "identifyId",
+      prop: "selfId",
       label: "请输入标识ID",
       placeholder: "标识ID"
     }
   ];
 };
 const METADATA_DEVICE_RULES = {
-  deviceName: { required: true, message: "请输入设备类型名称", trigger: "blur" },
-  identifyId: { required: true, message: "请输入标识ID", trigger: "blur" }
+  name: { required: true, message: "请输入设备类型名称", trigger: "blur" },
+  selfId: { required: true, message: "请输入标识ID", trigger: "blur" }
 };
 const METADATA_POINT_PROPS = (vm: any) => {
   return [
     {
       tag: "input",
-      prop: "pointName",
+      prop: "name",
       placeholder: "请输入点位名称",
       label: "点位名称"
     },
     {
       tag: "input",
-      prop: "identifyId",
+      prop: "selfId",
       label: "标识ID",
       placeholder: "请输入标识ID"
     },
@@ -76,22 +76,23 @@ const METADATA_POINT_PROPS = (vm: any) => {
   ];
 };
 const METADATA_POINT_RULES = {
-  pointName: { required: true, message: "请输入点位名称", trigger: "blur" },
-  identifyId: { required: true, message: "请输入标识ID", trigger: "blur" },
+  name: { required: true, message: "请输入点位名称", trigger: "blur" },
+  selfId: { required: true, message: "请输入标识ID", trigger: "blur" },
   type: { required: true, message: "请选择类型", trigger: "change" }
 };
 const METADATA_SEARCH_CONFIG = (vm: any) => {
   return {
     addBtn: {
       label: "添加系统",
-      handler: () => vm.addSystem()
+      handler: () => vm.handleShowDialog()
     }
   };
 };
 const METADATA_COLUMN = (vm: any) => [
   {
     title: "id",
-    key: "id"
+    key: "id",
+    width: 80
   },
   {
     title: "名称",
@@ -99,7 +100,7 @@ const METADATA_COLUMN = (vm: any) => [
   },
   {
     title: "标志ID",
-    key: "status"
+    key: "selfId"
   },
   {
     title: "操作",
@@ -107,15 +108,22 @@ const METADATA_COLUMN = (vm: any) => [
     setBtns: (row: any) => {
       let editBtn = { label: "修改", handler: () => vm.edit(row) };
       let deleteBtn = { label: "删除", handler: () => vm.delete(row) };
-      let addDeviceBtn = {
-        label: "添加设备类型",
-        handler: () => vm.addDevice(row)
-      };
       let addPointBtn = {
         label: "添加点位类型",
         handler: () => vm.addPoint(row)
       };
-      return [editBtn, deleteBtn, addDeviceBtn, addPointBtn];
+      let addDeviceBtn = {
+        label: "添加设备类型",
+        handler: () => vm.addDevice(row)
+      };
+      let _arr: any[] = [editBtn, deleteBtn];
+      if (row.categoryTypeId === 1) {
+        _arr.push(addDeviceBtn);
+      } else if (row.categoryTypeId === 2) {
+        _arr.push(addPointBtn);
+      }
+
+      return _arr;
     }
   }
 ];

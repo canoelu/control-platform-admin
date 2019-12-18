@@ -1,7 +1,6 @@
 import Vue from "vue";
 import { formatNum, formatTel, formatNotInputTxt } from "@/utils/format.ts";
-var { set } = require("lodash");
-
+import { set } from "lodash";
 /**
  * @description 自定义 限制输入框 只能输入数字 且 限制后几位
  * @param 0 1 2 （默认保留两位）

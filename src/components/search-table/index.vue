@@ -41,6 +41,8 @@
       :showPage="showPage"
       :show-header="showHeader"
       :spanMethod="spanMethod"
+      :rowKey="rowKey"
+      :treeProps="treeProps"
       @singleSelectChange="singleSelectChange"
       :filter="filter"
       @sizeChange="sizeChange"
@@ -87,7 +89,8 @@ export default class extends Vue {
   @Prop({ default: false }) private isRefresh?: boolean; // 是否刷新列表,值改变即刷新
   @Prop({ default: () => [] }) private defaultSelected?: any[]; // 选中列表，id做匹配
   @Prop({ default: "id" }) private selectItemKey?: string; // 如果默认选中列表为number类型，默认选中列表的key值
-
+  @Prop({ default: "" }) private rowKey?: string;
+  @Prop({ default: () => {} }) private treeProps!: any;
   @Prop({ default: "prev, pager, next, sizes, jumper,total" })
   private layout!: string;
   // todo
@@ -176,9 +179,9 @@ export default class extends Vue {
       });
       // 父级通过proxyData对data进行处理
       if (this.proxyData) {
-        this.listData = this.proxyData(res.data.list);
+        this.listData = this.proxyData(res.data);
       } else {
-        this.listData = Array.isArray(res.data.list) ? res.data.list : [];
+        this.listData = Array.isArray(res.data) ? res.data : [];
       }
       // 设置默认选中
       this.defaultSelect();
