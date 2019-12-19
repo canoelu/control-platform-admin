@@ -8,6 +8,14 @@ export default [
       ignoreCollapseMenu: false,
     }
   },{
+    path: "/login/identify",
+    name: "login-identify",
+    component: () => import("@/views/login/identify.vue"),
+    meta: {
+      withMenu: true,
+      ignoreCollapseMenu: false,
+    }
+  },{
     path: "/project/content/device/index",
     name: "project-content-device-index",
     component: () => import("@/views/project/content/device/index.vue"),

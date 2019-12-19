@@ -1,46 +1,38 @@
 <template>
   <login-container>
     <el-form @submit.native.prevent :rules="rules" :model="formLogin" ref="ruleForm" class="form">
-      <span class="title">四川能投</span>
+      <span class="title"></span>
       <el-form-item prop="username">
-        <el-input placeholder="请输入账号" v-model.trim="formLogin.username" maxlength="20">
-          <img src="/imgs/login/user.png" slot="prefix" class="icon" />
-        </el-input>
+        <input class="form-ipt" placeholder="请输入账号" v-model.trim="formLogin.username" maxlength="20">
+        </input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input
+        <input
+          class="form-ipt"
           placeholder="请输入密码"
           v-model.trim="formLogin.password"
           v-formatNotTxt="formLogin.password"
-          @keypress.native.enter="login"
+          @keypress.enter="login"
           :type="pwdVisible ? 'text' : 'password'"
           maxlength="20"
         >
-          <img src="/imgs/login/lock.png" slot="prefix" class="icon-lock" />
-          <img src="/imgs/login/eye_close.png" slot="suffix" class="icon-eye" @click="showPwd" v-if="!pwdVisible" />
-          <img src="/imgs/login/eye_open.png" slot="suffix" class="icon-eye" v-else @click="showPwd" />
-        </el-input>
+        </input>
       </el-form-item>
       <el-form-item prop="codeValue">
-        <el-input
-          placeholder="请输入验证码"
-          v-model.trim="formLogin.codeValue"
-          v-formatNotTxt="formLogin.codeValue"
-          @keypress.native.enter="login"
-          maxlength="4"
-        >
-          <img src="/imgs/login/code.png" slot="prefix" class="icon-code" />
-          <img
-            :src="codeImg"
-            v-if="codeImg"
-            slot="suffix"
-            title="点击更换验证码"
-            class="icon-code-suffix"
-            @click="getLoginCode"
-          />
-        </el-input>
+        <div class="flexBetween code-wrap">
+          <input class="form-ipt code-ipt"
+                 placeholder="请输入验证码"
+                 v-model.trim="formLogin.codeValue"
+                 v-formatNotTxt="formLogin.codeValue"
+                 @keypress.enter="login"
+                 maxlength="4"
+          >
+
+          </input>
+          <s-identify :identifyCode="identifyCode"></s-identify>
+        </div>
       </el-form-item>
-      <el-button type="primary" @click="login" :loading="submitLoading">登录</el-button>
+      <button class="login-btn"  @click="login" :loading="submitLoading">登录</button>
     </el-form>
   </login-container>
 </template>
@@ -48,6 +40,8 @@
 <script lang="ts">
 import { Component, Vue, Ref } from "vue-property-decorator";
 import LoginContainer from "@/components/login-container/index.vue";
+import SIdentify from './identify.vue'
+ const IDENTIFYCODES = '1234567890abcdefghijklmnopqrstuvwxyz'
 
 interface UserRoleConfigVal {
   key: string;
@@ -73,14 +67,15 @@ interface LoginSucUserInfo {
 
 @Component({
   components: {
-    LoginContainer
+    LoginContainer,
+    SIdentify
   }
 })
 export default class App extends Vue {
   private pwdVisible: boolean = false;
   private codeImg: string = "";
-  // TODO: 还没接口校验
-  private hasAccount: boolean = true;
+ private identifyCode:string='';
+ private identifyCodes:string=IDENTIFYCODES;
   private submitLoading: boolean = false;
   private loadingCode: boolean = false;
   private role: number | string = 1;
@@ -135,13 +130,26 @@ export default class App extends Vue {
   }
   // 登录成功
   _loginSuccess(data: any) {}
-
+  randomNum(min:number, max:number) {
+    return Math.floor(Math.random() * (max - min) + min)
+  }
+  refreshCode() {
+    this.identifyCode = ''
+    this.makeCode(this.identifyCodes, 4)
+  }
+  makeCode(o:any, l:any) {
+    for (let i = 0; i < l; i++) {
+      let codes = this.randomNum(0, this.identifyCodes.length)
+      this.identifyCode += this.identifyCodes[codes]
+    }
+  }
   /**
    * @description 根据不同路径判断不同的值
    */
-  created() {
+  mounted() {
     this.formLogin.username = this.$route.query.username || "";
     this.getLoginCode();
+    this.makeCode(this.identifyCodes, 4)
   }
 }
 </script>
@@ -151,7 +159,35 @@ export default class App extends Vue {
     padding-left: 8%;
     margin-top: -10px;
   }
+  .form-ipt {
+    background: none;
+    display: block;
+    border: 2px solid #3498db;
+    padding: 14px 10px;
+    text-align: center;
+    width: 90%;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    transform-origin: center center;
+    &:focus {
+      width: 95%;
+      border-color: #2ecc71;
+    }
+  }
+  .code-wrap{
+    width: 90%;
+  }
+  .code-ipt{
+    width: 50%;
+    &:focus{
+      width: 55%;
+    }
+
+  }
 }
+
 
 .title {
   color: rgba(4, 104, 179, 1);
@@ -204,23 +240,20 @@ export default class App extends Vue {
 .icon-eye:nth-of-type(1) {
   margin-right: 5px;
 }
-.el-button {
-  width: 110px;
-  height: 40px;
-  margin: 10px 0;
-  background: rgba(53, 139, 212, 1);
-  box-shadow: 0px 9px 35px 0px rgba(65, 169, 222, 0.36);
-  border-radius: 20px;
-}
-.forget {
-  margin-top: 2px;
-  span {
-    cursor: pointer;
-    font-size: 11px;
-    color: rgba(53, 139, 212, 1);
-    &:hover {
-      opacity: 0.8;
-    }
+.login-btn{
+   background: none;
+  display: block;
+  text-align: center;
+  border: 2px solid #2ecc71;
+  padding: 14px 10px;
+  width: 90%;
+  outline: none;
+  color: white;
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer;
+  &:hover{
+    background: #2ecc71;
   }
 }
 </style>
