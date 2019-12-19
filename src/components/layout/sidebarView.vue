@@ -8,7 +8,7 @@
       <!--menu-->
       <el-menu :default-openeds="['0']" background-color="#22337b" text-color="#C6DDFF" :unique-opened="true">
         <el-submenu :index="`${idx}`" v-for="(item, idx) in menuList" :key="item.path">
-          <template slot="title"><i :class="item.icon"></i>{{ item.name }}</template>
+          <template slot="title"><i :class="[item.icon, 'menu-icon']"></i>{{ item.name }}</template>
           <el-menu-item-group>
             <el-menu-item
               :index="`${idx}-${index}`"
@@ -16,7 +16,10 @@
               :key="index"
               @click="changeMenu(sub)"
             >
-              <router-link :to="sub.path" tag="div">{{ sub.name }}</router-link>
+              <router-link :to="sub.path" tag="div">
+                <i :class="[sub.icon, 'menu-icon']"></i>
+                {{ sub.name }}
+              </router-link>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -84,6 +87,9 @@ export default class Sidebar extends Vue {
         rgba(0, 73, 250, 1) 100%
       );
     }
+    .el-menu-item {
+      padding-left: 50px !important;
+    }
   }
   .opt {
     position: absolute;
@@ -95,7 +101,10 @@ export default class Sidebar extends Vue {
     height: 100%;
     z-index: 2;
   }
-
+  .menu-icon {
+    color: #c6ddff;
+    margin-right: 15px;
+  }
   .sidebar-bg {
     position: absolute;
     bottom: 0;

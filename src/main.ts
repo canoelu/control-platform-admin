@@ -8,6 +8,7 @@ import "@/assets/style/index.scss";
 import searchTable from "@/components/search-table/index.vue";
 import commonForm from "@/components/common-form/index.vue";
 import "@/directive/index.ts";
+import "./assets/iconfont/iconfont.css";
 
 Vue.config.productionTip = false;
 Vue.config.productionTip = false;
