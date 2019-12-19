@@ -1,4 +1,4 @@
-<!--方法管理-->
+<!--项目管理-->
 <template>
   <el-dialog
     :title="dialogObj.title"
@@ -8,20 +8,7 @@
     append-to-body
   >
     <div v-loading="loading">
-      <common-form ref="formRef" :form="legendForm" :rules="constant.METHOD_RULES" :props="constant.METHOD_PROPS">
-        <template v-slot:deal>
-          <div class="flexRow">
-            <el-select class="mr-10" style="width:200px" size="small" placeholder="所在区域名称">
-              <el-option></el-option>
-            </el-select>
-            <el-select class="mr-10" style="width:200px" size="small" placeholder="点位替换代码">
-              <el-option></el-option>
-            </el-select>
-            <el-upload action="">
-              <el-button size="small" type="primary">选择及上传图片</el-button>
-            </el-upload>
-          </div>
-        </template>
+      <common-form ref="formRef" :form="legendForm" :rules="constant.PROJECT_RULES" :props="constant.PROJECT_PROPS">
       </common-form>
       <div class="flexCenter">
         <el-button size="small" @click="handleClose">关闭</el-button>
@@ -34,7 +21,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 import Const from "../const/";
-import { saveMethod, getMethod, editMethod } from "@/api/";
+import { saveProject, getProject, editProject } from "@/api/";
 @Component({
   name: "index",
   components: {}
@@ -59,15 +46,15 @@ export default class extends Vue {
     try {
       let _data = this.legendForm;
       if (this.isAdd) {
-        await saveMethod(_data);
+        await saveProject(_data);
       } else {
-        await editMethod({
+        await editProject({
           ..._data,
           id: this.dialogObj.info.id
         });
       }
       this.saving = false;
-      this.$message.success("保存方法成功");
+      this.$message.success("保存项目成功");
       this.$emit("handleClose");
       this.$emit("getTblList");
     } catch (e) {
@@ -86,7 +73,7 @@ export default class extends Vue {
     try {
       this.loading = true;
       let { info, type } = this.dialogObj;
-      let res = await getMethod(info.id);
+      let res = await getProject(info.id);
       this.loading = false;
       this.legendForm = res.data;
     } catch (e) {

@@ -1,16 +1,13 @@
 <!--区域管理-->
 <template>
   <div>
-    <search-table
-      :searchConfig="constant.REGION_SEARCH_CONFIG"
-      :tableColumns="constant.REGION_COLUMN"
-    />
-    <add-dialog></add-dialog>
+    <search-table ref="tblRef" :searchConfig="constant.REGION_SEARCH_CONFIG" :tableColumns="constant.REGION_COLUMN" />
+    <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 import Const from "./const/";
 import addDialog from "./components/addDialog.vue";
 @Component({
@@ -20,6 +17,7 @@ import addDialog from "./components/addDialog.vue";
   }
 })
 export default class extends Vue {
+  @Ref() private tblRef: any;
   dialog: any = {
     show: false,
     title: "添加图例"
@@ -29,6 +27,12 @@ export default class extends Vue {
   }
   addPoint() {
     this.dialog.show = true;
+  }
+  handleClose() {
+    this.dialog.show = false;
+  }
+  getTblList() {
+    this.tblRef.getList();
   }
   add() {}
   edit() {}

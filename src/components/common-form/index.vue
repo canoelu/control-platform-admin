@@ -21,7 +21,7 @@
             :suffix-icon="item.sIcon"
             :prefix-icon="item.pIcon"
             :maxlength="item.maxLength"
-            :rows="item.row"
+            :rows="item.rows"
             :type="item.type ? item.type : 'text'"
             clearable
             show-word-limit
@@ -107,14 +107,15 @@
             >
           </el-radio-group>
           <el-switch v-else-if="isShow(item, 'switch')" v-model="form[item.prop]"> </el-switch>
-          <upload-to-ali
+          <el-upload
             v-else-if="isShow(item, 'upload')"
             class="form-upload"
+            :action="item.action"
             :size="item.size"
             :accept="item.accept"
             :disabled="item.disabled"
             v-model="form[item.prop]"
-          ></upload-to-ali>
+          ></el-upload>
           <span
             v-else-if="isShow(item, 'text')"
             class="text-info"
@@ -137,6 +138,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 import FormRender from "./FormRender";
+
 @Component({
   name: "commonSearch",
   components: {

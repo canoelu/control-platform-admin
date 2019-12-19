@@ -1,7 +1,13 @@
 <!--图例管理-->
 <template>
-  <el-dialog>
-    <common-form :props="constant.LEGEND_PROPS" />
+  <el-dialog
+    :title="dialogObj.title"
+    :visible.sync="dialogObj.show"
+    width="50%"
+    :before-close="handleClose"
+    append-to-body
+  >
+    <common-form :props="constant.DEVICE_PROPS" />
     <div class="">
       <el-button size="small">关闭</el-button>
       <el-button size="small" type="primary">保存</el-button>
@@ -17,9 +23,13 @@ import Const from "../const";
   components: {}
 })
 export default class extends Vue {
+  @Prop({ default: false }) private dialogObj: any;
+
   get constant() {
     return new Const(this).const;
   }
+  handleClose() {}
+
   created() {}
 }
 </script>

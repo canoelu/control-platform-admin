@@ -1,3 +1,4 @@
+const MAX_LEN = 60;
 const LEGEND_PROPS = (vm: any) => {
   return [
     {
@@ -27,19 +28,27 @@ const LEGEND_PROPS = (vm: any) => {
     {
       tag: "input",
       prop: "name",
+      maxLength: MAX_LEN,
       placeholder: "请输入图例名称",
       label: "图例名称"
     },
     {
-      tag: "textarea",
+      prop: "deal"
+    },
+    {
+      tag: "input",
+      type: "textarea",
       prop: "code",
-      placeholder: "图例代码"
+      rows: 6,
+      label: "图例代码",
+      placeholder: "请输入图例代码"
     }
   ];
 };
 const LEGEND_RULES = {
   area: { required: true, message: "请选择状态", trigger: "change" },
-  name: { required: true, message: "请输入图例名称", trigger: "blur" }
+  name: { required: true, message: "请输入图例名称", trigger: "blur" },
+  code: { required: true, message: "请输入图例代码", trigger: "blur" }
 };
 const LEGEND_SEARCH_CONFIG = (vm: any) => {
   return {

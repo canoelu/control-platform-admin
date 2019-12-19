@@ -1,9 +1,9 @@
 <!--图例管理-->
 <template>
-  <el-dialog>
+  <el-dialog :title="dialogObj.title" :visible.sync="dialogObj.show" width="50%" append-to-body>
     <!--添加设备类型-->
     <common-form :props="constant.REGION_PROPS" />
-    <div class="">
+    <div class="flexCenter" slot="footer">
       <el-button size="small">关闭</el-button>
       <el-button size="small" type="primary">保存</el-button>
     </div>
@@ -21,6 +21,8 @@ export default class extends Vue {
   get constant() {
     return new Const(this).const;
   }
+  handleClose() {}
+
   created() {}
 }
 </script>

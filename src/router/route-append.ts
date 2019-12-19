@@ -8,17 +8,41 @@ export default [
       ignoreCollapseMenu: false,
     }
   },{
-    path: "/project/device/index",
-    name: "project-device-index",
-    component: () => import("@/views/project/device/index.vue"),
+    path: "/project/content/device/index",
+    name: "project-content-device-index",
+    component: () => import("@/views/project/content/device/index.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,
     }
   },{
-    path: "/project/deviceType/index",
-    name: "project-deviceType-index",
-    component: () => import("@/views/project/deviceType/index.vue"),
+    path: "/project/content/deviceType/index",
+    name: "project-content-deviceType-index",
+    component: () => import("@/views/project/content/deviceType/index.vue"),
+    meta: {
+      withMenu: true,
+      ignoreCollapseMenu: false,
+    }
+  },{
+    path: "/project/content/index",
+    name: "project-content-index",
+    component: () => import("@/views/project/content/index.vue"),
+    meta: {
+      withMenu: true,
+      ignoreCollapseMenu: false,
+    }
+  },{
+    path: "/project/content/point/index",
+    name: "project-content-point-index",
+    component: () => import("@/views/project/content/point/index.vue"),
+    meta: {
+      withMenu: true,
+      ignoreCollapseMenu: false,
+    }
+  },{
+    path: "/project/content/region/index",
+    name: "project-content-region-index",
+    component: () => import("@/views/project/content/region/index.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,
@@ -27,22 +51,6 @@ export default [
     path: "/project/index",
     name: "project-index",
     component: () => import("@/views/project/index.vue"),
-    meta: {
-      withMenu: true,
-      ignoreCollapseMenu: false,
-    }
-  },{
-    path: "/project/point/index",
-    name: "project-point-index",
-    component: () => import("@/views/project/point/index.vue"),
-    meta: {
-      withMenu: true,
-      ignoreCollapseMenu: false,
-    }
-  },{
-    path: "/project/region/index",
-    name: "project-region-index",
-    component: () => import("@/views/project/region/index.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,

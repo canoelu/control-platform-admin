@@ -1,7 +1,6 @@
 import service from "../axios";
 const prefix = process.env.VUE_APP_API_VERSION;
 const saveMetadata = (data: any) => {
-  console.log(data);
   return service.post(`${prefix}/config/category/add`, data);
 };
 const editMetadata = (data: any) => {

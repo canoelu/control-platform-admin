@@ -1,39 +1,35 @@
 <!--图例管理-->
 <template>
-  <el-dialog
-    :title="dialogObj.title"
-    :visible.sync="dialogObj.show"
-    width="50%"
-    :before-close="handleClose"
-    append-to-body
-  >
-    <!--添加系统-->
-    <common-form
-      ref="formRef"
-      v-if="dialogObj.type === 1"
-      :form="systemForm"
-      :rules="constant.METADATA_SYSTEM_RULES"
-      :props="constant.METADATA_SYSTEM_PROPS"
-    />
-    <!--添加设备-->
-    <common-form
-      ref="formRef"
-      v-if="dialogObj.type === 2"
-      :form="deviceForm"
-      :rules="constant.METADATA_DEVICE_RULES"
-      :props="constant.METADATA_DEVICE_PROPS"
-    />
-    <!--添加点位-->
-    <common-form
-      ref="formRef"
-      v-if="dialogObj.type === 3"
-      :form="pointForm"
-      :rules="constant.METADATA_POINT_RULES"
-      :props="constant.METADATA_POINT_PROPS"
-    />
-    <div class="flexCenter">
-      <el-button size="small" @click="handleCancel">关闭</el-button>
-      <el-button size="small" type="primary" @click="handleSave" :loading="saving">保存</el-button>
+  <el-dialog :before-close="handleClose" :title="dialogObj.title" :visible.sync="dialogObj.show" width="50%">
+    <div v-loading="loading">
+      <!--添加系统-->
+      <common-form
+        ref="formRef"
+        v-if="dialogObj.type === 1"
+        :form="systemForm"
+        :rules="constant.METADATA_SYSTEM_RULES"
+        :props="constant.METADATA_SYSTEM_PROPS"
+      />
+      <!--添加设备-->
+      <common-form
+        ref="formRef"
+        v-if="dialogObj.type === 2"
+        :form="deviceForm"
+        :rules="constant.METADATA_DEVICE_RULES"
+        :props="constant.METADATA_DEVICE_PROPS"
+      />
+      <!--添加点位-->
+      <common-form
+        ref="formRef"
+        v-if="dialogObj.type === 3"
+        :form="pointForm"
+        :rules="constant.METADATA_POINT_RULES"
+        :props="constant.METADATA_POINT_PROPS"
+      />
+      <div class="flexCenter" slot="footer">
+        <el-button size="small" @click="handleClose">取消</el-button>
+        <el-button size="small" type="primary" @click="handleSave" :loading="saving">保存</el-button>
+      </div>
     </div>
   </el-dialog>
 </template>
@@ -51,7 +47,7 @@ export default class extends Vue {
   @Ref() private formRef: any;
 
   saving: boolean = false;
-
+  loading: boolean = false;
   systemForm: any = {};
   deviceForm: any = {};
   pointForm: any = {};
@@ -103,37 +99,38 @@ export default class extends Vue {
       this.$message.success("保存成功");
       this.handleClose();
     } catch (e) {
-      console.log(e);
       this.saving = false;
     }
   }
   handleSave() {
     let _formRef: any = this.formRef.$refs.formRef;
-
     _formRef.validate((valid: boolean) => {
       if (valid) {
         this.save();
       }
     });
   }
-  handleCancel() {
-    this.dialogObj.show = false;
-  }
+
   async getDetail() {
-    let { info, type } = this.dialogObj;
-    let res = await getMetadata(info.id);
-    switch (res.data.categoryTypeId) {
-      case 1:
-        this.systemForm = res.data;
-        break;
-      case 2:
-        this.deviceForm = res.data;
-        break;
-      case 3:
-        this.pointForm = res.data;
-        break;
+    try {
+      this.loading = true;
+      let { info, type } = this.dialogObj;
+      let res = await getMetadata(info.id);
+      this.loading = false;
+      switch (res.data.categoryTypeId) {
+        case 1:
+          this.systemForm = res.data;
+          break;
+        case 2:
+          this.deviceForm = res.data;
+          break;
+        case 3:
+          this.pointForm = res.data;
+          break;
+      }
+    } catch (e) {
+      this.loading = false;
     }
-    console.log(this.systemForm);
   }
   mounted() {
     if (!this.isAdd) {

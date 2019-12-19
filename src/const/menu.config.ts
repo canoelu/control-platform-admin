@@ -22,7 +22,7 @@ const menuList: any = [
     children: [
       {
         name: "项目管理",
-        path: "/system/system/index"
+        path: "/project/index"
       }
     ]
   }

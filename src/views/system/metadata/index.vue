@@ -1,4 +1,4 @@
-<!--子弹管理-->
+<!--字典管理-->
 <template>
   <el-card>
     <search-table
@@ -16,7 +16,6 @@ import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 import Const from "./const/";
 import addDialog from "./components/addDialog.vue";
 import { deleteMetadata } from "@/api/";
-import ro from "element-ui/src/locale/lang/ro";
 @Component({
   name: "index",
   components: {
@@ -28,7 +27,7 @@ export default class extends Vue {
   isAdd: boolean = true;
   showDialog: boolean = false;
   title: string = "添加系统";
-  type: string | number = 1;
+  type: string | number = 1; // 1系统，2：设备，3：点位
   info: any = {};
   get constant() {
     return new Const(this).const;
@@ -42,7 +41,12 @@ export default class extends Vue {
       info: this.info
     };
   }
-  handleShowDialog(row?: any = {}) {
+
+  /**
+   * 展示弹框
+   * @param row
+   */
+  handleShowDialog(row: any = {}) {
     let { categoryTypeId } = row;
     let txtMap: any = {
       1: "系统",
@@ -56,29 +60,30 @@ export default class extends Vue {
   }
 
   /**
-   * 添加点位
+   * 新增系统
    */
   addSystem() {
     this.type = 1;
     this.isAdd = true;
     this.handleShowDialog();
   }
+
+  /**
+   * 添加点位
+   */
   addPoint() {
     this.isAdd = true;
     this.type = 3;
     this.handleShowDialog();
   }
+
+  /**
+   * 添加设备
+   */
   addDevice() {
     this.isAdd = true;
     this.type = 2;
     this.handleShowDialog();
-  }
-
-  /**
-   * 关闭弹框
-   */
-  handleClose() {
-    this.dialog.show = false;
   }
 
   /**
@@ -94,17 +99,23 @@ export default class extends Vue {
   }
 
   /**
-   * 修改
+   * 编辑
    * @param row
    */
   edit(row: any) {
     this.isAdd = false;
     this.handleShowDialog(row);
   }
+
+  /**
+   * 获取表格数据
+   */
   getTblList() {
     this.tblRef.getList();
   }
-  created() {}
+  handleClose() {
+    this.showDialog = false;
+  }
 }
 </script>
 

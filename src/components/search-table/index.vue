@@ -115,6 +115,7 @@ export default class extends Vue {
   }
   sizeChange(val: number): void {
     this.filter.pageSize = val;
+    this.filter.page = 1;
     this.getList();
     this.$emit("sizeChange", val);
   }
