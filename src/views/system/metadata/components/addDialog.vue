@@ -73,24 +73,24 @@ export default class extends Vue {
         case 2:
           // 设备
           _formData = this.deviceForm;
-          _formData.parentId = info.parentId;
+          _formData.parentId = info.id;
           break;
         case 3:
           // 点位
           _formData = this.pointForm;
-          _formData.parentId = info.parentId;
+          _formData.parentId = info.id;
           break;
       }
       if (this.isAdd) {
         await saveMetadata({
           ..._formData,
-          categoryType: type
+          categoryTypeId: type
         });
       } else {
         await editMetadata({
           id: info.id,
           ..._formData,
-          categoryType: type
+          categoryTypeId: type
         });
       }
 

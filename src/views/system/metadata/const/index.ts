@@ -38,9 +38,9 @@ const METADATA_SYSTEM_RULES = {
       trigger: "blur",
       validator: (rule: any, value: any, callback: any) => {
         if (/^\+?[1-9][0-9]*$/.test(value)) {
-          callback(new Error("请输入数字"));
-        } else {
           callback();
+        } else {
+          callback(new Error("请输入数字"));
         }
       }
     }
@@ -72,9 +72,9 @@ const METADATA_DEVICE_RULES = {
       trigger: "blur",
       validator: (rule: any, value: any, callback: any) => {
         if (/^\+?[1-9][0-9]*$/.test(value)) {
-          callback(new Error("请输入数字"));
-        } else {
           callback();
+        } else {
+          callback(new Error("请输入数字"));
         }
       }
     }
@@ -113,9 +113,9 @@ const METADATA_POINT_RULES = {
       trigger: "blur",
       validator: (rule: any, value: any, callback: any) => {
         if (/^\+?[1-9][0-9]*$/.test(value)) {
-          callback(new Error("请输入数字"));
-        } else {
           callback();
+        } else {
+          callback(new Error("请输入数字"));
         }
       }
     }
@@ -126,7 +126,7 @@ const METADATA_SEARCH_CONFIG = (vm: any) => {
   return {
     addBtn: {
       label: "添加系统",
-      handler: () => vm.handleShowDialog()
+      handler: () => vm.addSystem()
     }
   };
 };

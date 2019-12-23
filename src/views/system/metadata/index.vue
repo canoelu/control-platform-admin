@@ -6,6 +6,9 @@
       url="config/category/"
       :searchConfig="constant.METADATA_SEARCH_CONFIG"
       :tableColumns="constant.METADATA_COLUMN"
+      :treeProps="{ children: 'children', hasChildren: 'hasChildren' }"
+      rowKey="id"
+      :showPage="false"
     />
     <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
   </el-card>
@@ -63,27 +66,26 @@ export default class extends Vue {
    * 新增系统
    */
   addSystem() {
+    this.isAdd = true;
     this.type = 1;
-    this.isAdd = true;
-    this.handleShowDialog();
-  }
-
-  /**
-   * 添加点位
-   */
-  addPoint() {
-    this.isAdd = true;
-    this.type = 3;
     this.handleShowDialog();
   }
 
   /**
    * 添加设备
    */
-  addDevice() {
+  addDevice(row: any) {
     this.isAdd = true;
     this.type = 2;
-    this.handleShowDialog();
+    this.handleShowDialog(row);
+  }
+  /**
+   * 添加点位
+   */
+  addPoint(row: any) {
+    this.isAdd = true;
+    this.type = 3;
+    this.handleShowDialog(row);
   }
 
   /**

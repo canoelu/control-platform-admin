@@ -83,7 +83,7 @@ export default class extends Vue {
   @Prop({ default: false }) private isDefaultQuery?: Boolean; // 是否默认增加筛选条件，只有在proxyQuery存在时有效
   @Prop({ default: undefined }) private proxyData?: Function; // 对返回数据个性化处理
   @Prop({ default: false }) private isCommonURL?: Boolean; // 代理地址是否是/api/v1, false-admin/api/v1, true-api/v1
-  @Prop({ default: true }) private showPage!: boolean;
+  @Prop({ default: true }) private showPage?: boolean;
   @Prop({ default: "" }) private url!: string;
   @Prop({ default: false }) private isDelayRequest?: boolean; // 是否延迟获取数据，true-通过isRefresh通知获取
   @Prop({ default: false }) private isRefresh?: boolean; // 是否刷新列表,值改变即刷新
