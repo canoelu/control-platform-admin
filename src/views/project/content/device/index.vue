@@ -25,7 +25,7 @@ export default class extends Vue {
   get constant() {
     return new Const(this).const;
   }
-  addPoint() {
+  addDevice() {
     this.dialog.show = true;
   }
   getTblList() {

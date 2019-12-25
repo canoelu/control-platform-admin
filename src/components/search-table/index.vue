@@ -180,9 +180,9 @@ export default class extends Vue {
       });
       // 父级通过proxyData对data进行处理
       if (this.proxyData) {
-        this.listData = this.proxyData(res.data);
+        this.listData = this.proxyData(res.data.list);
       } else {
-        this.listData = Array.isArray(res.data) ? res.data : [];
+        this.listData = Array.isArray(res.data.list) ? res.data.list : [];
       }
       // 设置默认选中
       this.defaultSelect();

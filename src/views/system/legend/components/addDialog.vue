@@ -10,17 +10,39 @@
     <div v-loading="loading">
       <common-form ref="formRef" :form="legendForm" :rules="constant.LEGEND_RULES" :props="constant.LEGEND_PROPS">
         <template v-slot:deal>
-          <div class="flexRow">
-            <el-select class="mr-10" style="width:200px" size="small" placeholder="所在区域名称">
-              <el-option></el-option>
+          <div class="flexRow" style="width: 90%">
+            <el-select
+              class="mr-10"
+              v-model="areaName"
+              style="width:45%"
+              size="small"
+              :loading="loadingCode"
+              placeholder="插入替换代码"
+            >
+              <el-option v-for="item in replaceArr" :key="item.key" :label="item.value" :value="item.key"></el-option>
             </el-select>
-            <el-select class="mr-10" style="width:200px" size="small" placeholder="点位替换代码">
-              <el-option></el-option>
-            </el-select>
-            <el-upload action="">
-              <el-button size="small" type="primary">选择及上传图片</el-button>
-            </el-upload>
+            <el-cascader
+              style="width:55%"
+              v-model="pointId"
+              :options="pointArr"
+              :props="{ label: 'name', value: 'id' }"
+              @change="changePoint"
+              placeholder="点位替换代码"
+            ></el-cascader>
           </div>
+          <el-upload
+            class="mt-10"
+            action="/api/v1/config/devpic/upload"
+            :show-file-list="false"
+            :on-error="handleError"
+            :on-progress="handleProgress"
+            :before-upload="beforeUpload"
+            accept="image/*"
+            :on-success="handleUploadPic"
+            :disabled="uploading"
+          >
+            <el-button size="small" type="primary">选择及上传图片</el-button>
+          </el-upload>
         </template>
       </common-form>
       <div class="flexCenter">
@@ -32,17 +54,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Ref } from "vue-property-decorator";
+import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveLegend, getLegend, editLegend } from "@/api/";
+import { saveLegend, getLegend, editLegend, getStatusArr, getPlaceCode, getLegendCode } from "@/api/";
+import systemMixin from "../../../mixin/systemMixin";
 @Component({
   name: "index",
   components: {}
 })
-export default class extends Vue {
+export default class extends Mixins(systemMixin) {
   @Ref() formRef: any;
   @Prop({ default: false }) private dialogObj: any;
-  legendForm: any = {};
+  private statusArr: any[] = []; // 状态
+  private replaceArr: any[] = []; // 替换
+  uploading: boolean = false;
+  loadingCode: boolean = false;
+  legendForm: any = {
+    codes: ""
+  };
+  areaName: string = "";
+  pointId: string | number = "";
   saving: boolean = false;
   loading: boolean = false;
   get constant() {
@@ -53,6 +84,12 @@ export default class extends Vue {
   }
   handleClose() {
     this.$emit("handleClose");
+  }
+  async getLegendCode(id: number | string) {}
+  async changePoint(val: any) {
+    let _pointId = val[2];
+    let res = await getLegendCode(_pointId);
+    this.legendForm.codes = res.data;
   }
   async save() {
     this.saving = true;
@@ -82,6 +119,37 @@ export default class extends Vue {
       }
     });
   }
+  handleProgress() {
+    this.uploading = true;
+  }
+  beforeUpload(file: any) {
+    let isImg = false;
+
+    if (
+      file.type === "image/jpeg" ||
+      file.type === "image/jpg" ||
+      file.type === "image/png" ||
+      file.type === "image/gif"
+    ) {
+      isImg = true;
+    }
+
+    if (!isImg) {
+      this.$message.error("上传图片只能是 JPG或PNG 或gif格式!");
+    }
+
+    return isImg;
+  }
+  handleError() {
+    this.uploading = false;
+    this.$message.error("上传失败");
+  }
+  handleUploadPic(res: any) {
+    console.log(res);
+    this.uploading = false;
+    this.$message.success("上传成功");
+    this.legendForm.codes += `<img :src="${res.url}"/>`;
+  }
   async getDetail() {
     try {
       this.loading = true;
@@ -93,7 +161,20 @@ export default class extends Vue {
       this.loading = false;
     }
   }
+  async getStatusArr() {
+    this.loadingCode = true;
+    let res = await getStatusArr();
+    this.statusArr = res.data;
+    this.loadingCode = false;
+  }
+  async getPlaceCode() {
+    let res = await getPlaceCode();
+    this.replaceArr = res.data;
+  }
   created() {
+    this.getPlaceCode();
+    this.getStatusArr();
+    this.getMetaDataList();
     if (!this.isAdd) {
       this.getDetail();
     }

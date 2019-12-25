@@ -49,6 +49,15 @@ const REGION_PROPS = (vm: any) => {
     }
   ];
 };
+const REGION_RULES = (vm: any) => {
+  return {
+    name: { required: true, trigger: "blur", message: "请输入名称" },
+    zoom: { required: true, trigger: "blur", message: "请输入初始倍数" },
+    center: { required: true, trigger: "change", message: "请选择初始倍数" },
+    type: { required: true, trigger: "change", message: "请选择类型" },
+    bg: { required: true, trigger: "change", message: "请上传背景图" }
+  };
+};
 /**
  * 搜索框
  * @param vm
@@ -58,8 +67,8 @@ const REGION_SEARCH_CONFIG = (vm: any) => {
   return {
     optBtns: [
       {
-        label: "添加设备类别",
-        handler: (vm: any) => vm.add
+        label: "添加区域",
+        handler: () => vm.add()
       }
     ]
   };
@@ -108,7 +117,8 @@ class ConstConfig {
     this.const = {
       REGION_PROPS: REGION_PROPS(vm),
       REGION_SEARCH_CONFIG: REGION_SEARCH_CONFIG(vm),
-      REGION_COLUMN: REGION_COLUMN(vm)
+      REGION_COLUMN: REGION_COLUMN(vm),
+      REGION_RULES: REGION_RULES(vm),
     };
   }
 }

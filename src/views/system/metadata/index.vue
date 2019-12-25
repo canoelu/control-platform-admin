@@ -32,6 +32,7 @@ export default class extends Vue {
   title: string = "添加系统";
   type: string | number = 1; // 1系统，2：设备，3：点位
   info: any = {};
+  listData: any[] = [];
   get constant() {
     return new Const(this).const;
   }
@@ -118,6 +119,8 @@ export default class extends Vue {
   handleClose() {
     this.showDialog = false;
   }
+
+  created() {}
 }
 </script>
 

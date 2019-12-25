@@ -16,14 +16,6 @@ export default [
       ignoreCollapseMenu: false,
     }
   },{
-    path: "/project/content/children/device/index",
-    name: "project-content-children-device-index",
-    component: () => import("@/views/project/content/children/device/index.vue"),
-    meta: {
-      withMenu: true,
-      ignoreCollapseMenu: false,
-    }
-  },{
     path: "/project/content/device/index",
     name: "project-content-device-index",
     component: () => import("@/views/project/content/device/index.vue"),
@@ -59,6 +51,14 @@ export default [
     path: "/project/content/region/index",
     name: "project-content-region-index",
     component: () => import("@/views/project/content/region/index.vue"),
+    meta: {
+      withMenu: true,
+      ignoreCollapseMenu: false,
+    }
+  },{
+    path: "/project/content/system/index",
+    name: "project-content-system-index",
+    component: () => import("@/views/project/content/system/index.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,

@@ -1,7 +1,7 @@
-<!--图例管理-->
+<!--区域管理-->
 <template>
   <div>
-    <search-table ref="tblRef" :searchConfig="constant.DEVICE_SEARCH_CONFIG" :tableColumns="constant.DEVICE_COLUMN" />
+    <search-table ref="tblRef" :searchConfig="constant.SYSTEM_SEARCH_CONFIG" :tableColumns="constant.SYSTEM_COLUMN" />
     <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
   </div>
 </template>
@@ -11,7 +11,7 @@ import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 import Const from "./const/";
 import addDialog from "./components/addDialog.vue";
 @Component({
-  name: "index",
+  name: "systemManage",
   components: {
     addDialog
   }
@@ -20,23 +20,36 @@ export default class extends Vue {
   @Ref() private tblRef: any;
   dialog: any = {
     show: false,
-    title: "添加图例"
+    title: "添加系统",
+    info: {}
   };
   get constant() {
     return new Const(this).const;
   }
-  addPoint() {
+  addRootNode() {
     this.dialog.show = true;
+    this.dialog.isAdd = true;
+  }
+  drawPoint() {}
+  handleClose() {
+    this.dialog.show = false;
   }
   getTblList() {
     this.tblRef.getList();
   }
-  handleClose() {
-    this.dialog.show = false;
+  edit(row: any) {
+    this.dialog.show = true;
+    this.dialog.isAdd = false;
+    this.dialog.info = row;
   }
-  edit() {}
-  delete() {}
-  bindPoint() {}
+  delete(row: any) {
+    this.$confirm("确定要删除", "提示").then(async () => {
+      this.$message.success("删除成功");
+      this.getTblList();
+    });
+  }
+  addChildRegion(row: any) {}
+
   created() {}
 }
 </script>

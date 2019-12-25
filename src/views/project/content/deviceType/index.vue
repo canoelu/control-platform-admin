@@ -24,12 +24,14 @@ export default class extends Vue {
   @Ref() tblRef: any;
   dialog: any = {
     show: false,
-    title: "添加图例"
+    title: "添加设备类型",
+    info: {}
   };
   get constant() {
     return new Const(this).const;
   }
-  addPoint() {
+  add() {
+    this.dialog.title = "添加设备类型";
     this.dialog.show = true;
   }
   handleClose() {
@@ -38,11 +40,14 @@ export default class extends Vue {
   getTblList() {
     this.tblRef.getList();
   }
-  add() {}
-  edit() {}
-  delete() {}
-  groupSet() {}
-  methodSet() {}
+  edit(row: any) {
+    this.dialog.show = true;
+    this.dialog.title = "修改设备类型";
+    this.dialog.info = row;
+  }
+  delete(row: any) {}
+  groupSet(row: any) {}
+  methodSet(row: any) {}
   created() {}
 }
 </script>

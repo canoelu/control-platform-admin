@@ -1,29 +1,40 @@
 const MAX_LEN = 60;
+const statusArr = [
+  {
+    label: "关闭",
+    value: 0
+  },
+  {
+    label: "运行",
+    value: 1
+  },
+  {
+    label: "告警",
+    value: 2
+  },
+  {
+    label: "异常",
+    value: 3
+  }
+];
+const statusMap: any = {
+  0: "关闭",
+  1: "运行",
+  2: "告警",
+  3: "异常"
+};
 const LEGEND_PROPS = (vm: any) => {
   return [
     {
       tag: "select",
-      prop: "area",
+      prop: "status",
       placeholder: "请选择",
       label: "选择状态",
-      options: [
-        {
-          label: "运行",
-          value: 1
-        },
-        {
-          label: "关闭",
-          value: 2
-        },
-        {
-          label: "告警",
-          value: 3
-        },
-        {
-          label: "异常",
-          value: 4
-        }
-      ]
+      keyProp: {
+        label: "name",
+        value: "id"
+      },
+      options: vm.statusArr || []
     },
     {
       tag: "input",
@@ -38,7 +49,7 @@ const LEGEND_PROPS = (vm: any) => {
     {
       tag: "input",
       type: "textarea",
-      prop: "code",
+      prop: "codes",
       rows: 6,
       label: "图例代码",
       placeholder: "请输入图例代码"
@@ -46,20 +57,13 @@ const LEGEND_PROPS = (vm: any) => {
   ];
 };
 const LEGEND_RULES = {
-  area: { required: true, message: "请选择状态", trigger: "change" },
+  status: { required: true, message: "请选择状态", trigger: "change" },
   name: { required: true, message: "请输入图例名称", trigger: "blur" },
-  code: { required: true, message: "请输入图例代码", trigger: "blur" }
+  codes: { required: true, message: "请输入图例代码", trigger: "blur" }
 };
 const LEGEND_SEARCH_CONFIG = (vm: any) => {
   return {
-    props: [
-      {
-        tag: "select",
-        prop: "area",
-        placeholder: "设备类别筛选",
-        options: []
-      }
-    ],
+    props: [],
     addBtn: {
       label: "添加图例",
       handler: () => vm.addLegend()
@@ -77,7 +81,10 @@ const LEGEND_COLUMN = (vm: any) => [
   },
   {
     title: "状态",
-    key: "status"
+    key: "status",
+    formatter(val: any) {
+      return statusMap[val];
+    }
   },
   {
     title: "操作",

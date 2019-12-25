@@ -2,20 +2,16 @@ const DEVICE_PROPS = (vm: any) => {
   return [
     {
       tag: "input",
-      prop: "identify",
-      label: "标识",
-      placeholder: "请输入标识"
-    },
-    {
-      tag: "input",
       prop: "name",
-      label: "名称",
-      placeholder: "请输入名称"
+      label: "设备名称",
+      placeholder: "请输入设备名称"
     },
     {
-      tag: "input",
+      tag: "select",
       prop: "value",
-      placeholder: "当前值"
+      label: "设备类型",
+      placeholder: "请选择设备类型",
+      options: []
     }
   ];
 };
@@ -23,19 +19,15 @@ const DEVICE_SEARCH_CONFIG = (vm: any) => {
   return {
     optBtns: [
       {
-        label: "添加点位",
-        handler: (vm: any) => vm.addDEVICE
-      },
-      {
-        label: "导入点位",
-        handler: (vm: any) => vm.importDEVICE
+        label: "添加设备",
+        handler: () => vm.addDevice()
       }
     ]
   };
 };
 const DEVICE_COLUMN = (vm: any) => [
   {
-    title: "id",
+    title: "Id",
     key: "id"
   },
   {

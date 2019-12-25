@@ -8,7 +8,7 @@
     append-to-body
   >
     <!--添加设备类型-->
-    <common-form :props="constant.DEVICE_TYPE_PROPS" />
+    <common-form :props="constant.DEVICE_TYPE_PROPS" v-if="dialogObj.type === 'add'" />
     <div class="flexCenter" slot="footer">
       <el-button size="small">关闭</el-button>
       <el-button size="small" type="primary">保存</el-button>

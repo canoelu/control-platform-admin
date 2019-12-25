@@ -23,7 +23,7 @@ const DEVICE_TYPE_SEARCH_CONFIG = (vm: any) => {
     optBtns: [
       {
         label: "添加设备类别",
-        handler: (vm: any) => vm.add
+        handler: ( ) => vm.add()
       }
     ]
   };

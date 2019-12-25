@@ -1,4 +1,4 @@
-<!--区域管理-->
+<!--图例管理-->
 <template>
   <el-dialog
     :title="dialogObj.title"
@@ -8,7 +8,12 @@
     append-to-body
   >
     <div v-loading="loading">
-      <common-form ref="formRef" :form="systemForm" :rules="constant.REGION_RULES" :props="constant.REGION_PROPS">
+      <common-form
+        ref="formRef"
+        :form="systemForm"
+        :rules="constant.SYSTEM_ROOT_NODE_RULES"
+        :props="constant.SYSTEM_ROOT_NODE_PROPS"
+      >
       </common-form>
       <div class="flexCenter">
         <el-button size="small" @click="handleClose">关闭</el-button>
@@ -21,7 +26,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveProjectRegion, getProjectRegion, editProjectRegion } from "@/api/";
+import { saveProjectSystem, editProjectSystem, getProjectSystem, deleteProjectSystem } from "@/api/";
 @Component({
   name: "index",
   components: {}
@@ -50,9 +55,9 @@ export default class extends Vue {
     try {
       let _data = this.systemForm;
       if (this.isAdd) {
-        await saveProjectRegion(_data);
+        await saveProjectSystem(_data);
       } else {
-        await editProjectRegion({
+        await editProjectSystem({
           ..._data,
           id: this.dialogObj.info.id
         });
@@ -77,7 +82,7 @@ export default class extends Vue {
     try {
       this.loading = true;
       let { info, type } = this.dialogObj;
-      let res = await getProjectRegion(info.id);
+      let res = await getProjectSystem(info.id);
       this.loading = false;
       this.systemForm = res.data;
     } catch (e) {

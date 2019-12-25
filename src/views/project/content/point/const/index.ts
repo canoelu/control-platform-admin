@@ -24,11 +24,11 @@ const POINT_SEARCH_CONFIG = (vm: any) => {
     optBtns: [
       {
         label: "添加点位",
-        handler: (vm: any) => vm.addPoint
+        handler: () => vm.addPoint()
       },
       {
         label: "导入点位",
-        handler: (vm: any) => vm.importPoint
+        handler: () => vm.importPoint()
       }
     ]
   };

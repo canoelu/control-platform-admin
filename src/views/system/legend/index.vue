@@ -3,7 +3,7 @@
   <el-card>
     <search-table
       ref="tblRef"
-      :data="[{}]"
+      url="/config/devpic/list"
       :searchConfig="constant.LEGEND_SEARCH_CONFIG"
       :tableColumns="constant.LEGEND_COLUMN"
     />

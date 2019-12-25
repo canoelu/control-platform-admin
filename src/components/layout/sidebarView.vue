@@ -39,16 +39,9 @@ import { Action } from "vuex-class";
   components: {}
 })
 export default class Sidebar extends Vue {
-  @Action("setPageLock", { namespace: "app" })
-  setPageLock: any;
-  @Action("setPageName", { namespace: "app" })
-  setPageName: any;
   menuList: Array<any> = menuList;
-  lockPage() {
-    this.setPageLock(true);
-  }
   changeMenu(sub: any) {
-    this.setPageName(sub.name);
+    console.log(sub);
   }
 }
 </script>
