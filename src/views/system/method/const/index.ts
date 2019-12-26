@@ -20,7 +20,7 @@ const METHOD_PROPS = (vm: any) => {
     },
     {
       tag: "input",
-      prop: "selfId",
+      prop: "code",
       maxLength: MAX_LEN,
       label: "标识ID",
       placeholder: "请输入标识ID"
@@ -36,7 +36,7 @@ const METHOD_PROPS = (vm: any) => {
       tag: "input",
       type: "textarea",
       rows: 5,
-      prop: "code",
+      prop: "paramsTemplate",
       placeholder: "请输入参数模板",
       label: "参数模板"
     }
@@ -46,8 +46,8 @@ const METHOD_RULES = (vm: any) => {
   return {
     name: { required: true, message: "请输入点位名称", trigger: "blur" },
     type: { required: true, message: "请选择类别", trigger: "change" },
-    code: { required: true, message: "请输入参数模板", trigger: "blur" },
-    selfId: [
+    paramsTemplate: { required: true, message: "请输入参数模板", trigger: "blur" },
+    code: [
       { required: true, message: "请输入标识ID", trigger: "blur" },
       {
         trigger: "blur",
@@ -64,14 +64,6 @@ const METHOD_RULES = (vm: any) => {
 };
 const METHOD_SEARCH_CONFIG = (vm: any) => {
   return {
-    props: [
-      {
-        tag: "select",
-        prop: "area",
-        placeholder: "设备类别筛选",
-        options: []
-      }
-    ],
     addBtn: {
       label: "添加方法",
       handler: () => vm.addMethod()
@@ -85,7 +77,7 @@ const METHOD_COLUMN = (vm: any) => [
   },
   {
     title: "标识",
-    key: "selfId"
+    key: "code"
   },
   {
     title: "名称",
@@ -93,7 +85,10 @@ const METHOD_COLUMN = (vm: any) => [
   },
   {
     title: "类别",
-    key: "type"
+    key: "type",
+    formatter(val: any) {
+      return val === 1 ? "设备类别" : "点位类别";
+    }
   },
   {
     title: "操作",

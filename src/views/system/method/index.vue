@@ -1,13 +1,13 @@
-<!--图例管理-->
+<!--方法管理-->
 <template>
   <el-card>
     <search-table
       ref="tblRef"
-      :data="[{}]"
+      url="config/func/"
       :searchConfig="constant.METHOD_SEARCH_CONFIG"
       :tableColumns="constant.METHOD_COLUMN"
     />
-    <add-dialog :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
+    <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
   </el-card>
 </template>
 
@@ -33,7 +33,7 @@ export default class extends Vue {
   }
   addMethod() {
     this.dialog.show = true;
-    this.dialog.isAdd = false;
+    this.dialog.isAdd = true;
     this.dialog.title = "添加方法";
   }
 

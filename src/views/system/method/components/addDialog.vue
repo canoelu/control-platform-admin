@@ -8,7 +8,7 @@
     append-to-body
   >
     <div v-loading="loading">
-      <common-form ref="formRef" :form="legendForm" :rules="constant.METHOD_RULES" :props="constant.METHOD_PROPS">
+      <common-form ref="formRef" :form="methodForm" :rules="constant.METHOD_RULES" :props="constant.METHOD_PROPS">
         <template v-slot:deal>
           <div class="flexRow">
             <el-select class="mr-10" style="width:200px" size="small" placeholder="所在区域名称">
@@ -42,7 +42,7 @@ import { saveMethod, getMethod, editMethod } from "@/api/";
 export default class extends Vue {
   @Ref() formRef: any;
   @Prop({ default: false }) private dialogObj: any;
-  legendForm: any = {};
+  methodForm: any = {};
   saving: boolean = false;
   loading: boolean = false;
   get constant() {
@@ -57,7 +57,7 @@ export default class extends Vue {
   async save() {
     this.saving = true;
     try {
-      let _data = this.legendForm;
+      let _data = this.methodForm;
       if (this.isAdd) {
         await saveMethod(_data);
       } else {
@@ -88,7 +88,7 @@ export default class extends Vue {
       let { info, type } = this.dialogObj;
       let res = await getMethod(info.id);
       this.loading = false;
-      this.legendForm = res.data;
+      this.methodForm = res.data;
     } catch (e) {
       this.loading = false;
     }
