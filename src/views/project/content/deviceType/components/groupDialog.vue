@@ -8,21 +8,35 @@
     :before-close="handleClose"
     append-to-body
   >
-    <div v-loading="loading">
-      <common-form
-        ref="formRef"
-        :form="deviceTypeForm"
-        :rules="constant.DEVICE_TYPE_RULES"
-        :props="constant.DEVICE_TYPE_PROPS"
-        v-if="dialogObj.type === 'deviceType'"
-      >
-      </common-form>
-
+    <search-table
+      :data="[{}]"
+      ref="groupTbl"
+      :showPage="false"
+      :searchConfig="constant.GROUP_SEARCH_CONFIG"
+      :tableColumns="constant.GROUP_COLUMNS"
+    />
+    <el-dialog
+      class="region-add-dialog"
+      title="添加设备类型"
+      :visible.sync="showAdd"
+      width="50%"
+      :before-close="closeAdd"
+      append-to-body
+    >
+      <div v-loading="loading">
+        <common-form
+          ref="formRef"
+          :form="deviceTypeForm"
+          :rules="constant.GROUP_FORM_RULES"
+          :props="constant.GROUP_FORM_PROPS"
+        >
+        </common-form>
+      </div>
       <div class="flexCenter">
-        <el-button size="small" @click="handleClose">关闭</el-button>
+        <el-button size="small" @click="closeAdd">关闭</el-button>
         <el-button size="small" type="primary" @click="handleSave" :loading="saving">保存</el-button>
       </div>
-    </div>
+    </el-dialog>
   </el-dialog>
 </template>
 
@@ -30,22 +44,21 @@
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
 import { saveProjectDeviceType, editProjectDeviceType, getProjectDeviceType } from "@/api/";
-import groupDialog from "./groupDialog.vue";
-import methodBindDialog from "./methodBindDialog.vue";
+
 @Component({
   name: "index",
-  components: { groupDialog, methodBindDialog }
+  components: {}
 })
 export default class extends Vue {
   @Ref() formRef: any;
-  @Ref() groupTbl: any;
-  @Prop({ default: false }) private dialogObj: any;
+  @Prop({ default: () => {} }) private dialogObj: any;
+  showAdd: boolean = false;
+  map: any;
   deviceTypeForm: any = {
     name: ""
   };
   saving: boolean = false;
   loading: boolean = false;
-
   get constant() {
     return new Const(this).const;
   }
@@ -54,6 +67,12 @@ export default class extends Vue {
   }
   handleClose() {
     this.$emit("handleClose");
+  }
+  closeAdd() {
+    this.showAdd = false;
+  }
+  addGroupSet() {
+    this.showAdd = true;
   }
   async save() {
     this.saving = true;
@@ -94,15 +113,7 @@ export default class extends Vue {
       this.loading = false;
     }
   }
-
-  methodBind() {}
-  down() {}
-  up() {}
-  mounted() {
-    if (!this.isAdd) {
-      this.getDetail();
-    }
-  }
+  mounted() {}
 }
 </script>
 

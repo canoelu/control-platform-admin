@@ -87,6 +87,7 @@ const REGION_COLUMN = (vm: any) => [
     title: "操作",
     operate: true,
     setBtns: (row: any) => {
+      // todo 根据区域来设置按钮
       return [
         {
           label: "修改",
@@ -118,7 +119,7 @@ class ConstConfig {
       REGION_PROPS: REGION_PROPS(vm),
       REGION_SEARCH_CONFIG: REGION_SEARCH_CONFIG(vm),
       REGION_COLUMN: REGION_COLUMN(vm),
-      REGION_RULES: REGION_RULES(vm),
+      REGION_RULES: REGION_RULES(vm)
     };
   }
 }

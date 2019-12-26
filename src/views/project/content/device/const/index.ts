@@ -8,12 +8,16 @@ const DEVICE_PROPS = (vm: any) => {
     },
     {
       tag: "select",
-      prop: "value",
-      label: "设备类型",
-      placeholder: "请选择设备类型",
+      prop: "type",
+      label: "设备类别",
+      placeholder: "请选择设备类别",
       options: []
     }
   ];
+};
+const DEVICE_RULES = {
+  name: { required: true, message: "请输入设备名称", trigger: "blur" },
+  type: { required: true, message: "请选择设备类别", trigger: "change" }
 };
 const DEVICE_SEARCH_CONFIG = (vm: any) => {
   return {
@@ -55,6 +59,40 @@ const DEVICE_COLUMN = (vm: any) => [
     }
   }
 ];
+const POINT_SEARCH_CONFIG=(vm:any)=>{
+  return {
+    optBtns: [
+      {
+        label: "添加设备",
+        handler: () => vm.addDevice()
+      }
+    ]
+  }
+}
+const POINT_COLUMNS = (vm: any) => {
+  return [
+    {
+      title: "名称",
+      key: "name"
+    },
+    {
+      title: "以绑定点位",
+      key: "name"
+    },
+    {
+      title: "操作",
+      operate: true,
+      setBtns: (row: any) => {
+        return [
+          {
+            label: "绑定",
+            handler: () => vm.bind(row)
+          }
+        ];
+      }
+    }
+  ];
+};
 class ConstConfig {
   vm: any;
   const: any;
@@ -62,8 +100,11 @@ class ConstConfig {
     this.vm = vm;
     this.const = {
       DEVICE_PROPS: DEVICE_PROPS(vm),
+      DEVICE_RULES,
       DEVICE_SEARCH_CONFIG: DEVICE_SEARCH_CONFIG(vm),
-      DEVICE_COLUMN: DEVICE_COLUMN(vm)
+      DEVICE_COLUMN: DEVICE_COLUMN(vm),
+      POINT_COLUMNS: POINT_COLUMNS(vm),
+      POINT_SEARCH_CONFIG: POINT_SEARCH_CONFIG(vm),
     };
   }
 }

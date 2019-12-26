@@ -4,7 +4,7 @@
     class="region-add-dialog"
     :title="dialogObj.title"
     :visible.sync="dialogObj.show"
-    width="62.5%"
+    width="50%"
     :before-close="handleClose"
     append-to-body
   >
@@ -12,12 +12,10 @@
       <common-form
         ref="formRef"
         :form="deviceTypeForm"
-        :rules="constant.DEVICE_TYPE_RULES"
-        :props="constant.DEVICE_TYPE_PROPS"
-        v-if="dialogObj.type === 'deviceType'"
+        :rules="constant.GROUP_FORM_RULES"
+        :props="constant.GROUP_FORM_PROPS"
       >
       </common-form>
-
       <div class="flexCenter">
         <el-button size="small" @click="handleClose">关闭</el-button>
         <el-button size="small" type="primary" @click="handleSave" :loading="saving">保存</el-button>
@@ -30,22 +28,21 @@
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
 import { saveProjectDeviceType, editProjectDeviceType, getProjectDeviceType } from "@/api/";
-import groupDialog from "./groupDialog.vue";
-import methodBindDialog from "./methodBindDialog.vue";
+
 @Component({
   name: "index",
-  components: { groupDialog, methodBindDialog }
+  components: {}
 })
 export default class extends Vue {
   @Ref() formRef: any;
-  @Ref() groupTbl: any;
-  @Prop({ default: false }) private dialogObj: any;
+  @Prop({ default: () => {} }) private dialogObj: any;
+  uploading: boolean = false;
+  map: any;
   deviceTypeForm: any = {
     name: ""
   };
   saving: boolean = false;
   loading: boolean = false;
-
   get constant() {
     return new Const(this).const;
   }
@@ -94,10 +91,6 @@ export default class extends Vue {
       this.loading = false;
     }
   }
-
-  methodBind() {}
-  down() {}
-  up() {}
   mounted() {
     if (!this.isAdd) {
       this.getDetail();

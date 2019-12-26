@@ -35,8 +35,12 @@ const menuList: any = [
 ];
 const proMenuList: any = [
   {
-    name: "系统管理",
-    component: "systemManage"
+    name: "区域管理",
+    component: "areaManage"
+  },
+  {
+    name: "设备类别配置",
+    component: "deviceTypeManage"
   },
   {
     name: "设备管理",
@@ -47,12 +51,8 @@ const proMenuList: any = [
     component: "pointManage"
   },
   {
-    name: "设备类型配置",
-    component: "deviceTypeManage"
-  },
-  {
-    name: "区域管理",
-    component: "areaManage"
+    name: "系统管理",
+    component: "systemManage"
   }
 ];
 export { menuList, proMenuList };

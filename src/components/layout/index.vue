@@ -30,7 +30,6 @@ export default class App extends Vue {}
   padding: 0;
   height: 100vh;
   width: 100%;
-  overflow: hidden;
   background: #eef1ff;
   .container {
     margin: 20px;

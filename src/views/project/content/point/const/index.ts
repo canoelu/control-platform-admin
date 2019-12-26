@@ -19,6 +19,9 @@ const POINT_PROPS = (vm: any) => {
     }
   ];
 };
+const POINT_RULES = {
+  identify: { required: true, message: "请输入标识", trigger: "blur" }
+};
 const POINT_SEARCH_CONFIG = (vm: any) => {
   return {
     optBtns: [
@@ -72,7 +75,8 @@ class ConstConfig {
     this.const = {
       POINT_PROPS: POINT_PROPS(vm),
       POINT_SEARCH_CONFIG: POINT_SEARCH_CONFIG(vm),
-      POINT_COLUMN: POINT_COLUMN(vm)
+      POINT_COLUMN: POINT_COLUMN(vm),
+      POINT_RULES
     };
   }
 }

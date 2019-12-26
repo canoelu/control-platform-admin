@@ -1,7 +1,12 @@
 <!--区域管理-->
 <template>
   <div>
-    <search-table ref="tblRef" :searchConfig="constant.REGION_SEARCH_CONFIG" :tableColumns="constant.REGION_COLUMN" />
+    <search-table
+      :data="[{}]"
+      ref="tblRef"
+      :searchConfig="constant.REGION_SEARCH_CONFIG"
+      :tableColumns="constant.REGION_COLUMN"
+    />
     <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
   </div>
 </template>
@@ -10,6 +15,7 @@
 import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 import Const from "./const/";
 import addDialog from "./components/addDialog.vue";
+import { deleteProjectRegion } from "@/api/";
 @Component({
   name: "index",
   components: {
@@ -49,6 +55,7 @@ export default class extends Vue {
    */
   delete(row: any) {
     this.$confirm("确定要删除", "提示").then(async () => {
+      await deleteProjectRegion(row.id);
       this.$message.success("删除成功");
       this.getTblList();
     });

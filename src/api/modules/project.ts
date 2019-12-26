@@ -47,7 +47,36 @@ const getProjectRegion = (id: string | number) => {
 const deleteProjectRegion = (id: string | number) => {
   return service.post(`${prefix}/config/project/region/${id}`);
 };
-
+/**
+ * 设备类别
+ */
+const saveProjectDeviceType = (data: any) => {
+  return service.post(`${prefix}/config/project/deviceType/add`, data);
+};
+const editProjectDeviceType = (data: any) => {
+  return service.post(`${prefix}/config/project/deviceType/update`, data);
+};
+const getProjectDeviceType = (id: string | number) => {
+  return service.get(`${prefix}/config/project/deviceType/${id}`);
+};
+const deleteProjectDeviceType = (id: string | number) => {
+  return service.post(`${prefix}/config/project/deviceType/${id}`);
+};
+/**
+ * 点位管理
+ */
+const saveProjectPoint = (data: any) => {
+  return service.post(`${prefix}/config/project/point/add`, data);
+};
+const editProjectPoint = (data: any) => {
+  return service.post(`${prefix}/config/project/point/update`, data);
+};
+const getProjectPoint = (id: string | number) => {
+  return service.get(`${prefix}/config/project/point/${id}`);
+};
+const deleteProjectPoint = (id: string | number) => {
+  return service.post(`${prefix}/config/project/point/${id}`);
+};
 export {
   saveProject,
   editProject,
@@ -61,4 +90,12 @@ export {
   deleteProjectRegion,
   getProjectRegion,
   editProjectRegion,
+  saveProjectDeviceType,
+  editProjectDeviceType,
+  getProjectDeviceType,
+  deleteProjectDeviceType,
+  saveProjectPoint,
+  editProjectPoint,
+  getProjectPoint,
+  deleteProjectPoint,
 };

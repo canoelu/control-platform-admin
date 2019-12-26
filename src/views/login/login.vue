@@ -172,7 +172,7 @@ export default class App extends Vue {
     transition: 0.25s;
     transform-origin: center center;
     &:focus {
-      width: 95%;
+      /*width: 95%;*/
       border-color: #2ecc71;
     }
   }

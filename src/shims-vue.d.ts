@@ -5,3 +5,5 @@ declare module "*.vue" {
 declare module "vue-cookies";
 declare module "nprogress";
 declare module "lodash";
+declare module "BMap";
+declare module "BMapLib";
