@@ -6,9 +6,14 @@
     width="50%"
     :before-close="handleClose"
     append-to-body
+    class="project-manage"
   >
     <div v-loading="loading">
-      <common-form ref="formRef" :form="legendForm" :rules="constant.PROJECT_RULES" :props="constant.PROJECT_PROPS">
+      <common-form ref="formRef" :form="projectForm" :rules="constant.PROJECT_RULES" :props="constant.PROJECT_PROPS">
+        <template v-slot:url>
+          <common-upload @handleSuccess="handleSuccess" />
+          <img class="bg-img" alt="背景图" v-if="projectForm.url" :src="projectForm.url" />
+        </template>
       </common-form>
       <div class="flexCenter">
         <el-button size="small" @click="handleClose">关闭</el-button>
@@ -22,14 +27,21 @@
 import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 import Const from "../const/";
 import { saveProject, getProject, editProject } from "@/api/";
+import commonUpload from "@/components/common-upload/index.vue";
+import { ProjectForm } from "../const/types";
+
 @Component({
   name: "index",
-  components: {}
+  components: { commonUpload }
 })
 export default class extends Vue {
   @Ref() formRef: any;
   @Prop({ default: false }) private dialogObj: any;
-  legendForm: any = {};
+  projectForm: ProjectForm = {
+    name: "",
+    code: "",
+    url: ""
+  };
   saving: boolean = false;
   loading: boolean = false;
   get constant() {
@@ -44,7 +56,7 @@ export default class extends Vue {
   async save() {
     this.saving = true;
     try {
-      let _data = this.legendForm;
+      let _data = this.projectForm;
       if (this.isAdd) {
         await saveProject(_data);
       } else {
@@ -61,6 +73,9 @@ export default class extends Vue {
       this.saving = false;
     }
   }
+  handleSuccess(res: any) {
+    this.projectForm.url = res.url;
+  }
   handleSave() {
     let _formRef: any = this.formRef.$refs.formRef;
     _formRef.validate((valid: boolean) => {
@@ -75,7 +90,7 @@ export default class extends Vue {
       let { info, type } = this.dialogObj;
       let res = await getProject(info.id);
       this.loading = false;
-      this.legendForm = res.data;
+      this.projectForm = res.data;
     } catch (e) {
       this.loading = false;
     }
@@ -88,4 +103,15 @@ export default class extends Vue {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.project-manage {
+  .bg-img {
+    display: inline-block;
+    width: 80%;
+    height: 200px;
+    border: 1px solid #f5f5f5;
+    padding: 20px;
+    margin-top: 20px;
+  }
+}
+</style>

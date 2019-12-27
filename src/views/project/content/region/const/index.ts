@@ -18,18 +18,17 @@ const REGION_PROPS = (vm: any) => {
       placeholder: "请选择类型",
       options: [
         {
-          label: "背景图",
-          value: 1
-        },
-        {
           label: "地图",
           value: 2
+        },
+        {
+          label: "背景图",
+          value: 1
         }
       ]
     },
     {
-      tag: "upload",
-      prop: "bg",
+      prop: "url",
       label: "背景图上传",
       placeholder: "背景图上传",
       show: `this.form.type===1`
@@ -38,7 +37,8 @@ const REGION_PROPS = (vm: any) => {
       prop: "center",
       label: "地图中心点",
       placeholder: "地图中心点",
-      show: `this.form.type===2`
+      show: `this.form.type===2`,
+      tip: "请拖动中心图标设置地图中心点"
     },
     {
       tag: "input",
@@ -53,7 +53,8 @@ const REGION_RULES = (vm: any) => {
   return {
     name: { required: true, trigger: "blur", message: "请输入名称" },
     zoom: { required: true, trigger: "blur", message: "请输入初始倍数" },
-    center: { required: true, trigger: "change", message: "请选择初始倍数" },
+    latitude: { required: true, trigger: "change", message: "地图中心" },
+    longitude: { required: true, trigger: "change", message: "地图中心" },
     type: { required: true, trigger: "change", message: "请选择类型" },
     bg: { required: true, trigger: "change", message: "请上传背景图" }
   };

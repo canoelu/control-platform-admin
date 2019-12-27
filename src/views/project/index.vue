@@ -3,11 +3,16 @@
   <el-card>
     <search-table
       ref="tblRef"
-      :data="[{}]"
+      url="/config/project"
       :searchConfig="constant.PROJECT_SEARCH_CONFIG"
       :tableColumns="constant.PROJECT_COLUMN"
     />
-    <project-dialog :dialogObj="dialog" @handleClose="handleClose"></project-dialog>
+    <project-dialog
+      v-if="dialog.show"
+      @getTblList="getTblList"
+      :dialogObj="dialog"
+      @handleClose="handleClose"
+    ></project-dialog>
   </el-card>
 </template>
 
@@ -33,7 +38,7 @@ export default class extends Vue {
   }
   addProject() {
     this.dialog.show = true;
-    this.dialog.isAdd = false;
+    this.dialog.isAdd = true;
     this.dialog.title = "添加项目";
   }
 
@@ -56,9 +61,13 @@ export default class extends Vue {
   handleClose() {
     this.dialog.show = false;
   }
-  handleProContent() {
+  handleProContent(row: any) {
+    localStorage.setItem("curProject", JSON.stringify(row));
     this.$router.push({
-      path: "/project/content/index"
+      path: "/project/content/index",
+      query: {
+        orgId: row.id
+      }
     });
   }
 }

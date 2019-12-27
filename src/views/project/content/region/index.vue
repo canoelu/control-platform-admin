@@ -2,27 +2,30 @@
 <template>
   <div>
     <search-table
-      :data="[{}]"
+      url="/config/project/region/list"
       ref="tblRef"
       :searchConfig="constant.REGION_SEARCH_CONFIG"
       :tableColumns="constant.REGION_COLUMN"
+      :treeProps="{ children: 'children', hasChildren: 'hasChildren' }"
+      rowKey="id"
     />
     <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Ref } from "vue-property-decorator";
+import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "./const/";
 import addDialog from "./components/addDialog.vue";
 import { deleteProjectRegion } from "@/api/";
+import projectMixin from "../../mixin/projectMixin";
 @Component({
   name: "index",
   components: {
     addDialog
   }
 })
-export default class extends Vue {
+export default class extends Mixins(projectMixin) {
   @Ref() private tblRef: any;
   dialog: any = {
     show: false,
@@ -64,10 +67,12 @@ export default class extends Vue {
   /**
    * 添加子区域
    */
-  addChildRegion() {
+  addChildRegion(row: any) {
     this.dialog.show = true;
+    this.dialog.title = "添加子区域";
     this.dialog.type = 2;
     this.dialog.isAdd = true;
+    this.dialog.info = row;
   }
 
   /**

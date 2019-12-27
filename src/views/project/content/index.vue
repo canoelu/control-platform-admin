@@ -1,14 +1,17 @@
 <template>
-  <div class="pro-mange-content">
-    <div class="left pro-menu">
-      <el-menu>
-        <el-menu-item v-for="menu in proMenuList" :key="menu.component" @click="changeProMenu(menu)"
-          >{{ menu.name }}
-        </el-menu-item>
-      </el-menu>
-    </div>
-    <div class="right pro-content">
-      <Component class="manage-component" :is="selectMenu.component" />
+  <div>
+    <breadcrumb-group :breadGroup="breadGroup" />
+    <div class="pro-mange-content">
+      <div class="left pro-menu">
+        <el-menu>
+          <el-menu-item v-for="menu in proMenuList" :key="menu.component" @click="changeProMenu(menu)"
+            >{{ menu.name }}
+          </el-menu-item>
+        </el-menu>
+      </div>
+      <div class="right pro-content">
+        <Component class="manage-component" :is="selectMenu.component" />
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +31,14 @@ import areaManage from "./region/index.vue";
 export default class extends Vue {
   proMenuList: any = proMenuList;
   curMenu: any = {};
+  get breadGroup() {
+    let _curProject = JSON.parse(localStorage.getItem("curProject") || "") || {};
+
+    return [
+      { label: "项目管理", to: `/project/index` },
+      { label: _curProject.name, to: "" }
+    ];
+  }
   get selectMenu() {
     return this.curMenu;
   }

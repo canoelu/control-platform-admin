@@ -10,7 +10,7 @@
     <div v-loading="loading">
       <common-form ref="formRef" :form="legendForm" :rules="constant.LEGEND_RULES" :props="constant.LEGEND_PROPS">
         <template v-slot:deal>
-          <div class="flexRow" style="width: 90%">
+          <div class="flexRow mb-10" style="width: 90%">
             <el-select
               class="mr-10"
               v-model="areaName"
@@ -30,19 +30,7 @@
               placeholder="点位替换代码"
             ></el-cascader>
           </div>
-          <el-upload
-            class="mt-10"
-            action="/api/v1/config/devpic/upload"
-            :show-file-list="false"
-            :on-error="handleError"
-            :on-progress="handleProgress"
-            :before-upload="beforeUpload"
-            accept="image/*"
-            :on-success="handleUploadPic"
-            :disabled="uploading"
-          >
-            <el-button size="small" type="primary">选择及上传图片</el-button>
-          </el-upload>
+          <common-upload @handleSuccess="handleSuccess" />
         </template>
       </common-form>
       <div class="flexCenter">
@@ -58,9 +46,10 @@ import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
 import { saveLegend, getLegend, editLegend, getStatusArr, getPlaceCode, getLegendCode } from "@/api/";
 import systemMixin from "../../../mixin/systemMixin";
+import commonUpload from "@/components/common-upload/index.vue";
 @Component({
   name: "index",
-  components: {}
+  components: { commonUpload }
 })
 export default class extends Mixins(systemMixin) {
   @Ref() formRef: any;
@@ -119,35 +108,8 @@ export default class extends Mixins(systemMixin) {
       }
     });
   }
-  handleProgress() {
-    this.uploading = true;
-  }
-  beforeUpload(file: any) {
-    let isImg = false;
 
-    if (
-      file.type === "image/jpeg" ||
-      file.type === "image/jpg" ||
-      file.type === "image/png" ||
-      file.type === "image/gif"
-    ) {
-      isImg = true;
-    }
-
-    if (!isImg) {
-      this.$message.error("上传图片只能是 JPG或PNG 或gif格式!");
-    }
-
-    return isImg;
-  }
-  handleError() {
-    this.uploading = false;
-    this.$message.error("上传失败");
-  }
-  handleUploadPic(res: any) {
-    console.log(res);
-    this.uploading = false;
-    this.$message.success("上传成功");
+  handleSuccess(res: any) {
     this.legendForm.codes += `<img :src="${res.url}"/>`;
   }
   async getDetail() {

@@ -1,16 +1,16 @@
 import service from "../axios";
 const prefix = process.env.VUE_APP_API_VERSION;
 const saveProject = (data: any) => {
-  return service.post(`${prefix}/config/Project/add`, data);
+  return service.post(`${prefix}/config/project/add`, data);
 };
 const editProject = (data: any) => {
-  return service.post(`${prefix}/config/Project/update`, data);
+  return service.post(`${prefix}/config/project/update`, data);
 };
 const getProject = (id: string | number) => {
-  return service.get(`${prefix}/config/Project/${id}`);
+  return service.get(`${prefix}/config/project/${id}`);
 };
 const deleteProject = (id: string | number) => {
-  return service.post(`${prefix}/config/Project/${id}`);
+  return service.post(`${prefix}/config/project/${id}`);
 };
 /**
  * 系统管理
@@ -20,16 +20,16 @@ const deleteProject = (id: string | number) => {
  * @param data
  */
 const saveProjectSystem = (data: any) => {
-  return service.post(`${prefix}/config/project/system/add`, data);
+  return service.post(`${prefix}/config/project`, data);
 };
 const editProjectSystem = (data: any) => {
-  return service.post(`${prefix}/config/project/system/update`, data);
+  return service.post(`${prefix}/config/project/update`, data);
 };
 const getProjectSystem = (id: string | number) => {
-  return service.get(`${prefix}/config/project/system/${id}`);
+  return service.get(`${prefix}/config/project/${id}`);
 };
 const deleteProjectSystem = (id: string | number) => {
-  return service.post(`${prefix}/config/project/system/${id}`);
+  return service.post(`${prefix}/config/project/${id}`);
 };
 /**
  * 区域管理
@@ -97,5 +97,5 @@ export {
   saveProjectPoint,
   editProjectPoint,
   getProjectPoint,
-  deleteProjectPoint,
+  deleteProjectPoint
 };

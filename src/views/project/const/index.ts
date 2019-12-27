@@ -2,7 +2,7 @@ const PROJECT_PROPS = (vm: any) => {
   return [
     {
       tag: "input",
-      prop: "proName",
+      prop: "name",
       label: "项目名称",
       placeholder: "请输入项目名称"
     },
@@ -13,17 +13,14 @@ const PROJECT_PROPS = (vm: any) => {
       placeholder: "请输入机构代码"
     },
     {
-      tag: "upload",
-      prop: "bgImg",
-      action: "",
-      label: "背景图",
-      placeholder: "背景图"
+      prop: "url",
+      label: "背景图"
     }
   ];
 };
 const PROJECT_RULES = (vm: any) => {
   return {
-    proName: { required: true, message: "请输入项目名称", trigger: "blur" },
+    name: { required: true, message: "请输入项目名称", trigger: "blur" },
     code: { required: true, message: "请输入机构代码", trigger: "blur" }
   };
 };
@@ -45,7 +42,7 @@ const PROJECT_COLUMN = (vm: any) => [
   },
   {
     title: "项目名称",
-    key: "proName"
+    key: "name"
   },
   {
     title: "机构代码",
