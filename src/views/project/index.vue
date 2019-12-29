@@ -64,7 +64,7 @@ export default class extends Vue {
   handleProContent(row: any) {
     localStorage.setItem("curProject", JSON.stringify(row));
     this.$router.push({
-      path: "/project/content/index",
+      path: "/project/children/index",
       query: {
         orgId: row.id
       }
