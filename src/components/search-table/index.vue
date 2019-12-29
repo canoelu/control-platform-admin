@@ -76,6 +76,7 @@ export default class extends Vue {
   @Prop({ default: () => {} }) private searchParams!: any; // 筛选条件
   @Prop({ required: false }) private data!: Array<any>;
   @Prop({ default: false }) private loading!: Boolean;
+  @Prop({ default: false }) private lazy?: Boolean;
   @Prop({ default: true }) private showHeader!: Boolean;
   @Prop({ required: true }) private tableColumns!: Array<[]>;
   @Prop({ default: undefined }) private spanMethod?: Function;

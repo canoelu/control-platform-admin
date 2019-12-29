@@ -9,7 +9,7 @@
     append-to-body
   >
     <div v-loading="loading">
-      <common-form ref="formRef" :form="pointForm" :rules="constant.POINT_RULES" :props="constant.POINT_PROPS">
+      <common-form ref="formRef" :form="pointsForm" :rules="constant.POINT_RULES" :props="constant.POINT_PROPS">
       </common-form>
 
       <div class="flexCenter">
@@ -23,17 +23,21 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveProjectPoint, editProjectPoint, getProjectPoint } from "@/api/";
+import { saveProjectPoints, editProjectPoints, getProjectPoints } from "@/api/";
+import projectMixin from "../../../mixin/projectMixin";
+
 @Component({
   name: "index",
   components: {}
 })
-export default class extends Vue {
+export default class extends Mixins(projectMixin) {
   @Ref() formRef: any;
   @Ref() groupTbl: any;
   @Prop({ default: false }) private dialogObj: any;
-  pointForm: any = {
-    name: ""
+  pointsForm: any = {
+    name: "",
+    code: "",
+    value: ""
   };
   saving: boolean = false;
   loading: boolean = false;
@@ -50,11 +54,11 @@ export default class extends Vue {
   async save() {
     this.saving = true;
     try {
-      let _data = this.pointForm;
+      let _data = this.pointsForm;
       if (this.isAdd) {
-        await saveProjectPoint(_data);
+        await saveProjectPoints(_data);
       } else {
-        await editProjectPoint({
+        await editProjectPoints({
           ..._data,
           id: this.dialogObj.info.id
         });
@@ -79,18 +83,15 @@ export default class extends Vue {
     try {
       this.loading = true;
       let { info, type } = this.dialogObj;
-      let res = await getProjectPoint(info.id);
+      let res = await getProjectPoints(info.id);
       this.loading = false;
-      this.pointForm = res.data;
+      this.pointsForm = res.data;
     } catch (e) {
       this.loading = false;
     }
   }
-
-  methodBind() {}
-  down() {}
-  up() {}
   mounted() {
+    this.pointsForm.orgId = this.orgId;
     if (!this.isAdd) {
       this.getDetail();
     }

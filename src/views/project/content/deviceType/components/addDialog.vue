@@ -29,14 +29,15 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveProjectDeviceType, editProjectDeviceType, getProjectDeviceType } from "@/api/";
+import { saveProjectDevType, editProjectDevType, getProjectDevType, deleteProjectDevType } from "@/api/";
 import groupDialog from "./groupDialog.vue";
 import methodBindDialog from "./methodBindDialog.vue";
+import projectMixin from "../../../mixin/projectMixin";
 @Component({
   name: "index",
   components: { groupDialog, methodBindDialog }
 })
-export default class extends Vue {
+export default class extends Mixins(projectMixin) {
   @Ref() formRef: any;
   @Ref() groupTbl: any;
   @Prop({ default: false }) private dialogObj: any;
@@ -59,10 +60,11 @@ export default class extends Vue {
     this.saving = true;
     try {
       let _data = this.deviceTypeForm;
+
       if (this.isAdd) {
-        await saveProjectDeviceType(_data);
+        await saveProjectDevType(_data);
       } else {
-        await editProjectDeviceType({
+        await editProjectDevType({
           ..._data,
           id: this.dialogObj.info.id
         });
@@ -87,7 +89,7 @@ export default class extends Vue {
     try {
       this.loading = true;
       let { info, type } = this.dialogObj;
-      let res = await getProjectDeviceType(info.id);
+      let res = await getProjectDevType(info.id);
       this.loading = false;
       this.deviceTypeForm = res.data;
     } catch (e) {
@@ -99,6 +101,9 @@ export default class extends Vue {
   down() {}
   up() {}
   mounted() {
+    let { info, type } = this.dialogObj;
+    // 机构ID
+    this.deviceTypeForm.orgId = this.orgId;
     if (!this.isAdd) {
       this.getDetail();
     }

@@ -8,12 +8,28 @@ import { getMetaDataList } from "@/api/";
 export default class systemMixin extends Vue {
   metaDataArr: any[] = [];
   loadingMetaData: boolean = false;
+
+  /**
+   * 获取字典点位
+   */
   get pointArr() {
     return this.metaDataArr.map((item: any) => {
       item.children = item.children.filter((child: any) => child.children.length > 0) || [];
       return item;
     });
   }
+
+  /**
+   * 获取字典系统
+   */
+  get systemCategory() {
+    console.log(this.metaDataArr,this.metaDataArr.filter((item: any) => item.categoryTypeId === 1))
+    return this.metaDataArr.filter((item: any) => item.categoryTypeId === 1);
+  }
+
+  /**
+   * 获取字典
+   */
   async getMetaDataList() {
     this.loadingMetaData = true;
     try {

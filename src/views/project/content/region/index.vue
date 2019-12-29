@@ -6,6 +6,9 @@
       ref="tblRef"
       :searchConfig="constant.REGION_SEARCH_CONFIG"
       :tableColumns="constant.REGION_COLUMN"
+      :searchParams="searchParams"
+      :lazy="true"
+      :load="getRegion"
       :treeProps="{ children: 'children', hasChildren: 'hasChildren' }"
       rowKey="id"
     />
@@ -98,6 +101,13 @@ export default class extends Mixins(projectMixin) {
    */
   getTblList() {
     this.tblRef.getList();
+  }
+  getRegion(tree: any, treeNode: any, resolve: any) {
+    this.loadRegion({
+      page: 1,
+      pageSize: 1000,
+      parentId: treeNode.id
+    });
   }
   created() {}
 }

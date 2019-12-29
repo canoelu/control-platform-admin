@@ -91,7 +91,7 @@ walk((actualPath, fileName) => {
     modules.push(routeUnit);
   }
 });
-
+console.log(modules)
 const insertRes = `export default [
   ${modules}
 ]`;

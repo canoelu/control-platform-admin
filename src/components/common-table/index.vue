@@ -16,6 +16,7 @@
       @current-change="singleSelectChange"
       :rowKey="rowKey"
       :tree-props="treeProps"
+      :lazy="lazy"
     >
       v-bind="$attrs" >
       <el-table-column type="selection" width="55" v-if="tableColumns && tableColumns[0].type === 'selection'">
@@ -95,6 +96,7 @@ export default class CommonTable extends Vue {
   @Prop({ default: undefined }) private spanMethod?: Function;
   @Prop({ default: undefined }) private summaryMethod?: Function;
   @Prop({ default: true }) private showPage!: boolean;
+  @Prop({ default: false }) private lazy?: boolean;
   @Prop({ default: "" }) private rowKey?: string;
   @Prop({ default: () => {} }) private treeProps!: any;
   @Prop({ default: false }) private showSummary!: boolean;

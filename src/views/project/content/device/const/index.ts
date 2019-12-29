@@ -8,16 +8,20 @@ const DEVICE_PROPS = (vm: any) => {
     },
     {
       tag: "select",
-      prop: "type",
+      prop: "devTypeId",
       label: "设备类别",
       placeholder: "请选择设备类别",
-      options: []
+      options: vm.deviceTypeList,
+      keyProp: {
+        value: "id",
+        label: "name"
+      }
     }
   ];
 };
 const DEVICE_RULES = {
   name: { required: true, message: "请输入设备名称", trigger: "blur" },
-  type: { required: true, message: "请选择设备类别", trigger: "change" }
+  devTypeId: { required: true, message: "请选择设备类别", trigger: "change" }
 };
 const DEVICE_SEARCH_CONFIG = (vm: any) => {
   return {
@@ -59,7 +63,7 @@ const DEVICE_COLUMN = (vm: any) => [
     }
   }
 ];
-const POINT_SEARCH_CONFIG=(vm:any)=>{
+const POINT_SEARCH_CONFIG = (vm: any) => {
   return {
     optBtns: [
       {
@@ -67,8 +71,8 @@ const POINT_SEARCH_CONFIG=(vm:any)=>{
         handler: () => vm.addDevice()
       }
     ]
-  }
-}
+  };
+};
 const POINT_COLUMNS = (vm: any) => {
   return [
     {
@@ -104,7 +108,7 @@ class ConstConfig {
       DEVICE_SEARCH_CONFIG: DEVICE_SEARCH_CONFIG(vm),
       DEVICE_COLUMN: DEVICE_COLUMN(vm),
       POINT_COLUMNS: POINT_COLUMNS(vm),
-      POINT_SEARCH_CONFIG: POINT_SEARCH_CONFIG(vm),
+      POINT_SEARCH_CONFIG: POINT_SEARCH_CONFIG(vm)
     };
   }
 }

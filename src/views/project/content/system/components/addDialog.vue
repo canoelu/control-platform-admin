@@ -26,12 +26,15 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveProjectSystem, editProjectSystem, getProjectSystem, deleteProjectSystem } from "@/api/";
+import { saveProjectSystem, editProjectSystem, getProjectSystem } from "@/api/";
+import projectMixin from "../../../mixin/projectMixin";
+import systemMixin from "../../../../mixin/systemMixin";
+
 @Component({
   name: "index",
   components: {}
 })
-export default class extends Vue {
+export default class extends Mixins(projectMixin, systemMixin) {
   @Ref() formRef: any;
   @Prop({ default: false }) private dialogObj: any;
   uploading: boolean = false;
@@ -91,6 +94,9 @@ export default class extends Vue {
   }
 
   created() {
+    this.getMetaDataList();
+
+    this.systemForm.orgId = this.orgId;
     if (!this.isAdd) {
       this.getDetail();
     }

@@ -22,12 +22,14 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveProjectDeviceType, editProjectDeviceType, getProjectDeviceType } from "@/api/";
+import { saveProjectDevice, editProjectDevice, getProjectDevice } from "@/api/";
+import projectMixin from "../../../mixin/projectMixin";
+
 @Component({
   name: "index",
   components: {}
 })
-export default class extends Vue {
+export default class extends Mixins(projectMixin) {
   @Ref() formRef: any;
   @Ref() groupTbl: any;
   @Prop({ default: false }) private dialogObj: any;
@@ -52,9 +54,9 @@ export default class extends Vue {
     try {
       let _data = this.deviceForm;
       if (this.isAdd) {
-        await saveProjectDeviceType(_data);
+        await saveProjectDevice(_data);
       } else {
-        await editProjectDeviceType({
+        await editProjectDevice({
           ..._data,
           id: this.dialogObj.info.id
         });
@@ -79,7 +81,7 @@ export default class extends Vue {
     try {
       this.loading = true;
       let { info, type } = this.dialogObj;
-      let res = await getProjectDeviceType(info.id);
+      let res = await getProjectDevice(info.id);
       this.loading = false;
       this.deviceForm = res.data;
     } catch (e) {
@@ -89,6 +91,12 @@ export default class extends Vue {
 
   deleteGroup(row: any) {}
   mounted() {
+    this.deviceForm.orgId = this.orgId;
+    this.loadDeviceType({
+      page: 1,
+      pageSize: 1000,
+      orgId: this.orgId
+    });
     if (!this.isAdd) {
       this.getDetail();
     }

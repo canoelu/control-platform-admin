@@ -2,7 +2,7 @@ const POINT_PROPS = (vm: any) => {
   return [
     {
       tag: "input",
-      prop: "identify",
+      prop: "code",
       label: "标识",
       placeholder: "请输入标识"
     },
@@ -15,12 +15,15 @@ const POINT_PROPS = (vm: any) => {
     {
       tag: "input",
       prop: "value",
-      placeholder: "当前值"
+      label: "当前值",
+      placeholder: "请输入当前值"
     }
   ];
 };
 const POINT_RULES = {
-  identify: { required: true, message: "请输入标识", trigger: "blur" }
+  name: { required: true, message: "请输入名称", trigger: "blur" },
+  code: { required: true, message: "请输入标识", trigger: "blur" },
+  value: { required: true, message: "请输入当前值", trigger: "blur" }
 };
 const POINT_SEARCH_CONFIG = (vm: any) => {
   return {
@@ -43,13 +46,16 @@ const POINT_COLUMN = (vm: any) => [
   },
   {
     title: "标识",
-    key: "identify"
+    key: "code"
   },
   {
     title: "名称",
     key: "name"
   },
-
+  {
+    title: "当前值",
+    key: "value"
+  },
   {
     title: "操作",
     operate: true,

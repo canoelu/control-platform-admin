@@ -8,15 +8,19 @@ const SYSTEM_ROOT_NODE_PROPS = (vm: any) => {
     {
       tag: "input",
       prop: "name",
-      label: "名称",
-      placeholder: "系统名称"
+      label: "系统名称",
+      placeholder: "请选择系统名称"
     },
     {
       tag: "select",
-      prop: "type",
-      label: "类型",
-      placeholder: "系统类别",
-      options: []
+      prop: "categoryId",
+      label: "系统类别",
+      placeholder: "请选择系统类别",
+      options: vm.systemCategory,
+      keyProp: {
+        value: "id",
+        label: "name"
+      }
     }
   ];
 };
@@ -33,7 +37,7 @@ const SYSTEM_SEARCH_CONFIG = (vm: any) => {
   return {
     optBtns: [
       {
-        label: "添加根节点",
+        label: "添加系统",
         handler: () => vm.addRootNode()
       }
     ]

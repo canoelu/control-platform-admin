@@ -2,10 +2,11 @@
 <template>
   <div>
     <search-table
-      :data="[{}]"
+      url="/config/project/device/list"
       ref="tblRef"
       :searchConfig="constant.DEVICE_SEARCH_CONFIG"
       :tableColumns="constant.DEVICE_COLUMN"
+      :searchParams="searchParams"
     />
     <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
     <point-bind-dialog
@@ -18,10 +19,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Ref } from "vue-property-decorator";
+import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "./const/";
 import addDialog from "./components/addDialog.vue";
 import pointBindDialog from "./components/pointBindDialog.vue";
+import projectMixin from "../../mixin/projectMixin";
+import { deleteProjectDevice } from "@/api/";
 @Component({
   name: "index",
   components: {
@@ -29,7 +32,7 @@ import pointBindDialog from "./components/pointBindDialog.vue";
     pointBindDialog
   }
 })
-export default class extends Vue {
+export default class extends Mixins(projectMixin) {
   @Ref() private tblRef: any;
   dialog: any = {
     show: false,
@@ -41,6 +44,11 @@ export default class extends Vue {
   };
   get constant() {
     return new Const(this).const;
+  }
+  get searchParams() {
+    return {
+      orgId: this.orgId
+    };
   }
   addDevice() {
     this.dialog.show = true;
@@ -58,8 +66,9 @@ export default class extends Vue {
     this.dialog.row = true;
     this.dialog.info = row;
   }
-  delete() {
+  delete(row: any) {
     this.$confirm("确定要删除", "提示").then(async () => {
+      await deleteProjectDevice(row.id);
       this.$message.success("删除成功");
       this.getTblList();
     });

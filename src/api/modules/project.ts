@@ -20,21 +20,23 @@ const deleteProject = (id: string | number) => {
  * @param data
  */
 const saveProjectSystem = (data: any) => {
-  return service.post(`${prefix}/config/project`, data);
+  return service.post(`${prefix}/config/project/system/add`, data);
 };
 const editProjectSystem = (data: any) => {
-  return service.post(`${prefix}/config/project/update`, data);
+  return service.post(`${prefix}/config/project/system/update`, data);
 };
 const getProjectSystem = (id: string | number) => {
-  return service.get(`${prefix}/config/project/${id}`);
+  return service.get(`${prefix}/config/project/system/${id}`);
 };
 const deleteProjectSystem = (id: string | number) => {
-  return service.post(`${prefix}/config/project/${id}`);
+  return service.post(`${prefix}/config/project/system/${id}`);
 };
 /**
  * 区域管理
  */
-
+const getRegionList = (params: any) => {
+  return service.get(`${prefix}/config/project/region/list`, { params });
+};
 const saveProjectRegion = (data: any) => {
   return service.post(`${prefix}/config/project/region/add`, data);
 };
@@ -50,33 +52,52 @@ const deleteProjectRegion = (id: string | number) => {
 /**
  * 设备类别
  */
-const saveProjectDeviceType = (data: any) => {
-  return service.post(`${prefix}/config/project/deviceType/add`, data);
+const getProjectDevTypeList = (params: any) => {
+  return service.get(`${prefix}/config/project/devType/list`, { params });
 };
-const editProjectDeviceType = (data: any) => {
-  return service.post(`${prefix}/config/project/deviceType/update`, data);
+const saveProjectDevType = (data: any) => {
+  return service.post(`${prefix}/config/project/devType/add`, data);
 };
-const getProjectDeviceType = (id: string | number) => {
-  return service.get(`${prefix}/config/project/deviceType/${id}`);
+const editProjectDevType = (data: any) => {
+  return service.post(`${prefix}/config/project/devType/update`, data);
 };
-const deleteProjectDeviceType = (id: string | number) => {
-  return service.post(`${prefix}/config/project/deviceType/${id}`);
+const getProjectDevType = (id: string | number) => {
+  return service.get(`${prefix}/config/project/devType/${id}`);
+};
+const deleteProjectDevType = (id: string | number) => {
+  return service.post(`${prefix}/config/project/devType/${id}`);
 };
 /**
  * 点位管理
  */
-const saveProjectPoint = (data: any) => {
-  return service.post(`${prefix}/config/project/point/add`, data);
+const saveProjectPoints = (data: any) => {
+  return service.post(`${prefix}/config/project/points/add`, data);
 };
-const editProjectPoint = (data: any) => {
-  return service.post(`${prefix}/config/project/point/update`, data);
+const editProjectPoints = (data: any) => {
+  return service.post(`${prefix}/config/project/points/update`, data);
 };
-const getProjectPoint = (id: string | number) => {
-  return service.get(`${prefix}/config/project/point/${id}`);
+const getProjectPoints = (id: string | number) => {
+  return service.get(`${prefix}/config/project/points/${id}`);
 };
-const deleteProjectPoint = (id: string | number) => {
-  return service.post(`${prefix}/config/project/point/${id}`);
+const deleteProjectPoints = (id: string | number) => {
+  return service.post(`${prefix}/config/project/points/${id}`);
 };
+/**
+ * 设备管理
+ */
+const saveProjectDevice = (data: any) => {
+  return service.post(`${prefix}/config/project/device/add`, data);
+};
+const editProjectDevice = (data: any) => {
+  return service.post(`${prefix}/config/project/device/update`, data);
+};
+const getProjectDevice = (id: string | number) => {
+  return service.get(`${prefix}/config/project/device/${id}`);
+};
+const deleteProjectDevice = (id: string | number) => {
+  return service.post(`${prefix}/config/project/device/${id}`);
+};
+
 export {
   saveProject,
   editProject,
@@ -86,16 +107,22 @@ export {
   editProjectSystem,
   getProjectSystem,
   deleteProjectSystem,
+  getRegionList,
   saveProjectRegion,
   deleteProjectRegion,
   getProjectRegion,
   editProjectRegion,
-  saveProjectDeviceType,
-  editProjectDeviceType,
-  getProjectDeviceType,
-  deleteProjectDeviceType,
-  saveProjectPoint,
-  editProjectPoint,
-  getProjectPoint,
-  deleteProjectPoint
+  getProjectDevTypeList,
+  saveProjectDevType,
+  editProjectDevType,
+  getProjectDevType,
+  deleteProjectDevType,
+  saveProjectPoints,
+  editProjectPoints,
+  getProjectPoints,
+  deleteProjectPoints,
+  saveProjectDevice,
+  editProjectDevice,
+  getProjectDevice,
+  deleteProjectDevice
 };
