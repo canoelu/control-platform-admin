@@ -81,7 +81,7 @@ const POINT_COLUMNS = (vm: any) => {
     },
     {
       title: "以绑定点位",
-      key: "name"
+      key: "pointId"
     },
     {
       title: "操作",

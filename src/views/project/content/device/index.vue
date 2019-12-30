@@ -1,4 +1,4 @@
-<!--图例管理-->
+<!--设备管理-->
 <template>
   <div>
     <search-table
@@ -8,7 +8,9 @@
       :tableColumns="constant.DEVICE_COLUMN"
       :searchParams="searchParams"
     />
+    <!--添加设备-->
     <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
+    <!--点位绑定-->
     <point-bind-dialog
       v-if="pointDialog.show"
       @getTblList="getTblList"
@@ -36,11 +38,11 @@ export default class extends Mixins(projectMixin) {
   @Ref() private tblRef: any;
   dialog: any = {
     show: false,
-    title: "添加图例"
+    title: "添加设备"
   };
   pointDialog: any = {
     show: false,
-    title: "绑定点位"
+    title: "点位绑定"
   };
   get constant() {
     return new Const(this).const;
@@ -50,22 +52,45 @@ export default class extends Mixins(projectMixin) {
       orgId: this.orgId
     };
   }
-  addDevice() {
+
+  /**
+   * 添加设备
+   */
+  private addDevice() {
     this.dialog.show = true;
     this.dialog.isAdd = true;
   }
+
+  /**
+   * 获取列表
+   */
   getTblList() {
     this.tblRef.getList();
   }
+
+  /**
+   * 关闭
+   */
   handleClose() {
     this.dialog.show = false;
+    this.pointDialog.show = false;
   }
+
+  /**
+   * 修改
+   * @param row
+   */
   edit(row: any) {
     this.dialog.show = true;
     this.dialog.isAdd = false;
     this.dialog.row = true;
     this.dialog.info = row;
   }
+
+  /**
+   * 删除
+   * @param row
+   */
   delete(row: any) {
     this.$confirm("确定要删除", "提示").then(async () => {
       await deleteProjectDevice(row.id);
@@ -73,6 +98,11 @@ export default class extends Mixins(projectMixin) {
       this.getTblList();
     });
   }
+
+  /**
+   * 绑定点位
+   * @param row
+   */
   bindPoint(row: any) {
     this.pointDialog.title = "绑定点位";
     this.pointDialog.show = true;

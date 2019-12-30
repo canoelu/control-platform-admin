@@ -42,6 +42,8 @@
       :show-header="showHeader"
       :spanMethod="spanMethod"
       :rowKey="rowKey"
+      :lazy="lazy"
+      :load="load"
       :treeProps="treeProps"
       @singleSelectChange="singleSelectChange"
       :filter="filter"
@@ -77,6 +79,7 @@ export default class extends Vue {
   @Prop({ required: false }) private data!: Array<any>;
   @Prop({ default: false }) private loading!: Boolean;
   @Prop({ default: false }) private lazy?: Boolean;
+  @Prop({ default: undefined }) private load?: Function;
   @Prop({ default: true }) private showHeader!: Boolean;
   @Prop({ required: true }) private tableColumns!: Array<[]>;
   @Prop({ default: undefined }) private spanMethod?: Function;

@@ -13,97 +13,62 @@ export default [
       withMenu: true,
       ignoreCollapseMenu: false,
     }
-  },{path: "/project/children/device/index",
-    name: "project-children-device-index",
-    component: () => import("@/views/project/children/device/index.vue"),
-    meta: {
-      withMenu: true,
-      ignoreCollapseMenu: false,
-    }
-  },{path: "/project/children/deviceType/index",
-    name: "project-children-deviceType-index",
-    component: () => import("@/views/project/children/deviceType/index.vue"),
-    meta: {
-      withMenu: true,
-      ignoreCollapseMenu: false,
-    }
-  },{path: "/project/children/index",
-    name: "project-children-index",
-    component: () => import("@/views/project/children/index.vue"),
-    meta: {
-      withMenu: true,
-      ignoreCollapseMenu: false,
-    }
-  },{path: "/project/children/point/index",
-    name: "project-children-point-index",
-    component: () => import("@/views/project/children/point/index.vue"),
-    meta: {
-      withMenu: true,
-      ignoreCollapseMenu: false,
-    }
-  },{path: "/project/children/region/index",
-    name: "project-children-region-index",
-    component: () => import("@/views/project/children/region/index.vue"),
-    meta: {
-      withMenu: true,
-      ignoreCollapseMenu: false,
-    }
-  },{path: "/project/children/system/index",
-    name: "project-children-system-index",
-    component: () => import("@/views/project/children/system/index.vue"),
-    meta: {
-      withMenu: true,
-      ignoreCollapseMenu: false,
-    }
-  },{path: "/project/index",name: "project-index",
-    component: () => import("@/views/project/index.vue"),
+  },{path: "/project/content",name: "project-content",
+    component: () => import("@/views/project/content.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,
     },
-    children:[{path: "/project/children/device/index",
-    name: "project-children-device-index",
-    component: () => import("@/views/project/children/device/index.vue"),
+    children:[{path: "/project/content/device/index",
+    name: "project-content-device-index",
+    component: () => import("@/views/project/content/device/index.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,
     }
-  },{path: "/project/children/deviceType/index",
-    name: "project-children-deviceType-index",
-    component: () => import("@/views/project/children/deviceType/index.vue"),
+  },{path: "/project/content/deviceType/index",
+    name: "project-content-deviceType-index",
+    component: () => import("@/views/project/content/deviceType/index.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,
     }
-  },{path: "/project/children/index",
-    name: "project-children-index",
-    component: () => import("@/views/project/children/index.vue"),
+  },{path: "/project/content/point/index",
+    name: "project-content-point-index",
+    component: () => import("@/views/project/content/point/index.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,
     }
-  },{path: "/project/children/point/index",
-    name: "project-children-point-index",
-    component: () => import("@/views/project/children/point/index.vue"),
+  },{path: "/project/content/region/index",
+    name: "project-content-region-index",
+    component: () => import("@/views/project/content/region/index.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,
     }
-  },{path: "/project/children/region/index",
-    name: "project-children-region-index",
-    component: () => import("@/views/project/children/region/index.vue"),
+  },{path: "/project/content/system/drawPoint",
+    name: "project-content-system-drawPoint",
+    component: () => import("@/views/project/content/system/drawPoint.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,
     }
-  },{path: "/project/children/system/index",
-    name: "project-children-system-index",
-    component: () => import("@/views/project/children/system/index.vue"),
+  },{path: "/project/content/system/index",
+    name: "project-content-system-index",
+    component: () => import("@/views/project/content/system/index.vue"),
     meta: {
       withMenu: true,
       ignoreCollapseMenu: false,
     }
   }]
+  },{path: "/project/index",
+    name: "project-index",
+    component: () => import("@/views/project/index.vue"),
+    meta: {
+      withMenu: true,
+      ignoreCollapseMenu: false,
+    }
   },{path: "/system/index",
     name: "system-index",
     component: () => import("@/views/system/index.vue"),

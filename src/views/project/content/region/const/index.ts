@@ -101,12 +101,12 @@ const REGION_COLUMN = (vm: any) => [
         {
           label: "删除",
           handler: () => vm.delete(row)
-        },
-        {
-          label: "上移",
-          handler: () => vm.up(row)
-        },
-        { label: "下移", handler: () => vm.down(row) }
+        }
+        // {
+        //   label: "上移",
+        //   handler: () => vm.up(row)
+        // },
+        // { label: "下移", handler: () => vm.down(row) }
       ];
     }
   }

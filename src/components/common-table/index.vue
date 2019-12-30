@@ -17,8 +17,8 @@
       :rowKey="rowKey"
       :tree-props="treeProps"
       :lazy="lazy"
+      v-bind="$attrs"
     >
-      v-bind="$attrs" >
       <el-table-column type="selection" width="55" v-if="tableColumns && tableColumns[0].type === 'selection'">
       </el-table-column>
       <!-- eslint-disable vue/no-use-v-if-with-v-for -->

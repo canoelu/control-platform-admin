@@ -104,6 +104,7 @@ export default class extends Mixins(projectMixin) {
     this.mDialog.show = true;
     this.mDialog.title = "添加设备分组";
     this.mDialog.isAdd = true;
+    this.mDialog.info = row;
   }
   showDisplaySet(row: any) {
     this.dDialog.title = "展示配置";
@@ -111,7 +112,7 @@ export default class extends Mixins(projectMixin) {
     this.dDialog.info = row;
   }
   groupSet(row: any) {
-    this.gDialog.title = "设备分组配置";
+    this.gDialog.title = "子设备类别配置";
     this.gDialog.show = true;
     this.gDialog.info = row;
   }

@@ -64,7 +64,6 @@ Vue.use(Main);
 Vue.use(Header);
 Vue.use(MenuItemGroup);
 Vue.use(Avatar);
-
 Vue.use(Button);
 Vue.use(Dropdown);
 Vue.use(DropdownItem);

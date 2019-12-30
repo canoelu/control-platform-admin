@@ -19,12 +19,19 @@ const stopWalkReg = /(component|style|scss|const|mixin|images)/gi; // 不需要�
 // mac系统文件和ts文件不解析
 const reg = /\.DS_Store|.ts/i;
 
-const walk = function(callback, path = pageRoot, isChild = false) {
+const walk = function(callback, path = pageRoot, isChild = false, childName = "content") {
   const files = fs.readdirSync(path); // 返回目录名和文件名的字符串数组
   stopWalkReg.lastIndex = 0;
+
   if (stopWalkReg.test(path)) return;
-  files.forEach(function(file) {
+  for (let i = 0; i < files.length; i++) {
+    let file = files[i];
     stopWalkReg.lastIndex = 0;
+    let childReg = new RegExp(childName, "gi");
+    console.log(!isChild && childReg.test(path), childReg.test(path), childReg, path, childName);
+
+    if (childReg.test(path)) return;
+
     if (fs.statSync(path + "/" + file).isFile()) {
       if (!reg.test(file)) {
         callback(path, file.replace(/\.vue$/i, ""));
@@ -32,10 +39,10 @@ const walk = function(callback, path = pageRoot, isChild = false) {
     } else {
       const wFolder = path + "/" + file;
       if (!reg.test(wFolder)) {
-        walk(callback, wFolder); // 判断文件夹，继续递归
+        walk(callback, wFolder, isChild); // 判断文件夹，继续递归
       }
     }
-  });
+  }
 };
 function getUnit(actualPath, fileName) {
   if (ignoredFileList.indexOf(fileName) > -1) return;
@@ -96,15 +103,17 @@ function getUnit(actualPath, fileName) {
  */
 walk((actualPath, fileName) => {
   let { routeUnit, name, pathRes, routePath } = getUnit(actualPath, fileName) || {};
-  fs.exists(`${actualPath + "/children"}`, isExist => {
+
+  fs.exists(`${actualPath}/${fileName}`, isExist => {
     if (isExist) {
       walk(
         (childActPath, childFileName) => {
           let childUnit = getUnit(childActPath, childFileName).routeUnit || {};
           children.push(childUnit);
         },
-        `${actualPath + "/children"}`,
-        true
+        `${actualPath}/${fileName}`,
+        true,
+        fileName
       );
       const unit = `{path: "${pathRes}",name: "${name}",
     component: () => import("@/views${routePath}/${fileName}.vue"),

@@ -49,24 +49,7 @@ const getProjectRegion = (id: string | number) => {
 const deleteProjectRegion = (id: string | number) => {
   return service.post(`${prefix}/config/project/region/${id}`);
 };
-/**
- * 设备类别
- */
-const getProjectDevTypeList = (params: any) => {
-  return service.get(`${prefix}/config/project/devType/list`, { params });
-};
-const saveProjectDevType = (data: any) => {
-  return service.post(`${prefix}/config/project/devType/add`, data);
-};
-const editProjectDevType = (data: any) => {
-  return service.post(`${prefix}/config/project/devType/update`, data);
-};
-const getProjectDevType = (id: string | number) => {
-  return service.get(`${prefix}/config/project/devType/${id}`);
-};
-const deleteProjectDevType = (id: string | number) => {
-  return service.post(`${prefix}/config/project/devType/${id}`);
-};
+
 /**
  * 点位管理
  */
@@ -112,11 +95,6 @@ export {
   deleteProjectRegion,
   getProjectRegion,
   editProjectRegion,
-  getProjectDevTypeList,
-  saveProjectDevType,
-  editProjectDevType,
-  getProjectDevType,
-  deleteProjectDevType,
   saveProjectPoints,
   editProjectPoints,
   getProjectPoints,

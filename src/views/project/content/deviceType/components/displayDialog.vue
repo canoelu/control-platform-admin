@@ -23,7 +23,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveProjectDeviceType, editProjectDeviceType, getProjectDeviceType } from "@/api/";
+import { saveProjectDevType, editProjectDevType, getProjectDevType, deleteProjectDevType } from "@/api/";
 
 @Component({
   name: "index",

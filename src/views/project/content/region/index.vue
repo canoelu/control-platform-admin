@@ -103,10 +103,13 @@ export default class extends Mixins(projectMixin) {
     this.tblRef.getList();
   }
   getRegion(tree: any, treeNode: any, resolve: any) {
-    this.loadRegion({
+    let res = this.loadRegion({
       page: 1,
       pageSize: 1000,
-      parentId: treeNode.id
+      parentId: tree.id,
+      orgId: tree.orgId
+    }).then(res => {
+      resolve(res.data.list);
     });
   }
   created() {}

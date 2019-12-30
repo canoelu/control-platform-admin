@@ -1,60 +1,41 @@
-<!--设备类型管理-->
+<!--设备管理-->
 <template>
   <el-dialog
     class="region-add-dialog"
     :title="dialogObj.title"
     :visible.sync="dialogObj.show"
-    width="62.5%"
+    width="50%"
     :before-close="handleClose"
     append-to-body
   >
-    <search-table
-      :data="[{}]"
-      ref="groupTbl"
-      :showPage="false"
-      :searchConfig="constant.GROUP_SEARCH_CONFIG"
-      :tableColumns="constant.GROUP_COLUMNS"
-    />
-    <el-dialog
-      class="region-add-dialog"
-      title="添加设备类型"
-      :visible.sync="showAdd"
-      width="50%"
-      :before-close="closeAdd"
-      append-to-body
-    >
-      <div v-loading="loading">
-        <common-form
-          ref="formRef"
-          :form="deviceTypeForm"
-          :rules="constant.GROUP_FORM_RULES"
-          :props="constant.GROUP_FORM_PROPS"
-        >
-        </common-form>
-      </div>
-      <div class="flexCenter">
-        <el-button size="small" @click="closeAdd">关闭</el-button>
+    <div v-loading="loading">
+      <common-form ref="formRef" :form="deviceForm" :rules="constant.DEVICE_RULES" :props="constant.DEVICE_PROPS">
+      </common-form>
+      <div class="flexCenter" slot="footer">
+        <el-button size="small" @click="handleClose">关闭</el-button>
         <el-button size="small" type="primary" @click="handleSave" :loading="saving">保存</el-button>
       </div>
-    </el-dialog>
+    </div>
   </el-dialog>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveProjectDeviceType, editProjectDeviceType, getProjectDeviceType } from "@/api/";
+import { saveProjectDevice, editProjectDevice, getProjectDevice } from "@/api/";
+import projectMixin from "../../../mixin/projectMixin";
 
 @Component({
   name: "index",
   components: {}
 })
-export default class extends Vue {
+export default class extends Mixins(projectMixin) {
   @Ref() formRef: any;
-  @Prop({ default: () => {} }) private dialogObj: any;
-  showAdd: boolean = false;
+  @Ref() groupTbl: any;
+  @Prop({ default: false }) private dialogObj: any;
+  uploading: boolean = false;
   map: any;
-  deviceTypeForm: any = {
+  deviceForm: any = {
     name: ""
   };
   saving: boolean = false;
@@ -68,20 +49,14 @@ export default class extends Vue {
   handleClose() {
     this.$emit("handleClose");
   }
-  closeAdd() {
-    this.showAdd = false;
-  }
-  addGroupSet() {
-    this.showAdd = true;
-  }
   async save() {
     this.saving = true;
     try {
-      let _data = this.deviceTypeForm;
+      let _data = this.deviceForm;
       if (this.isAdd) {
-        await saveProjectDeviceType(_data);
+        await saveProjectDevice(_data);
       } else {
-        await editProjectDeviceType({
+        await editProjectDevice({
           ..._data,
           id: this.dialogObj.info.id
         });
@@ -106,14 +81,26 @@ export default class extends Vue {
     try {
       this.loading = true;
       let { info, type } = this.dialogObj;
-      let res = await getProjectDeviceType(info.id);
+      let res = await getProjectDevice(info.id);
       this.loading = false;
-      this.deviceTypeForm = res.data;
+      this.deviceForm = res.data;
     } catch (e) {
       this.loading = false;
     }
   }
-  mounted() {}
+
+  deleteGroup(row: any) {}
+  mounted() {
+    this.deviceForm.orgId = this.orgId;
+    this.loadDeviceType({
+      page: 1,
+      pageSize: 1000,
+      orgId: this.orgId
+    });
+    if (!this.isAdd) {
+      this.getDetail();
+    }
+  }
 }
 </script>
 

@@ -1,4 +1,4 @@
-<!--设备管理-->
+<!--设备类型管理-->
 <template>
   <el-dialog
     class="region-add-dialog"
@@ -9,9 +9,14 @@
     append-to-body
   >
     <div v-loading="loading">
-      <common-form ref="formRef" :form="deviceForm" :rules="constant.DEVICE_RULES" :props="constant.DEVICE_PROPS">
+      <common-form
+        ref="formRef"
+        :form="deviceTypeForm"
+        :rules="constant.GROUP_FORM_RULES"
+        :props="constant.GROUP_FORM_PROPS"
+      >
       </common-form>
-      <div class="flexCenter">
+      <div class="flexCenter" slot="footer">
         <el-button size="small" @click="handleClose">关闭</el-button>
         <el-button size="small" type="primary" @click="handleSave" :loading="saving">保存</el-button>
       </div>
@@ -22,20 +27,18 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveProjectDevice, editProjectDevice, getProjectDevice } from "@/api/";
-import projectMixin from "../../../mixin/projectMixin";
+import { saveProjectDevType, editProjectDevType, getProjectDevType, deleteProjectDevType } from "@/api/";
 
 @Component({
   name: "index",
   components: {}
 })
-export default class extends Mixins(projectMixin) {
+export default class extends Vue {
   @Ref() formRef: any;
-  @Ref() groupTbl: any;
-  @Prop({ default: false }) private dialogObj: any;
+  @Prop({ default: () => {} }) private dialogObj: any;
   uploading: boolean = false;
   map: any;
-  deviceForm: any = {
+  deviceTypeForm: any = {
     name: ""
   };
   saving: boolean = false;
@@ -52,11 +55,11 @@ export default class extends Mixins(projectMixin) {
   async save() {
     this.saving = true;
     try {
-      let _data = this.deviceForm;
+      let _data = this.deviceTypeForm;
       if (this.isAdd) {
-        await saveProjectDevice(_data);
+        await saveProjectDeviceType(_data);
       } else {
-        await editProjectDevice({
+        await editProjectDeviceType({
           ..._data,
           id: this.dialogObj.info.id
         });
@@ -81,22 +84,14 @@ export default class extends Mixins(projectMixin) {
     try {
       this.loading = true;
       let { info, type } = this.dialogObj;
-      let res = await getProjectDevice(info.id);
+      let res = await getProjectDeviceType(info.id);
       this.loading = false;
-      this.deviceForm = res.data;
+      this.deviceTypeForm = res.data;
     } catch (e) {
       this.loading = false;
     }
   }
-
-  deleteGroup(row: any) {}
   mounted() {
-    this.deviceForm.orgId = this.orgId;
-    this.loadDeviceType({
-      page: 1,
-      pageSize: 1000,
-      orgId: this.orgId
-    });
     if (!this.isAdd) {
       this.getDetail();
     }

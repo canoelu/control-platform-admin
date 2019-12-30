@@ -57,7 +57,7 @@ const DEVICE_TYPE_COLUMN = (vm: any) => [
           handler: () => vm.edit(row)
         },
         {
-          label: "设备分组配置",
+          label: "子设备类别配置",
           handler: () => vm.groupSet(row)
         },
         {
@@ -146,7 +146,7 @@ const GROUP_FORM_PROPS = (vm: any) => {
   return [
     {
       tag: "select",
-      prop: "type",
+      prop: "sysCategoryId",
       label: "设备类型",
       placeholder: "请选择设备类型",
       options: []
@@ -156,12 +156,16 @@ const GROUP_FORM_PROPS = (vm: any) => {
       prop: "icon",
       label: "分组图标",
       placeholder: "请选择分组图标",
-      options: []
+      options: vm.iconArr,
+      keyProp: {
+        value: "url",
+        label: "name"
+      }
     }
   ];
 };
 const GROUP_FORM_RULES = {
-  type: { required: true, message: "请选择设备类型", trigger: "change" },
+  sysCategoryId: { required: true, message: "请选择设备类型", trigger: "change" },
   icon: { required: true, message: "请选择分组图标", trigger: "change" }
 };
 const METHOD_COLUMNS = (vm: any) => [
@@ -211,7 +215,6 @@ const GROUP_POINT_METHOD_COLUMNS = (vm: any) => [
     title: "名称",
     key: "name"
   },
-
   {
     operate: true,
     title: "操作",
