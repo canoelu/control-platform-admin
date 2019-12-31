@@ -107,11 +107,14 @@ const DEVICE_GROUP_SET_COLUMN = (vm: any) => [
 const GROUP_COLUMNS = (vm: any) => [
   {
     title: "字典类别",
-    key: "type"
+    key: "categoryName"
   },
   {
     title: "图标",
-    key: "icon"
+    key: "url",
+    render(h: any, row: any) {
+      return h("img", { attrs: { src: row.url } });
+    }
   },
   {
     operate: true,
@@ -160,7 +163,7 @@ const GROUP_FORM_PROPS = (vm: any) => {
     },
     {
       tag: "select",
-      prop: "icon",
+      prop: "url",
       label: "分组图标",
       placeholder: "请选择分组图标",
       options: vm.iconArr,
@@ -173,7 +176,7 @@ const GROUP_FORM_PROPS = (vm: any) => {
 };
 const GROUP_FORM_RULES = {
   sysCategoryId: { required: true, message: "请选择设备类型", trigger: "change" },
-  icon: { required: true, message: "请选择分组图标", trigger: "change" }
+  url: { required: true, message: "请选择分组图标", trigger: "change" }
 };
 const METHOD_COLUMNS = (vm: any) => [
   {
@@ -220,7 +223,7 @@ const METHOD_SEARCH_CONFIG = (vm: any) => {
 const GROUP_POINT_METHOD_COLUMNS = (vm: any) => [
   {
     title: "名称",
-    key: "name"
+    key: "categoryName"
   },
   {
     operate: true,
@@ -314,6 +317,31 @@ const DISPLAY_POINT_PROPS = (vm: any) => {
 const DISPLAY_POINT_RULES = {
   type: { required: true, message: "请选择点位类型", trigger: "change" }
 };
+const METHOD_FORM_PROPS = (vm: any) => {
+  return [
+    {
+      tag: "select",
+      prop: "funcId",
+      label: "方法名称",
+      placeholder: "请选择方法名称",
+      options: vm.funcList,
+      keyProp: {
+        value: "id",
+        label: "name"
+      }
+    },
+    {
+      tag: "input",
+      prop: "params",
+      label: "参数",
+      placeholder: "请输入参数"
+    }
+  ];
+};
+const METHOD_FORM_RULES = {
+  params: { required: true, message: "请输入参数", trigger: "blur" },
+  funcId: { required: true, message: "请选择方法名称", trigger: "blur" }
+};
 class ConstConfig {
   vm: any;
   const: any;
@@ -337,7 +365,9 @@ class ConstConfig {
       DISPLAY_GROUP_PROPS: DISPLAY_GROUP_PROPS(vm),
       DISPLAY_GROUP_RULES,
       DISPLAY_POINT_PROPS: DISPLAY_POINT_PROPS(vm),
-      DISPLAY_POINT_RULES
+      DISPLAY_POINT_RULES,
+      METHOD_FORM_PROPS: METHOD_FORM_PROPS(vm),
+      METHOD_FORM_RULES
     };
   }
 }

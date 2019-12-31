@@ -105,7 +105,7 @@ export default class extends Mixins(projectMixin, systemMixin) {
     let { info, type } = this.dialogObj;
     // 机构ID
     this.groupDevTypeForm.orgId = this.orgId;
-    this.groupDevTypeForm.devTypeId = this.devType.id;
+    this.groupDevTypeForm.devTypeId = this.devType.id; //设备类别ID
     this.getMetaDataDevice();
     this.getPicList();
     if (!this.isAdd) {

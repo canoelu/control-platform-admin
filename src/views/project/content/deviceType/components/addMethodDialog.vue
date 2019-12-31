@@ -1,4 +1,4 @@
-<!--子设备类型管理-->
+<!--添加方法-->
 <template>
   <el-dialog
     class="region-add-dialog"
@@ -11,14 +11,12 @@
     <div v-loading="loading">
       <common-form
         ref="formRef"
-        :form="deviceTypeForm"
-        :rules="constant.DEVICE_TYPE_RULES"
-        :props="constant.DEVICE_TYPE_PROPS"
-        v-if="dialogObj.type === 'deviceType'"
+        :form="methodForm"
+        :rules="constant.METHOD_FORM_RULES"
+        :props="constant.METHOD_FORM_PROPS"
       >
       </common-form>
-
-      <div class="flexCenter">
+      <div class="flexCenter" slot="footer">
         <el-button size="small" @click="handleClose">关闭</el-button>
         <el-button size="small" type="primary" @click="handleSave" :loading="saving">保存</el-button>
       </div>
@@ -29,29 +27,31 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveProjectDevType, editProjectDevType, getProjectDevType, deleteProjectDevType } from "@/api/";
-import groupDialog from "./groupDialog.vue";
-import methodBindDialog from "./methodBindDialog.vue";
+import { saveGroupDevType, editGroupDevType, getPicList, getGroupDevType, getDevTypeBindFuncList } from "@/api/";
 import projectMixin from "../../../mixin/projectMixin";
+import systemMixin from "../../../../mixin/systemMixin";
 @Component({
   name: "index",
-  components: { groupDialog, methodBindDialog }
+  components: {}
 })
-export default class extends Mixins(projectMixin) {
+export default class extends Mixins(projectMixin, systemMixin) {
   @Ref() formRef: any;
   @Ref() groupTbl: any;
-  @Prop({ default: false }) private dialogObj: any;
-  deviceTypeForm: any = {
-    name: ""
-  };
+  @Prop({ default: false }) private dialogObj!: any;
+  @Prop({ default: () => {} }) private devType!: any;
+  methodForm: any = {};
+  picList: any[] = [];
   saving: boolean = false;
   loading: boolean = false;
-
+  funcList: any[] = [];
   get constant() {
     return new Const(this).const;
   }
   get isAdd() {
     return this.dialogObj.isAdd;
+  }
+  get iconArr() {
+    return this.picList;
   }
   handleClose() {
     this.$emit("handleClose");
@@ -59,12 +59,12 @@ export default class extends Mixins(projectMixin) {
   async save() {
     this.saving = true;
     try {
-      let _data = this.deviceTypeForm;
+      let _data = this.methodForm;
 
       if (this.isAdd) {
-        await saveProjectDevType(_data);
+        await saveGroupDevType(_data);
       } else {
-        await editProjectDevType({
+        await editGroupDevType({
           ..._data,
           id: this.dialogObj.info.id
         });
@@ -85,25 +85,41 @@ export default class extends Mixins(projectMixin) {
       }
     });
   }
+  addMethod() {}
+  methodBind() {}
   async getDetail() {
     try {
       this.loading = true;
       let { info, type } = this.dialogObj;
-      let res = await getProjectDevType(info.id);
+      let res = await getGroupDevType(info.id);
       this.loading = false;
-      this.deviceTypeForm = res.data;
+      this.methodForm = res.data;
     } catch (e) {
       this.loading = false;
     }
   }
-
-  methodBind() {}
-  down() {}
-  up() {}
+  async getPicList() {
+    let res = await getPicList();
+    this.picList = res.data;
+  }
+  async getFuncList() {
+    let res = await getDevTypeBindFuncList({
+      page: 1,
+      pageSize: 1000,
+      devTypeId: this.devType.id,
+      type: 1,
+      categoryId: 1 // todo
+    });
+    this.funcList = res.data.list;
+  }
   mounted() {
     let { info, type } = this.dialogObj;
     // 机构ID
-    this.deviceTypeForm.orgId = this.orgId;
+    this.methodForm.orgId = this.orgId;
+    this.methodForm.devTypeId = this.devType.id; //设备类别ID
+    // 获取方法list
+    this.getFuncList();
+    this.getPicList();
     if (!this.isAdd) {
       this.getDetail();
     }

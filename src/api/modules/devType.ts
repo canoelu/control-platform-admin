@@ -37,6 +37,13 @@ const getPicList = () => {
 const getGroupDevType = (id: string | number) => {
   return service.get(`${prefix}/config/project/devGroup/${id}`);
 };
+/**
+ * 获取设备类别已经绑定的方法列表
+ * @param params
+ */
+const getDevTypeBindFuncList = (params: any) => {
+  return service.get(`${prefix}/config/project/devTypeFunc/list`, { params });
+};
 export {
   getProjectDevTypeList,
   saveProjectDevType,
@@ -47,5 +54,6 @@ export {
   editGroupDevType,
   deleteGroupDevType,
   getPicList,
-  getGroupDevType
+  getGroupDevType,
+  getDevTypeBindFuncList
 };
