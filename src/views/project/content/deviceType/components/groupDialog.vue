@@ -68,12 +68,12 @@ export default class extends Vue {
     this.dialog.show = true;
     this.dialog.isAdd = true;
   }
-  edit(row: any) {
+  editGroup(row: any) {
     this.dialog.show = true;
     this.dialog.isAdd = false;
     this.dialog.info = row;
   }
-  delete(row: any) {
+  deleteGroup(row: any) {
     this.$confirm("确定要删除", "提示").then(async () => {
       this.$message.success("删除成功");
       await deleteGroupDevType(row.id);

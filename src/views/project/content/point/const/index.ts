@@ -1,28 +1,44 @@
+const MAX_LEN = 60;
 const POINT_PROPS = (vm: any) => {
   return [
     {
       tag: "input",
       prop: "code",
       label: "标识",
+      maxLength: MAX_LEN,
       placeholder: "请输入标识"
     },
     {
       tag: "input",
       prop: "name",
       label: "名称",
+      maxLength: MAX_LEN,
       placeholder: "请输入名称"
     },
     {
       tag: "input",
       prop: "value",
       label: "当前值",
+      maxLength: MAX_LEN,
       placeholder: "请输入当前值"
     }
   ];
 };
 const POINT_RULES = {
   name: { required: true, message: "请输入名称", trigger: "blur" },
-  code: { required: true, message: "请输入标识", trigger: "blur" },
+  code: [
+    { required: true, message: "请输入标识", trigger: "blur" },
+    {
+      trigger: "blur",
+      validator: (rule: any, value: any, callback: any) => {
+        if (/^\+?[1-9][0-9]*$/.test(value)) {
+          callback();
+        } else {
+          callback(new Error("请输入数字"));
+        }
+      }
+    }
+  ],
   value: { required: true, message: "请输入当前值", trigger: "blur" }
 };
 const POINT_SEARCH_CONFIG = (vm: any) => {

@@ -1,3 +1,5 @@
+const MAX_LEN = 60;
+
 /**
  * 添加设备类别
  * @param vm
@@ -8,6 +10,7 @@ const DEVICE_TYPE_PROPS = (vm: any) => {
     {
       tag: "input",
       prop: "name",
+      maxLength: MAX_LEN,
       label: "名称",
       placeholder: "请输入名称"
     }
@@ -149,7 +152,11 @@ const GROUP_FORM_PROPS = (vm: any) => {
       prop: "sysCategoryId",
       label: "设备类型",
       placeholder: "请选择设备类型",
-      options: []
+      options: vm.deviceCategory,
+      keyProp: {
+        value: "id",
+        label: "name"
+      }
     },
     {
       tag: "select",
@@ -223,14 +230,6 @@ const GROUP_POINT_METHOD_COLUMNS = (vm: any) => [
         {
           label: "方法绑定",
           handler: () => vm.methodBind(row)
-        },
-        {
-          label: "上移",
-          handler: () => vm.up(row)
-        },
-        {
-          label: "下移",
-          handler: () => vm.down(row)
         }
       ];
     }
@@ -241,7 +240,7 @@ const DISPLAY_SEARCH_CONFIG = (vm: any) => {
     optBtns: [
       {
         label: "添加分组",
-        handler: () => vm.addMethod()
+        handler: () => vm.addDisplayGroup()
       }
     ]
   };
@@ -261,24 +260,60 @@ const DISPLAY_COLUMNS = (vm: any) => [
     operate: true,
     title: "操作",
     setBtns: (row: any) => {
-      return [
-        {
-          label: "修改",
-          handler: () => vm.editDisplay(row)
-        },
-        {
-          label: "添加点位类别",
-          handler: () => vm.addPointType(row)
-        },
-        {
-          label: "删除",
-          handler: () => vm.deleteDisplay(row)
-        }
-      ];
+      let _editGroup = { label: "修改分组", handler: () => vm.editDisplay(row) };
+      let _editPoint = { label: "修改点位类别", handler: () => vm.editPointType(row) };
+      let _addPoint = { label: "添加点位类别", handler: () => vm.addPointType(row) };
+      let _delGroup = { label: "删除分组", handler: () => vm.deleteGroup(row) };
+      let _delPoint = { label: "删除点位类别", handler: () => vm.deletePoint(row) };
+      let _arr = [];
+      if (row.type === 1) {
+        _arr = [_editGroup, _addPoint, _delGroup];
+      } else {
+        return [_editPoint, _delPoint];
+      }
+      return _arr;
     }
   }
 ];
-
+const DISPLAY_GROUP_PROPS = (vm: any) => {
+  return [
+    {
+      tag: "input",
+      prop: "name",
+      label: "显示名称",
+      placeholder: "请输入显示名称"
+    },
+    {
+      tag: "select",
+      prop: "style",
+      label: "显示类别",
+      placeholder: "请选择显示类别",
+      options: []
+    }
+  ];
+};
+const DISPLAY_GROUP_RULES = {
+  name: { required: true, message: "请输入显示名称", trigger: "blur" },
+  style: { required: true, message: "请选择显示类别", trigger: "change" }
+};
+const DISPLAY_POINT_PROPS = (vm: any) => {
+  return [
+    {
+      tag: "select",
+      prop: "type",
+      label: "点位类型",
+      placeholder: "请选择点位类型",
+      options: vm.pointCategory,
+      keyProp: {
+        label: "name",
+        value: "id"
+      }
+    }
+  ];
+};
+const DISPLAY_POINT_RULES = {
+  type: { required: true, message: "请选择点位类型", trigger: "change" }
+};
 class ConstConfig {
   vm: any;
   const: any;
@@ -298,7 +333,11 @@ class ConstConfig {
       GROUP_POINT_METHOD_COLUMNS: GROUP_POINT_METHOD_COLUMNS(vm),
       DISPLAY_COLUMNS: DISPLAY_COLUMNS(vm),
       DISPLAY_SEARCH_CONFIG: DISPLAY_SEARCH_CONFIG(vm),
-      GROUP_FORM_RULES
+      GROUP_FORM_RULES,
+      DISPLAY_GROUP_PROPS: DISPLAY_GROUP_PROPS(vm),
+      DISPLAY_GROUP_RULES,
+      DISPLAY_POINT_PROPS: DISPLAY_POINT_PROPS(vm),
+      DISPLAY_POINT_RULES
     };
   }
 }

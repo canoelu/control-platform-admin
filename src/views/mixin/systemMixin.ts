@@ -1,31 +1,16 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { State, Action } from "vuex-class";
-import { getMetaDataList } from "@/api/";
+import { getMetaDataList, getListByTypeId } from "@/api/";
 @Component({
   inheritAttrs: false,
   components: {}
 })
 export default class systemMixin extends Vue {
   metaDataArr: any[] = [];
+  systemCategory: any[] = []; // 字典系统
+  pointCategory: any[] = []; // 字典点位
+  deviceCategory: any[] = []; // 字典设备
   loadingMetaData: boolean = false;
-
-  /**
-   * 获取字典点位
-   */
-  get pointArr() {
-    return this.metaDataArr.map((item: any) => {
-      item.children = item.children.filter((child: any) => child.children.length > 0) || [];
-      return item;
-    });
-  }
-
-  /**
-   * 获取字典系统
-   */
-  get systemCategory() {
-    console.log(this.metaDataArr,this.metaDataArr.filter((item: any) => item.categoryTypeId === 1))
-    return this.metaDataArr.filter((item: any) => item.categoryTypeId === 1);
-  }
 
   /**
    * 获取字典
@@ -39,5 +24,28 @@ export default class systemMixin extends Vue {
     } catch (e) {
       this.loadingMetaData = false;
     }
+  }
+
+  /**
+   * 获取字典系统
+   */
+  async getMetaDataSystem() {
+    let res = await getListByTypeId(1);
+    this.systemCategory = res.data;
+  }
+
+  /**
+   * 获取字典设备
+   */
+  async getMetaDataDevice() {
+    let res = await getListByTypeId(2);
+    this.deviceCategory = res.data;
+  }
+  /**
+   * 获取字典点位
+   */
+  async getMetaDataPoint() {
+    let res = await getListByTypeId(3);
+    this.pointCategory = res.data;
   }
 }

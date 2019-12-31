@@ -1,3 +1,5 @@
+const MAX_LEN = 60;
+
 /**
  * 添加根节点
  * @param vm
@@ -9,7 +11,7 @@ const SYSTEM_ROOT_NODE_PROPS = (vm: any) => {
       tag: "input",
       prop: "name",
       label: "系统名称",
-      maxLength: 80,
+      maxLength: MAX_LEN,
       placeholder: "请选择系统名称"
     },
     {

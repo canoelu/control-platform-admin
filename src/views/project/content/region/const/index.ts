@@ -1,3 +1,5 @@
+const MAX_LEN = 100;
+
 /**
  * 添加设备类别
  * @param vm
@@ -9,6 +11,7 @@ const REGION_PROPS = (vm: any) => {
       tag: "input",
       prop: "name",
       label: "名称",
+      maxLength: MAX_LEN,
       placeholder: "请输入名称"
     },
     {

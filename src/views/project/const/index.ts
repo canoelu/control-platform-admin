@@ -1,15 +1,19 @@
+const MAX_LEN = 60;
+
 const PROJECT_PROPS = (vm: any) => {
   return [
     {
       tag: "input",
       prop: "name",
       label: "项目名称",
+      maxLength: MAX_LEN,
       placeholder: "请输入项目名称"
     },
     {
       tag: "input",
       prop: "code",
       label: "机构代码",
+      maxLength: MAX_LEN,
       placeholder: "请输入机构代码"
     },
     {

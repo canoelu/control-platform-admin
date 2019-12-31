@@ -15,4 +15,7 @@ const getMetadata = (id: string | number) => {
 const deleteMetadata = (id: string | number) => {
   return service.post(`${prefix}/config/category/${id}`);
 };
-export { getMetaDataList, saveMetadata, editMetadata, getMetadata, deleteMetadata };
+const getListByTypeId = (categoryTypeId: string | number) => {
+  return service.get(`${prefix}/config/category/list/${categoryTypeId}`);
+};
+export { getMetaDataList, saveMetadata, editMetadata, getMetadata, deleteMetadata, getListByTypeId };

@@ -64,7 +64,7 @@ export default class extends Vue {
   handleProContent(row: any) {
     localStorage.setItem("curProject", JSON.stringify(row));
     this.$router.push({
-      name: "project-content-region-index",
+      name: "project-content-system-index",
       query: {
         orgId: row.id
       }

@@ -1,4 +1,4 @@
-<!--设备分组设备类型-->
+<!--展示分组设备类型-->
 <template>
   <el-dialog
     class="region-add-dialog"
@@ -12,8 +12,8 @@
       <common-form
         ref="formRef"
         :form="groupDevTypeForm"
-        :rules="constant.GROUP_FORM_RULES"
-        :props="constant.GROUP_FORM_PROPS"
+        :rules="constant.DISPLAY_GROUP_RULES"
+        :props="constant.DISPLAY_GROUP_PROPS"
       >
       </common-form>
       <div class="flexCenter" slot="footer">
@@ -84,8 +84,6 @@ export default class extends Mixins(projectMixin, systemMixin) {
       }
     });
   }
-  addMethod() {}
-  methodBind() {}
   async getDetail() {
     try {
       this.loading = true;
@@ -105,7 +103,6 @@ export default class extends Mixins(projectMixin, systemMixin) {
     let { info, type } = this.dialogObj;
     // 机构ID
     this.groupDevTypeForm.orgId = this.orgId;
-    this.groupDevTypeForm.devTypeId = this.devType.id;
     this.getMetaDataDevice();
     this.getPicList();
     if (!this.isAdd) {

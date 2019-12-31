@@ -24,7 +24,7 @@
             <el-cascader
               style="width:55%"
               v-model="pointId"
-              :options="pointArr"
+              :options="pointCategory"
               :props="{ label: 'name', value: 'id' }"
               @change="changePoint"
               placeholder="点位替换代码"

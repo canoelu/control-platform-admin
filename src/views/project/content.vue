@@ -3,11 +3,10 @@
     <breadcrumb-group :breadGroup="breadGroup" />
     <div class="pro-mange-content">
       <div class="left pro-menu">
-        <el-menu active-text-color="#409EFF" default-active="1-0">
+        <el-menu active-text-color="#409EFF" default-active="1-0" @select="changeProMenu">
           <router-link
             v-for="(menu, idx) in proMenuList"
             :key="menu.component"
-            @click="changeProMenu(menu)"
             :to="{
               path: menu.path,
               query: {

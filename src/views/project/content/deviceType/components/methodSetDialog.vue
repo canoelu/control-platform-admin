@@ -9,10 +9,11 @@
     append-to-body
   >
     <search-table
-      :data="[{}]"
+      url="/config/project/devTypeFunc/list"
       ref="groupTbl"
       :showPage="false"
       :searchConfig="constant.METHOD_SEARCH_CONFIG"
+      :searchParams="searchParams"
       :tableColumns="constant.METHOD_COLUMNS"
     ></search-table>
     <p class="mt-10 mb-10">分组点位方法配置</p>
@@ -38,6 +39,13 @@ export default class extends Vue {
   loading: boolean = false;
   get constant() {
     return new Const(this).const;
+  }
+  get searchParams() {
+    return {
+      devTypeId: this.dialogObj.info.id,
+      type: 1,
+      categoryId: 1
+    };
   }
 
   handleClose() {

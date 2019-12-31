@@ -53,9 +53,9 @@ const METHOD_RULES = (vm: any) => {
         trigger: "blur",
         validator: (rule: any, value: any, callback: any) => {
           if (/^\+?[1-9][0-9]*$/.test(value)) {
-            callback(new Error("请输入数字"));
-          } else {
             callback();
+          } else {
+            callback(new Error("请输入数字"));
           }
         }
       }

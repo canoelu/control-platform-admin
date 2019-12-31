@@ -1,8 +1,11 @@
+const MAX_LEN = 60;
+
 const DEVICE_PROPS = (vm: any) => {
   return [
     {
       tag: "input",
       prop: "name",
+      maxLength: MAX_LEN,
       label: "设备名称",
       placeholder: "请输入设备名称"
     },
