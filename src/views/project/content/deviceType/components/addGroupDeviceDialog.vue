@@ -1,4 +1,4 @@
-<!--设备分组设备类型-->
+<!--添加子设备类别-->
 <template>
   <el-dialog
     class="region-add-dialog"
@@ -69,7 +69,7 @@ export default class extends Mixins(projectMixin, systemMixin) {
         });
       }
       this.saving = false;
-      this.$message.success("保存设备类别成功");
+      this.$message.success("保存子设备类别成功");
       this.$emit("handleClose");
       this.$emit("getTblList");
     } catch (e) {
@@ -105,7 +105,7 @@ export default class extends Mixins(projectMixin, systemMixin) {
     let { info, type } = this.dialogObj;
     // 机构ID
     this.groupDevTypeForm.orgId = this.orgId;
-    this.groupDevTypeForm.devTypeId = this.devType.id; //设备类别ID
+    this.groupDevTypeForm.devTypeId = this.devType.id; // 设备类别ID
     this.getMetaDataDevice();
     this.getPicList();
     if (!this.isAdd) {

@@ -1,4 +1,4 @@
-<!--图例管理-->
+<!--添加系统-->
 <template>
   <el-dialog
     :title="dialogObj.title"
@@ -94,7 +94,7 @@ export default class extends Mixins(projectMixin, systemMixin) {
   }
 
   created() {
-    this.getMetaDataList();
+    this.getMetaDataSystem();
 
     this.systemForm.orgId = this.orgId;
     if (!this.isAdd) {

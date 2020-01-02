@@ -27,7 +27,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveGroupDevType, editGroupDevType, getPicList, getGroupDevType } from "@/api/";
+import { getPointGroupById, addPointGroup, editPointGroup, getPointGroupStyles } from "@/api/";
 import projectMixin from "../../../mixin/projectMixin";
 import systemMixin from "../../../../mixin/systemMixin";
 @Component({
@@ -38,9 +38,8 @@ export default class extends Mixins(projectMixin, systemMixin) {
   @Ref() formRef: any;
   @Ref() groupTbl: any;
   @Prop({ default: false }) private dialogObj!: any;
-  @Prop({ default: () => {} }) private devType!: any;
   groupDevTypeForm: any = {};
-  picList: any[] = [];
+  pointGroupStyles: any[] = []; // 样式
   saving: boolean = false;
   loading: boolean = false;
   get constant() {
@@ -49,8 +48,11 @@ export default class extends Mixins(projectMixin, systemMixin) {
   get isAdd() {
     return this.dialogObj.isAdd;
   }
-  get iconArr() {
-    return this.picList;
+  get styleList() {
+    return this.pointGroupStyles;
+  }
+  get subDevTypeId() {
+    return this.dialogObj.info.id;
   }
   handleClose() {
     this.$emit("handleClose");
@@ -59,11 +61,11 @@ export default class extends Mixins(projectMixin, systemMixin) {
     this.saving = true;
     try {
       let _data = this.groupDevTypeForm;
-
+      _data.subDevTypeId = this.subDevTypeId;
       if (this.isAdd) {
-        await saveGroupDevType(_data);
+        await addPointGroup(_data);
       } else {
-        await editGroupDevType({
+        await editPointGroup({
           ..._data,
           id: this.dialogObj.info.id
         });
@@ -88,23 +90,24 @@ export default class extends Mixins(projectMixin, systemMixin) {
     try {
       this.loading = true;
       let { info, type } = this.dialogObj;
-      let res = await getGroupDevType(info.id);
+      let res = await getPointGroupById(info.id);
       this.loading = false;
       this.groupDevTypeForm = res.data;
     } catch (e) {
       this.loading = false;
     }
   }
-  async getPicList() {
-    let res = await getPicList();
-    this.picList = res.data;
+  async getPointGroupStyles() {
+    let res = await getPointGroupStyles();
+    this.pointGroupStyles = res.data;
   }
+
   mounted() {
     let { info, type } = this.dialogObj;
     // 机构ID
-    this.groupDevTypeForm.orgId = this.orgId;
+    // this.groupDevTypeForm.orgId = this.orgId;
     this.getMetaDataDevice();
-    this.getPicList();
+    this.getPointGroupStyles();
     if (!this.isAdd) {
       this.getDetail();
     }

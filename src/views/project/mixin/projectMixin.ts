@@ -1,5 +1,5 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { getRegionList, getProjectDevTypeList } from "@/api/";
+import { getRegionList, getProjectDevTypeList, getMethodList } from "@/api/";
 @Component({
   inheritAttrs: false,
   components: {}
@@ -7,6 +7,7 @@ import { getRegionList, getProjectDevTypeList } from "@/api/";
 export default class projectMixin extends Vue {
   regionArr: any[] = [];
   deviceTypeList: any[] = [];
+  methodList: any[] = [];
   get orgId(): string {
     return <any>this.$route.query.orgId;
   }
@@ -17,6 +18,11 @@ export default class projectMixin extends Vue {
   }
   get regionList() {
     return this.regionArr;
+  }
+  async getMethodList(params: any) {
+    let res = await getMethodList(params);
+    this.methodList = res.data.list;
+    return this;
   }
   async loadRegion(params: any) {
     let res = await getRegionList({

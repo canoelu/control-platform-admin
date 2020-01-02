@@ -43,12 +43,11 @@ const DEVICE_TYPE_COLUMN = (vm: any) => [
   {
     title: "Id",
     key: "id",
-    width: 80
+    width: 120
   },
   {
     title: "名称",
-    key: "name",
-    width: 200
+    key: "name"
   },
   {
     title: "操作",
@@ -123,11 +122,11 @@ const GROUP_COLUMNS = (vm: any) => [
       return [
         {
           label: "修改",
-          handler: () => vm.editGroup(row)
+          handler: () => vm.editMethod(row)
         },
         {
           label: "删除",
-          handler: () => vm.deleteGroup(row)
+          handler: () => vm.deleteMethod(row)
         }
       ];
     }
@@ -194,11 +193,11 @@ const METHOD_COLUMNS = (vm: any) => [
       return [
         {
           label: "修改",
-          handler: () => vm.editGroup(row)
+          handler: () => vm.editMethod(row)
         },
         {
           label: "删除",
-          handler: () => vm.deleteGroup(row)
+          handler: () => vm.deleteMethod(row)
         }
       ];
     }
@@ -242,7 +241,7 @@ const DISPLAY_SEARCH_CONFIG = (vm: any) => {
   return {
     optBtns: [
       {
-        label: "添加分组",
+        label: "添加点位分组",
         handler: () => vm.addDisplayGroup()
       }
     ]
@@ -288,10 +287,14 @@ const DISPLAY_GROUP_PROPS = (vm: any) => {
     },
     {
       tag: "select",
-      prop: "style",
+      prop: "styleType",
       label: "显示类别",
       placeholder: "请选择显示类别",
-      options: []
+      options: vm.styleList,
+      keyProp: {
+        label: "name",
+        value: "id"
+      }
     }
   ];
 };
@@ -322,13 +325,20 @@ const METHOD_FORM_PROPS = (vm: any) => {
     {
       tag: "select",
       prop: "funcId",
-      label: "方法名称",
-      placeholder: "请选择方法名称",
-      options: vm.funcList,
+      label: "系统方法",
+      placeholder: "请选择系统方法",
+      options: vm.methodList,
       keyProp: {
         value: "id",
         label: "name"
-      }
+      },
+      change: vm.changeSysFunc
+    },
+    {
+      tag: "input",
+      prop: "name",
+      label: "名称",
+      placeholder: "请输入方法名称"
     },
     {
       tag: "input",
@@ -340,7 +350,8 @@ const METHOD_FORM_PROPS = (vm: any) => {
 };
 const METHOD_FORM_RULES = {
   params: { required: true, message: "请输入参数", trigger: "blur" },
-  funcId: { required: true, message: "请选择方法名称", trigger: "blur" }
+  name: { required: true, message: "请输入方法名称", trigger: "blur" },
+  funcId: { required: true, message: "请选择方法名称", trigger: "change" }
 };
 class ConstConfig {
   vm: any;

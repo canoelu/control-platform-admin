@@ -44,6 +44,57 @@ const getGroupDevType = (id: string | number) => {
 const getDevTypeBindFuncList = (params: any) => {
   return service.get(`${prefix}/config/project/devTypeFunc/list`, { params });
 };
+const addDevTypeFunc = (data: any) => {
+  return service.post(`${prefix}/config/project/devTypeFunc/bind`, data);
+};
+const editDevTypeFunc = (data: any) => {
+  return service.post(`${prefix}/config/project/devTypeFunc/update`, data);
+};
+const getDevTypeFunc = (id: number | string) => {
+  return service.get(`${prefix}/config/project/devTypeFunc/${id}`);
+};
+const deleteDevTypeFunc = (id: any | string) => {
+  return service.post(`${prefix}/config/project/devTypeFunc/${id}`);
+};
+/**
+ * 展示配置
+ */
+const getPointGroupList = (params: any) => {
+  return service.get(`${prefix}/config/project/pointGroup/list`, { params });
+};
+const addPointGroup = (data: any) => {
+  return service.post(`${prefix}/config/project/pointGroup/add`, data);
+};
+const editPointGroup = (data: any) => {
+  return service.post(`${prefix}/config/project/pointGroup/update`, data);
+};
+const getPointGroupById = (id: number | string) => {
+  return service.get(`${prefix}/config/project/pointGroup/${id}`);
+};
+const deletePointGroup = (id: any | string) => {
+  return service.post(`${prefix}/config/project/pointGroup/${id}`);
+};
+/**
+ * 获取样式分组
+ */
+const getPointGroupStyles = () => {
+  return service.get(`${prefix}/config/project/pointGroup/styles`);
+};
+/**
+ * 解绑分组与点位字典关系
+ * @param id
+ */
+const unBindPointAndMetadata = (id: number | string) => {
+  return service.post(`${prefix}/config/project/unbind/${id}`);
+};
+/**
+ * 给点位分组添加点位类型
+ * @param data
+ */
+const addGroupPointType = (data: any) => {
+  return service.post(`${prefix}/config/project/pointGroup/addPointType`, data);
+};
+
 export {
   getProjectDevTypeList,
   saveProjectDevType,
@@ -55,5 +106,17 @@ export {
   deleteGroupDevType,
   getPicList,
   getGroupDevType,
-  getDevTypeBindFuncList
+  getDevTypeBindFuncList,
+  addDevTypeFunc,
+  editDevTypeFunc,
+  getDevTypeFunc,
+  deleteDevTypeFunc,
+  getPointGroupList,
+  getPointGroupById,
+  addPointGroup,
+  editPointGroup,
+  deletePointGroup,
+  getPointGroupStyles,
+  unBindPointAndMetadata,
+  addGroupPointType
 };

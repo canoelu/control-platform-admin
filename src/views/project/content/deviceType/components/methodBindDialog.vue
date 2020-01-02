@@ -1,4 +1,4 @@
-<!--设备类型管理-->
+<!--子设备或点位添加绑定方法-->
 <template>
   <el-dialog
     class="region-add-dialog"
@@ -8,94 +8,91 @@
     :before-close="handleClose"
     append-to-body
   >
-    <div v-loading="loading">
-      <common-form
-        ref="formRef"
-        :form="deviceTypeForm"
-        :rules="constant.GROUP_FORM_RULES"
-        :props="constant.GROUP_FORM_PROPS"
-      >
-      </common-form>
-      <div class="flexCenter" slot="footer">
-        <el-button size="small" @click="handleClose">关闭</el-button>
-        <el-button size="small" type="primary" @click="handleSave" :loading="saving">保存</el-button>
-      </div>
-    </div>
+    <search-table
+      url="/config/project/devTypeFunc/list"
+      ref="methodTblRef"
+      :showPage="false"
+      :searchConfig="constant.METHOD_SEARCH_CONFIG"
+      :searchParams="searchParams"
+      :tableColumns="constant.METHOD_COLUMNS"
+    />
+    <add-method-dialog
+      v-if="addDialog.show"
+      @handleClose="closeMethod"
+      :devType="dialogObj.info"
+      @getTblList="getMethodList"
+      :dialogObj="addDialog"
+      :devTypeId="devTypeId"
+      :type="2"
+      :categoryId="categoryId"
+    />
   </el-dialog>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveProjectDevType, editProjectDevType, getProjectDevType, deleteProjectDevType } from "@/api/";
-
+import addMethodDialog from "./addMethodDialog.vue";
+import { deleteDevTypeFunc } from "@/api";
 @Component({
   name: "index",
-  components: {}
+  components: { addMethodDialog }
 })
 export default class extends Vue {
-  @Ref() formRef: any;
+  @Ref() methodTblRef: any;
   @Prop({ default: () => {} }) private dialogObj: any;
-  uploading: boolean = false;
-  map: any;
-  deviceTypeForm: any = {
-    name: ""
+  @Prop({ default: "" }) private devTypeId?: string | number;
+
+  addDialog: any = {
+    show: false,
+    title: "添加方法",
+    type: 1,
+    info: {}
   };
   saving: boolean = false;
   loading: boolean = false;
   get constant() {
     return new Const(this).const;
   }
-  get isAdd() {
-    return this.dialogObj.isAdd;
+  get searchParams() {
+    return {
+      devTypeId: this.devTypeId,
+      categoryId: this.categoryId,
+      type: 2 // 1：设备类型，2：子设备类型
+    };
+  }
+  get categoryId() {
+    return this.dialogObj.info.sysCategoryId;
+  }
+  addMethod() {
+    this.addDialog.show = true;
+    this.addDialog.isAdd = true;
+    this.addDialog.title = "添加子设备方法";
+  }
+  deleteMethod(row: any) {
+    this.$confirm("确定要删除", "提示").then(async () => {
+      await deleteDevTypeFunc(row.id);
+      this.$message.success("删除成功");
+      this.getMethodList();
+    });
+  }
+  editMethod(row: any) {
+    this.addDialog.show = true;
+    this.addDialog.isAdd = false;
+    this.addDialog.title = "编辑设备类别方法";
+    this.addDialog.info = row;
+  }
+  getMethodList() {
+    this.methodTblRef.getList();
+  }
+  closeMethod() {
+    this.addDialog.show = false;
   }
   handleClose() {
     this.$emit("handleClose");
   }
-  async save() {
-    this.saving = true;
-    try {
-      let _data = this.deviceTypeForm;
-      if (this.isAdd) {
-        await saveProjectDeviceType(_data);
-      } else {
-        await editProjectDeviceType({
-          ..._data,
-          id: this.dialogObj.info.id
-        });
-      }
-      this.saving = false;
-      this.$message.success("保存设备类别成功");
-      this.$emit("handleClose");
-      this.$emit("getTblList");
-    } catch (e) {
-      this.saving = false;
-    }
-  }
-  handleSave() {
-    let _formRef: any = this.formRef.$refs.formRef;
-    _formRef.validate((valid: boolean) => {
-      if (valid) {
-        this.save();
-      }
-    });
-  }
-  async getDetail() {
-    try {
-      this.loading = true;
-      let { info, type } = this.dialogObj;
-      let res = await getProjectDeviceType(info.id);
-      this.loading = false;
-      this.deviceTypeForm = res.data;
-    } catch (e) {
-      this.loading = false;
-    }
-  }
-  mounted() {
-    if (!this.isAdd) {
-      this.getDetail();
-    }
-  }
+
+  mounted() {}
 }
 </script>
 

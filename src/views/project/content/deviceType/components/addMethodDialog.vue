@@ -1,4 +1,4 @@
-<!--添加方法-->
+<!--添加设备类别方法-->
 <template>
   <el-dialog
     class="region-add-dialog"
@@ -27,7 +27,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveGroupDevType, editGroupDevType, getPicList, getGroupDevType, getDevTypeBindFuncList } from "@/api/";
+import { addDevTypeFunc, editDevTypeFunc, getPicList, getDevTypeFunc, getDevTypeBindFuncList } from "@/api/";
 import projectMixin from "../../../mixin/projectMixin";
 import systemMixin from "../../../../mixin/systemMixin";
 @Component({
@@ -39,7 +39,13 @@ export default class extends Mixins(projectMixin, systemMixin) {
   @Ref() groupTbl: any;
   @Prop({ default: false }) private dialogObj!: any;
   @Prop({ default: () => {} }) private devType!: any;
-  methodForm: any = {};
+  @Prop({ default: "" }) private devTypeId!: string | number;
+  @Prop({ default: null }) private categoryId?: string | number;
+  @Prop({ default: 1 }) private type?: number;
+  methodForm: any = {
+    name: "",
+    params: ""
+  };
   picList: any[] = [];
   saving: boolean = false;
   loading: boolean = false;
@@ -62,9 +68,9 @@ export default class extends Mixins(projectMixin, systemMixin) {
       let _data = this.methodForm;
 
       if (this.isAdd) {
-        await saveGroupDevType(_data);
+        await addDevTypeFunc(_data);
       } else {
-        await editGroupDevType({
+        await editDevTypeFunc({
           ..._data,
           id: this.dialogObj.info.id
         });
@@ -85,13 +91,18 @@ export default class extends Mixins(projectMixin, systemMixin) {
       }
     });
   }
-  addMethod() {}
+  changeSysFunc(val: any) {
+    let _obj: any = this.methodList.find((item: any) => item.id === val);
+    console.log(_obj);
+    this.methodForm.name = _obj.name;
+    this.methodForm.params = _obj.paramsTemplate;
+  }
   methodBind() {}
   async getDetail() {
     try {
       this.loading = true;
       let { info, type } = this.dialogObj;
-      let res = await getGroupDevType(info.id);
+      let res = await getDevTypeFunc(info.id);
       this.loading = false;
       this.methodForm = res.data;
     } catch (e) {
@@ -102,24 +113,18 @@ export default class extends Mixins(projectMixin, systemMixin) {
     let res = await getPicList();
     this.picList = res.data;
   }
-  async getFuncList() {
-    let res = await getDevTypeBindFuncList({
-      page: 1,
-      pageSize: 1000,
-      devTypeId: this.devType.id,
-      type: 1,
-      categoryId: 1 // todo
-    });
-    this.funcList = res.data.list;
-  }
+
   mounted() {
-    let { info, type } = this.dialogObj;
+    let { info } = this.dialogObj;
     // 机构ID
-    this.methodForm.orgId = this.orgId;
-    this.methodForm.devTypeId = this.devType.id; //设备类别ID
-    // 获取方法list
-    this.getFuncList();
-    this.getPicList();
+    this.methodForm.type = this.type; // type:1 设备，2：子设备，点位2
+    this.methodForm.devTypeId = this.devTypeId; // 设备类别ID
+    this.methodForm.categoryId = this.categoryId; // 字典ID
+    // 获取已绑定方法list
+    this.getMethodList({
+      page: 1,
+      pageSize: 1000
+    });
     if (!this.isAdd) {
       this.getDetail();
     }

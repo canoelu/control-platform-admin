@@ -1,4 +1,4 @@
-<!--设备类型管理-->
+<!--子设备类别设置-->
 <template>
   <el-dialog
     class="region-add-dialog"
@@ -16,13 +16,14 @@
       :searchConfig="constant.GROUP_SEARCH_CONFIG"
       :tableColumns="constant.GROUP_COLUMNS"
     />
+    <!--添加子设备类别-->
     <add-group-device-dialog
       v-if="dialog.show"
       :devType="dialogObj.info"
       @getTblList="getTblList"
       @handleClose="closeGroupDevice"
       :dialogObj="dialog"
-    ></add-group-device-dialog>
+    />
   </el-dialog>
 </template>
 
@@ -41,7 +42,7 @@ export default class extends Vue {
   @Prop({ default: () => {} }) private dialogObj: any;
   showAdd: boolean = false;
   dialog: any = {
-    title: "添加设备类型",
+    title: "添加子设备类别",
     show: false
   };
   map: any;

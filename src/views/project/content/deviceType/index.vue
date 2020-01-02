@@ -8,17 +8,14 @@
       :searchParams="searchParams"
       :tableColumns="constant.DEVICE_TYPE_COLUMN"
     />
-    <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
-    <!--设备分组配置-->
-    <group-dialog
-      v-if="gDialog.show"
-      @getTblList="getTblList"
-      :dialogObj="gDialog"
-      @handleClose="handleClose"
-    ></group-dialog>
+    <!--添加设备类别-->
+    <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose" />
+    <!--子设备配置-->
+    <group-dialog v-if="gDialog.show" @getTblList="getTblList" :dialogObj="gDialog" @handleClose="handleClose" />
     <!--展示配置-->
-    <display-dialog v-if="dDialog.show" :dialogObj="dDialog" @handleClose="handleClose"></display-dialog>
-    <method-set-dialog v-if="mDialog.show" :dialogObj="mDialog" @handleClose="handleClose"></method-set-dialog>
+    <display-dialog v-if="dDialog.show" :dialogObj="dDialog" @handleClose="handleClose" />
+    <!--方法配置-->
+    <method-set-dialog v-if="mDialog.show" :dialogObj="mDialog" @handleClose="handleClose" />
   </div>
 </template>
 
@@ -102,7 +99,7 @@ export default class extends Mixins(projectMixin) {
 
   methodSet(row: any) {
     this.mDialog.show = true;
-    this.mDialog.title = "添加设备分组";
+    this.mDialog.title = "方法配置";
     this.mDialog.isAdd = true;
     this.mDialog.info = row;
   }
