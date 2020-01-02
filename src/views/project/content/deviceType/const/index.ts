@@ -266,9 +266,9 @@ const DISPLAY_COLUMNS = (vm: any) => [
       let _editPoint = { label: "修改点位类别", handler: () => vm.editPointType(row) };
       let _addPoint = { label: "添加点位类别", handler: () => vm.addPointType(row) };
       let _delGroup = { label: "删除分组", handler: () => vm.deleteGroup(row) };
-      let _delPoint = { label: "删除点位类别", handler: () => vm.deletePoint(row) };
+      let _delPoint = { label: "解绑", handler: () => vm.deletePointType(row) };
       let _arr = [];
-      if (row.type === 1) {
+      if (row.children) {
         _arr = [_editGroup, _addPoint, _delGroup];
       } else {
         return [_editPoint, _delPoint];
@@ -306,7 +306,7 @@ const DISPLAY_POINT_PROPS = (vm: any) => {
   return [
     {
       tag: "select",
-      prop: "type",
+      prop: "categoryTypeId",
       label: "点位类型",
       placeholder: "请选择点位类型",
       options: vm.pointCategory,
@@ -318,7 +318,7 @@ const DISPLAY_POINT_PROPS = (vm: any) => {
   ];
 };
 const DISPLAY_POINT_RULES = {
-  type: { required: true, message: "请选择点位类型", trigger: "change" }
+  categoryTypeId: { required: true, message: "请选择点位类型", trigger: "change" }
 };
 const METHOD_FORM_PROPS = (vm: any) => {
   return [

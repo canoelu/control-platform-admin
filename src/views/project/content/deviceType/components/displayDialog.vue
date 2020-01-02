@@ -8,20 +8,22 @@
     :before-close="handleClose"
     append-to-body
   >
-    <div class="mb-10 mt-10" v-for="group in pointGroupList" :key="group.id">
-      <div class="flexAlignCenter">
-        <span class=" ">{{ group.categoryName }}</span>
-        <el-button type="primary" size="small" @click="addDisplayGroup(group)">添加点位分组</el-button>
+    <div v-loading="loading">
+      <div class="mb-10 mt-10" v-for="group in pointGroupList" :key="group.id">
+        <div class="flexBetween">
+          <span class=" ">{{ group.categoryName }}</span>
+          <el-button type="primary" size="small" @click="addDisplayGroup(group)">添加点位分组</el-button>
+        </div>
+        <search-table
+          :data="group.childrenPointGroup"
+          ref="tblRef"
+          :showPage="false"
+          :tableColumns="constant.DISPLAY_COLUMNS"
+          :treeProps="{ children: 'children', hasChildren: 'hasChildren' }"
+          rowKey="id"
+          :searchParams="searchParams"
+        />
       </div>
-      <search-table
-        :data="group.childrenPointGroup"
-        ref="tblRef"
-        :showPage="false"
-        :tableColumns="constant.DISPLAY_COLUMNS"
-        :treeProps="{ children: 'children', hasChildren: 'hasChildren' }"
-        rowKey="id"
-        :searchParams="searchParams"
-      />
     </div>
     <!--添加分组-->
     <add-group-display-dialog
@@ -43,7 +45,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { getPointGroupList, deletePointGroup } from "@/api/";
+import { getPointGroupList, deletePointGroup, unBindPointAndMetadata } from "@/api/";
 import addGroupDisplayDialog from "./addGroupDisplayDialog.vue";
 import choosePointTypeDialog from "./choosePointTypeDialog.vue";
 @Component({
@@ -103,6 +105,7 @@ export default class extends Vue {
   addPointType(row: any) {
     this.pointDialog.show = true;
     this.pointDialog.isAdd = true;
+    this.pointDialog.parent = row;
     this.pointDialog.title = "点位类型选择";
   }
   editPointType(row: any) {
@@ -111,9 +114,9 @@ export default class extends Vue {
     this.pointDialog.title = "修改点位类型";
     this.pointDialog.info = row;
   }
-  deletePoint(row: any) {
+  deletePointType(row: any) {
     this.$confirm("确定要删除", "提示").then(async () => {
-      await deletePointGroup(row.id);
+      await unBindPointAndMetadata(row.id);
       this.$message.success("删除成功");
       this.getTblList();
     });
@@ -126,7 +129,7 @@ export default class extends Vue {
     });
   }
   getTblList() {
-    this.tblRef.getList();
+    this.getPointGroupList();
   }
 
   closeGroupAndPoint() {

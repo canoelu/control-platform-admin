@@ -85,7 +85,7 @@ const getPointGroupStyles = () => {
  * @param id
  */
 const unBindPointAndMetadata = (id: number | string) => {
-  return service.post(`${prefix}/config/project/unbind/${id}`);
+  return service.post(`${prefix}/config/project/pointGroup/unbind/${id}`);
 };
 /**
  * 给点位分组添加点位类型

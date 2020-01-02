@@ -26,7 +26,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
-import { saveGroupDevType, editGroupDevType, getPicList, getGroupDevType } from "@/api/";
+import { addGroupPointType, editGroupDevType, getPicList, getGroupDevType } from "@/api/";
 import projectMixin from "../../../mixin/projectMixin";
 import systemMixin from "../../../../mixin/systemMixin";
 @Component({
@@ -58,17 +58,9 @@ export default class extends Mixins(projectMixin, systemMixin) {
     this.saving = true;
     try {
       let _data = this.groupDevTypeForm;
-
-      if (this.isAdd) {
-        await saveGroupDevType(_data);
-      } else {
-        await editGroupDevType({
-          ..._data,
-          id: this.dialogObj.info.id
-        });
-      }
+      await addGroupPointType(_data);
       this.saving = false;
-      this.$message.success("保存设备类别成功");
+      this.$message.success("添加点位类别成功");
       this.$emit("handleClose");
       this.$emit("getTblList");
     } catch (e) {
@@ -94,19 +86,14 @@ export default class extends Mixins(projectMixin, systemMixin) {
       this.loading = false;
     }
   }
-  async getPicList() {
-    let res = await getPicList();
-    this.picList = res.data;
-  }
+
   mounted() {
-    let { info, type } = this.dialogObj;
+    let { info, type,parent } = this.dialogObj;
     // 机构ID
-    this.groupDevTypeForm.orgId = this.orgId;
-    this.getMetaDataDevice();
+    this.groupDevTypeForm.pointGroupId = parent.id;// 分组ID
     this.getMetaDataPoint();
-    this.getPicList();
     if (!this.isAdd) {
-      this.getDetail();
+    this.groupDevTypeForm.categoryTypeId =info&& info.id;
     }
   }
 }
