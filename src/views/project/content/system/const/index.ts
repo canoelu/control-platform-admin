@@ -120,11 +120,6 @@ const DEVICE_CHOOSE_SEARCH_CONFIG = (vm: any) => {
         tag: "input",
         prop: "name",
         placeholder: "设备名称"
-      },
-      {
-        tag: "select",
-        prop: "devTypeId",
-        placeholder: "设备类别"
       }
     ],
     optBtns: [
@@ -146,7 +141,7 @@ const DEVICE_CHOOSE_COLUMN = (vm: any) => [
   },
   {
     title: "设备类别",
-    key: "devType"
+    key: "devTypeName"
   },
   {
     title: "操作",
@@ -156,11 +151,6 @@ const DEVICE_CHOOSE_COLUMN = (vm: any) => [
         {
           label: "选用",
           handler: () => vm.choose(row)
-        },
-
-        {
-          label: "删除",
-          handler: () => vm.delete(row)
         }
       ];
     }

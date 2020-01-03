@@ -141,6 +141,7 @@ export default class extends Vue {
     this.groupDialog.show = false;
   }
   async getPointGroupList() {
+    this.pointGroupList=[]
     try {
       this.loading = true;
       let res = await getPointGroupList({

@@ -7,11 +7,12 @@
     :before-close="handleClose"
     append-to-body
   >
-    <search-table :searchConfig="constant.DEVICE_CHOOSE_SEARCH_CONFIG" :tableColumns="constant.DEVICE_CHOOSE_COLUMN" />
-    <div class="flexCenter" slot="footer">
-      <el-button size="small" @click="handleClose">关闭</el-button>
-      <el-button size="small" type="primary" @click="handleSave">保存</el-button>
-    </div>
+    <search-table
+      url="/config/project/device/list"
+      :searchParams="searchParams"
+      :searchConfig="constant.DEVICE_CHOOSE_SEARCH_CONFIG"
+      :tableColumns="constant.DEVICE_CHOOSE_COLUMN"
+    />
   </el-dialog>
 </template>
 
@@ -39,14 +40,15 @@ export default class extends Mixins(projectMixin, systemMixin) {
   get constant() {
     return new Const(this).const;
   }
+  get searchParams() {
+    return {
+      orgId: this.orgId
+    };
+  }
   get isAdd() {
     return this.dialogObj.isAdd;
   }
-  handleClose() {
-    this.$emit("handleClose");
-  }
-  choose() {}
-  search() {}
+  choose(device: any) {}
   async getDetail() {
     try {
       this.loading = true;
@@ -58,7 +60,9 @@ export default class extends Mixins(projectMixin, systemMixin) {
       this.loading = false;
     }
   }
-
+  handleClose() {
+    this.$emit("handleClose");
+  }
   created() {
     this.getMetaDataList();
 

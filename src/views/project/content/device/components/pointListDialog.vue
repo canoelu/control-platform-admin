@@ -21,6 +21,7 @@
 import { Component, Vue, Prop, Ref, Mixins } from "vue-property-decorator";
 import Const from "../const/";
 import projectMixin from "../../../mixin/projectMixin";
+import { bindDevicePoint } from "@/api/";
 @Component({
   name: "index",
   components: {}
@@ -40,8 +41,14 @@ export default class extends Mixins(projectMixin) {
   handleClose() {
     this.$emit("handleClose");
   }
-  choose(row: any) {
-    this.$emit("choosePoint", row);
+  async choose(point: any) {
+    let { info } = this.dialogObj;
+    await bindDevicePoint({
+      categoryId: info.id,
+      pointId: point.id,
+      subDeviceId: info.parentId
+    });
+    this.$message.success("绑定成功");
     this.handleClose();
   }
   mounted() {}

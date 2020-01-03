@@ -92,7 +92,7 @@ const unBindPointAndMetadata = (id: number | string) => {
  * @param data
  */
 const addGroupPointType = (data: any) => {
-  return service.post(`${prefix}/config/project/pointGroup/addPointType`, data);
+  return service.post(`${prefix}/config/project/pointGroup/add`, data);
 };
 
 export {

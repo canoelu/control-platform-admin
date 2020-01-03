@@ -39,7 +39,7 @@
 
           <column-render v-else-if="column.render" :row="row" :render="column.render" :index="$index"></column-render>
           <span v-else-if="!column.operate && column.key">{{
-            column.formatter ? column.formatter(row[column.key], $index,row) : row[column.key]
+            column.formatter ? column.formatter(row[column.key], $index, row) : row[column.key]
           }}</span>
           <div v-else-if="column.operate">
             <span style="margin: 0 2px" v-for="(item, idx) in column.setBtns(row, $index)" :key="idx">
@@ -50,7 +50,7 @@
                 v-if="!item.hide"
                 :type="item.type || 'text'"
                 :size="item.size || 'medium'"
-                @click="item.handler(row, $index)"
+                @click="e => item.handler(row, $index, e)"
                 v-bind="$attrs"
                 >{{ item.label }}</el-button
               >

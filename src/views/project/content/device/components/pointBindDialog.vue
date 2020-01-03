@@ -18,8 +18,10 @@
           :data="dev.subdevices"
           ref="tblRef"
           :tableColumns="constant.POINT_COLUMNS"
-          :treeProps="{ children: 'children', hasChildren: 'hasChildren' }"
+          :treeProps="{ children: 'categorys', hasChildren: 'hasChildren' }"
           rowKey="id"
+          :border="true"
+          :defaultExpandAll="true"
           :showPage="false"
         />
       </div>
@@ -27,6 +29,7 @@
     <point-list-dialog
       v-if="dialog.show && dialog.type === 'bind'"
       @handleClose="closeDialog"
+      @choosePoint="choosePoint"
       :dialogObj="dialog"
       @getTblList="getTblList"
       :deviceId="dialogObj.info.id"
@@ -69,21 +72,16 @@ export default class extends Vue {
   handleClose() {
     this.$emit("handleClose");
   }
-  bind() {
+  bind(row: any, idx: number) {
     this.dialog.show = true;
     this.dialog.title = "选择点位";
     this.dialog.type = "bind";
+    this.dialog.info = row;
+    console.log(idx);
   }
-  async choosePoint(point: any) {
-    console.log(point);
-    await bindDevicePoint({
-      categoryId: 0,
-      pointId: point.id,
-      subDeviceId: 0
-    });
-  }
+  async choosePoint(point: any) {}
   getTblList() {
-    this.tblRef.getList();
+    this.getSubDeviceTypeList();
   }
   closeDialog() {
     this.dialog.show = false;
@@ -100,6 +98,7 @@ export default class extends Vue {
     try {
       this.loading = true;
       let { info } = this.dialogObj;
+      this.subDevTypeList = [];
       let res = await getSubDeviceTypeList({
         page: 1,
         pageSize: 1000,

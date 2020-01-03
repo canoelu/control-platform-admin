@@ -24,9 +24,7 @@ const addSubDevice = (data: any) => {
  * @param data
  */
 const bindDevicePoint = (data: any) => {
-  const deleteProjectDevice = (id: string | number) => {
-    return service.post(`${prefix}/config/project/device/sub/bind`, data);
-  };
+  return service.post(`${prefix}/config/project/device/sub/bind`, data);
 };
 const getSubDeviceTypeList = (params: any) => {
   return service.get(`${prefix}/config/project/device/sub/list`, { params });

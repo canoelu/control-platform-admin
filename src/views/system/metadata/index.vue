@@ -9,6 +9,7 @@
       :treeProps="{ children: 'children', hasChildren: 'hasChildren' }"
       rowKey="id"
       :showPage="false"
+      :defaultExpandAll="true"
     />
     <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
   </el-card>

@@ -89,18 +89,22 @@ const POINT_COLUMNS = (vm: any) => {
     },
     {
       title: "以绑定点位",
-      key: "childrenPointGroup"
+      key: "pointName"
     },
     {
       title: "操作",
       operate: true,
-      setBtns: (row: any) => {
-        return [
-          {
-            label: "绑定",
-            handler: () => vm.bind(row)
-          }
-        ];
+      setBtns: (row: any, idx: number) => {
+        if (!row.devTypeId) {
+          return [
+            {
+              label: "绑定",
+              handler: () => vm.bind(row)
+            }
+          ];
+        } else {
+          return [];
+        }
       }
     }
   ];

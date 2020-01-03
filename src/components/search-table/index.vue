@@ -51,6 +51,7 @@
       @sizeChange="sizeChange"
       @selectionChange="selectionChange"
       @currentChange="currentChange"
+      :default-expand-all="defaultExpandAll"
     >
       <template v-slot:[item.slotName]="{ row }" v-for="(item, index) in tableColumns">
         <slot :name="item.slotName" v-if="item.slot" :row="row" :index="index"></slot>
@@ -80,6 +81,7 @@ export default class extends Vue {
   @Prop({ required: false }) private data!: Array<any>;
   @Prop({ default: false }) private loading!: Boolean;
   @Prop({ default: false }) private lazy?: Boolean;
+  @Prop({ default: false }) private defaultExpandAll?: Boolean;
   @Prop({ default: undefined }) private load?: Function;
   @Prop({ default: true }) private showHeader!: Boolean;
   @Prop({ default: false }) private border?: Boolean;
@@ -130,6 +132,7 @@ export default class extends Vue {
     this.getList();
     this.$emit("currentChange", val);
   }
+
   singleSelectChange(val: any) {
     this.$emit("singleSelectChange", val);
   }
