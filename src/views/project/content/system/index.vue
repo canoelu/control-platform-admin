@@ -43,6 +43,7 @@ export default class extends Mixins(projectMixin, systemMixin) {
   private addSystem() {
     this.dialog.show = true;
     this.dialog.isAdd = true;
+    this.dialog.title = "添加系统";
   }
 
   /**
@@ -81,6 +82,7 @@ export default class extends Mixins(projectMixin, systemMixin) {
     this.dialog.show = true;
     this.dialog.isAdd = false;
     this.dialog.info = row;
+    this.dialog.title = "修改系统";
   }
 
   /**
@@ -94,7 +96,6 @@ export default class extends Mixins(projectMixin, systemMixin) {
       this.getTblList();
     });
   }
-  created() {}
 }
 </script>
 

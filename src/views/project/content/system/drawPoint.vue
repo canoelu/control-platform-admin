@@ -9,7 +9,6 @@
           value: 'id',
           lazyLoad: getRegion
         }"
-        :options="options"
         placeholder="请选择区域"
         v-model="area"
         size="small"
@@ -26,14 +25,17 @@
     <energy-device-dialog
       v-if="energyDialog.show"
       :dialogObj="energyDialog"
+      :systemId="systemId"
       @handleClose="handleClose"
     ></energy-device-dialog>
     <!--添加设备-->
     <add-device-dialog
       v-if="deviceDialog.show"
       :dialogObj="deviceDialog"
+      :systemId="systemId"
       @handleClose="handleClose"
     ></add-device-dialog>
+    <device-set-dialog />
   </div>
 </template>
 
@@ -43,13 +45,13 @@ import BMap from "BMap";
 import projectMixin from "../../mixin/projectMixin";
 import energyDeviceDialog from "./components/energyDeviceDialog.vue";
 import addDeviceDialog from "./components/addDeviceDialog.vue";
+import deviceSetDialog from "./components/deviceSetDialog.vue";
 @Component({
   name: "drawPoint",
-  components: { energyDeviceDialog, addDeviceDialog }
+  components: { energyDeviceDialog, addDeviceDialog, deviceSetDialog }
 })
 export default class extends Mixins(projectMixin) {
-  area: string = "";
-  options: any[] = [];
+  area: string = ""; // 选择区域
   energyDialog: any = {
     show: false,
     title: "区域设备能耗配置"
@@ -58,13 +60,19 @@ export default class extends Mixins(projectMixin) {
     show: false,
     title: "设备选择"
   };
+  devSetDialog: any = {
+    show: false,
+    title: "设备设置"
+  };
   map: any;
   initPoint: any[] = [104.067923463, 30.6799428454];
+  get systemId() {
+    return <any>this.$route.query.id;
+  }
   renderMap() {
     let point = new BMap.Point(this.initPoint[0], this.initPoint[1]);
     this.map.centerAndZoom(point, 16);
     this.map.enableScrollWheelZoom(false);
-
     var marker = new BMap.Marker(point); // 创建标注
     this.map.addOverlay(marker); // 将标注添加到地图中
     marker.enableDragging(); // 不可拖拽
@@ -72,35 +80,51 @@ export default class extends Mixins(projectMixin) {
       let { lng, lat } = e.point;
     });
   }
+
+  /**
+   *
+   * 设备选择
+   */
   handleAddDevice() {
     this.deviceDialog.show = true;
   }
+
+  /**
+   * 能源设备管理
+   */
   handleShowEnergy() {
     this.energyDialog.show = true;
   }
+
+  /**
+   * 关闭弹框
+   */
   handleClose() {
     this.deviceDialog.show = false;
     this.energyDialog.show = false;
   }
+
+  /**
+   * 获取区域
+   * @param node
+   * @param resolve
+   */
   async getRegion(node: any, resolve: any) {
+    console.log(node);
     this.loadRegion({
       page: 1,
       size: 1000,
       orgId: this.orgId,
-      parentId: node.data.id
+      parentId: node.level && node.data.id
     }).then(res => {
       resolve(res.data.list);
     });
   }
+  showDevSet() {
+    this.devSetDialog.show = true;
+    this.devSetDialog.title = "设备设置";
+  }
   mounted() {
-    this.loadRegion({
-      page: 1,
-      size: 1000,
-      orgId: this.orgId
-    }).then(res => {
-      this.options = res.data.list;
-    });
-
     this.$nextTick(() => {
       this.map = new BMap.Map("drawMapContent");
       this.renderMap();

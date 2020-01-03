@@ -156,7 +156,58 @@ const DEVICE_CHOOSE_COLUMN = (vm: any) => [
     }
   }
 ];
-
+const LEGEND_PROPS = (vm: any) => {
+  return [
+    {
+      tag: "select",
+      prop: "devPicId",
+      label: "选择图例",
+      placeholder: "请选择图例",
+      options: vm.legendList,
+      keyProp: {
+        value: "id",
+        label: "name"
+      }
+    }
+  ];
+};
+const LEGEND_RULES = {
+  name: { devPicId: true, message: "请选择图例", trigger: "change" }
+};
+const DEVICE_SET_PROPS = (vm: any) => {
+  return [
+    {
+      tag: "input",
+      prop: "longitude",
+      label: "X坐标或经度",
+      maxLength: MAX_LEN,
+      placeholder: "请输入X坐标或经度"
+    },
+    {
+      tag: "input",
+      prop: "latitude",
+      label: "y坐标或纬度",
+      maxLength: MAX_LEN,
+      placeholder: "请输入Y坐标或经度"
+    },
+    {
+      tag: "select",
+      prop: "devPicId",
+      label: "图例更换",
+      placeholder: "请选择图例",
+      options: vm.legendList,
+      keyProp: {
+        value: "id",
+        label: "name"
+      }
+    }
+  ];
+};
+const DEVICE_SET_RULES = {
+  longitude: { devPicId: true, message: "请输入X坐标或经度", trigger: "blur" },
+  latitude: { devPicId: true, message: "请输入Y坐标或经度", trigger: "blur" },
+  name: { devPicId: true, message: "请选择图例", trigger: "change" }
+};
 class ConstConfig {
   vm: any;
   const: any;
@@ -168,9 +219,12 @@ class ConstConfig {
       SYSTEM_COLUMN: SYSTEM_COLUMN(vm),
       ENERGY_DEVICE_COLUMN: ENERGY_DEVICE_COLUMN(vm),
       DEVICE_CHOOSE_SEARCH_CONFIG: DEVICE_CHOOSE_SEARCH_CONFIG(vm),
-
+      LEGEND_PROPS: LEGEND_PROPS(vm),
       DEVICE_CHOOSE_COLUMN: DEVICE_CHOOSE_COLUMN(vm),
-      SYSTEM_ROOT_NODE_RULES
+      SYSTEM_ROOT_NODE_RULES,
+      LEGEND_RULES,
+      DEVICE_SET_PROPS: DEVICE_SET_PROPS(vm),
+      DEVICE_SET_RULES
     };
   }
 }

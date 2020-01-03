@@ -3,6 +3,9 @@ const prefix = process.env.VUE_APP_API_VERSION;
 /**
  * 获取状态
  */
+const getLegendList = (params: any) => {
+  return service.get(`${prefix}/config/devpic/list`, { params });
+};
 const getStatusArr = () => {
   return service.get(`${prefix}/config/devpic/status`);
 };
@@ -34,4 +37,14 @@ const getPlaceCode = () => {
 const getLegendCode = (id: string | number) => {
   return service.get(`${prefix}/config/devpic/category/code/${id}`);
 };
-export { getStatusArr, saveLegend, editLegend, getLegend, deleteLegend, uploadPic, getPlaceCode, getLegendCode };
+export {
+  getLegendList,
+  getStatusArr,
+  saveLegend,
+  editLegend,
+  getLegend,
+  deleteLegend,
+  uploadPic,
+  getPlaceCode,
+  getLegendCode
+};

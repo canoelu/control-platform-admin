@@ -32,6 +32,13 @@ const deleteProjectSystem = (id: string | number) => {
   return service.post(`${prefix}/config/project/system/${id}`);
 };
 /**
+ * 系统中添加设备
+ * @param data
+ */
+const addProSystemDevice = (data: any) => {
+  return service.post(`${prefix}config/project/system/device/add`, data);
+};
+/**
  * 区域管理
  */
 const getRegionList = (params: any) => {
@@ -50,8 +57,6 @@ const deleteProjectRegion = (id: string | number) => {
   return service.post(`${prefix}/config/project/region/${id}`);
 };
 
-
-
 export {
   saveProject,
   editProject,
@@ -61,10 +66,10 @@ export {
   editProjectSystem,
   getProjectSystem,
   deleteProjectSystem,
+  addProSystemDevice,
   getRegionList,
   saveProjectRegion,
   deleteProjectRegion,
   getProjectRegion,
-  editProjectRegion,
-
+  editProjectRegion
 };
