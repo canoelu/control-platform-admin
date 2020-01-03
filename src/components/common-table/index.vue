@@ -21,7 +21,6 @@
     >
       <el-table-column type="selection" width="55" v-if="tableColumns && tableColumns[0].type === 'selection'">
       </el-table-column>
-      <!-- eslint-disable vue/no-use-v-if-with-v-for -->
       <el-table-column
         :prop="column.key"
         :label="column.title"
@@ -40,7 +39,7 @@
 
           <column-render v-else-if="column.render" :row="row" :render="column.render" :index="$index"></column-render>
           <span v-else-if="!column.operate && column.key">{{
-            column.formatter ? column.formatter(row[column.key], $index) : row[column.key]
+            column.formatter ? column.formatter(row[column.key], $index,row) : row[column.key]
           }}</span>
           <div v-else-if="column.operate">
             <span style="margin: 0 2px" v-for="(item, idx) in column.setBtns(row, $index)" :key="idx">

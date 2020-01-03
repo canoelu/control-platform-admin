@@ -15,6 +15,7 @@
       :searchConfig="constant.METHOD_SEARCH_CONFIG"
       :searchParams="searchParams"
       :tableColumns="constant.METHOD_COLUMNS"
+      :border="true"
     />
     <add-method-dialog
       v-if="addDialog.show"

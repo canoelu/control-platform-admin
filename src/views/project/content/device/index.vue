@@ -9,14 +9,14 @@
       :searchParams="searchParams"
     />
     <!--添加设备-->
-    <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose"></add-dialog>
+    <add-dialog v-if="dialog.show" @getTblList="getTblList" :dialogObj="dialog" @handleClose="handleClose" />
     <!--点位绑定-->
     <point-bind-dialog
       v-if="pointDialog.show"
       @getTblList="getTblList"
       :dialogObj="pointDialog"
       @handleClose="handleClose"
-    ></point-bind-dialog>
+    />
   </div>
 </template>
 
@@ -104,7 +104,7 @@ export default class extends Mixins(projectMixin) {
    * @param row
    */
   bindPoint(row: any) {
-    this.pointDialog.title = "绑定点位";
+    this.pointDialog.title = "点位绑定";
     this.pointDialog.show = true;
     this.pointDialog.info = row;
   }

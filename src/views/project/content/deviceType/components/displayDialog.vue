@@ -1,4 +1,4 @@
-<!--展示配置-->
+<!--展示配置弹框-->
 <template>
   <el-dialog
     class="region-add-dialog"
@@ -9,26 +9,29 @@
     append-to-body
   >
     <div v-loading="loading">
-      <div class="mb-10 mt-10" v-for="group in pointGroupList" :key="group.id">
-        <div class="flexBetween">
-          <span class=" ">{{ group.categoryName }}</span>
-          <el-button type="primary" size="small" @click="addDisplayGroup(group)">添加点位分组</el-button>
+      <div class="mb-10 mt-10" v-for="(group, idx) in pointGroupList" :key="group.id">
+        <div class="flexBetween mb-10">
+          <span class="ml-10">{{ group.categoryName }}</span>
+          <el-button type="primary" size="mini" @click="addDisplayGroup(group)">添加点位分组</el-button>
         </div>
         <search-table
           :data="group.childrenPointGroup"
           ref="tblRef"
           :showPage="false"
+          :border="true"
           :tableColumns="constant.DISPLAY_COLUMNS"
           :treeProps="{ children: 'children', hasChildren: 'hasChildren' }"
           rowKey="id"
           :searchParams="searchParams"
         />
       </div>
+      <div class="flexCenter mb-10 mt-10" v-if="pointGroupList.length < 1">暂无数据,请对子设备类别进行配置</div>
     </div>
     <!--添加分组-->
     <add-group-display-dialog
       v-if="groupDialog.show"
       :devTypeId="devTypeId"
+      @getTblList="getTblList"
       @handleClose="closeGroupAndPoint"
       :dialogObj="groupDialog"
     />
@@ -36,6 +39,7 @@
     <choose-point-type-dialog
       v-if="pointDialog.show"
       :devTypeId="devTypeId"
+      @getTblList="getTblList"
       @handleClose="closeGroupAndPoint"
       :dialogObj="pointDialog"
     />
@@ -121,7 +125,7 @@ export default class extends Vue {
       this.getTblList();
     });
   }
-  deleteGroup(row: any) {
+  deleteGroup(row: any,idx:any) {
     this.$confirm("确定要删除", "提示").then(async () => {
       await deletePointGroup(row.id);
       this.$message.success("删除成功");
@@ -146,6 +150,7 @@ export default class extends Vue {
       });
       this.loading = false;
       this.pointGroupList = res.data.list;
+
     } catch (e) {
       this.loading = false;
     }

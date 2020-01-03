@@ -12,6 +12,7 @@
       url="config/project/devGroup/list"
       :searchParams="searchParams"
       ref="groupTbl"
+      :border="true"
       :showPage="false"
       :searchConfig="constant.GROUP_SEARCH_CONFIG"
       :tableColumns="constant.GROUP_COLUMNS"

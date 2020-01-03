@@ -47,6 +47,7 @@
       :treeProps="treeProps"
       @singleSelectChange="singleSelectChange"
       :filter="filter"
+      :border="border"
       @sizeChange="sizeChange"
       @selectionChange="selectionChange"
       @currentChange="currentChange"
@@ -81,6 +82,7 @@ export default class extends Vue {
   @Prop({ default: false }) private lazy?: Boolean;
   @Prop({ default: undefined }) private load?: Function;
   @Prop({ default: true }) private showHeader!: Boolean;
+  @Prop({ default: false }) private border?: Boolean;
   @Prop({ required: true }) private tableColumns!: Array<[]>;
   @Prop({ default: undefined }) private spanMethod?: Function;
   @Prop({ default: undefined }) private proxyQuery?: Function; // 对筛选条件个性化处理

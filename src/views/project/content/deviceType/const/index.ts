@@ -47,7 +47,8 @@ const DEVICE_TYPE_COLUMN = (vm: any) => [
   },
   {
     title: "名称",
-    key: "name"
+    key: "name",
+    width: 200
   },
   {
     title: "操作",
@@ -222,7 +223,10 @@ const METHOD_SEARCH_CONFIG = (vm: any) => {
 const GROUP_POINT_METHOD_COLUMNS = (vm: any) => [
   {
     title: "名称",
-    key: "categoryName"
+    key: "categoryName",
+    formatter(val: any, idx: number, row: any) {
+      return row.categoryName || row.name;
+    }
   },
   {
     operate: true,
