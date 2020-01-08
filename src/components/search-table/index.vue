@@ -97,7 +97,7 @@ export default class extends Vue {
   @Prop({ default: false }) private isRefresh?: boolean; // 是否刷新列表,值改变即刷新
   @Prop({ default: () => [] }) private defaultSelected?: any[]; // 选中列表，id做匹配
   @Prop({ default: "id" }) private selectItemKey?: string; // 如果默认选中列表为number类型，默认选中列表的key值
-  @Prop({ default: "" }) private rowKey?: string;
+  @Prop({ default: "id" }) private rowKey?: string;
   @Prop({ default: () => {} }) private treeProps!: any;
   @Prop({ default: "prev, pager, next, sizes, jumper,total" })
   private layout!: string;

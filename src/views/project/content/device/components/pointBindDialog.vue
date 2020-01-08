@@ -19,13 +19,14 @@
           ref="tblRef"
           :tableColumns="constant.POINT_COLUMNS"
           :treeProps="{ children: 'categorys', hasChildren: 'hasChildren' }"
-          rowKey="id"
+          rowKey="key"
           :border="true"
           :defaultExpandAll="true"
           :showPage="false"
         />
       </div>
     </div>
+    <!--绑定点位-->
     <point-list-dialog
       v-if="dialog.show && dialog.type === 'bind'"
       @handleClose="closeDialog"
@@ -34,6 +35,7 @@
       @getTblList="getTblList"
       :deviceId="dialogObj.info.id"
     />
+    <!--添加子设备-->
     <add-sub-dialog
       v-if="dialog.show && dialog.type === 'sub'"
       @getTblList="getTblList"
@@ -69,24 +71,32 @@ export default class extends Vue {
     return new Const(this).const;
   }
 
-  handleClose() {
-    this.$emit("handleClose");
-  }
   bind(row: any, idx: number) {
     this.dialog.show = true;
     this.dialog.title = "选择点位";
     this.dialog.type = "bind";
     this.dialog.info = row;
-    console.log(idx);
   }
-  async choosePoint(point: any) {}
+
+  /**
+   * 获取列表
+   */
   getTblList() {
     this.getSubDeviceTypeList();
   }
+
+  /**
+   * 关闭弹框
+   */
   closeDialog() {
     this.dialog.show = false;
     this.dialog.type = "";
   }
+
+  /**
+   * 添加子设备
+   * @param devType
+   */
   addSubDevice(devType: any) {
     this.dialog.show = true;
     this.dialog.title = "添加子设备";
@@ -94,6 +104,10 @@ export default class extends Vue {
     this.dialog.type = "sub";
     this.dialog.devType = devType;
   }
+
+  /**
+   * 获取子设备列表
+   */
   async getSubDeviceTypeList() {
     try {
       this.loading = true;
@@ -107,11 +121,30 @@ export default class extends Vue {
       });
       this.loading = false;
       this.subDevTypeList = res.data.list;
+      this.subDevTypeList = this.subDevTypeList.map((item: any) => {
+        item.key = item.id;
+        item.subdevices = item.subdevices.map((sub: any) => {
+          sub.key = sub.id;
+          sub.categorys = sub.categorys.map((cat: any) => {
+            return {
+              ...cat,
+              subDeviceId: sub.id,
+              key: sub.id + cat.id
+            };
+          });
+          return sub;
+        });
+        return item;
+      });
     } catch (e) {
       this.loading = false;
     }
   }
-  mounted() {
+
+  handleClose() {
+    this.$emit("handleClose");
+  }
+  created() {
     this.getSubDeviceTypeList();
   }
 }

@@ -14,7 +14,7 @@
       :show-summary="showSummary"
       :summary-method="getSummaries"
       @current-change="singleSelectChange"
-      :rowKey="rowKey"
+      :row-key="rowKey"
       :tree-props="treeProps"
       :lazy="lazy"
       v-bind="$attrs"

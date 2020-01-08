@@ -41,14 +41,20 @@ export default class extends Mixins(projectMixin) {
   handleClose() {
     this.$emit("handleClose");
   }
+
+  /**
+   * 绑定点位
+   * @param point
+   */
   async choose(point: any) {
     let { info } = this.dialogObj;
     await bindDevicePoint({
       categoryId: info.id,
       pointId: point.id,
-      subDeviceId: info.parentId
+      subDeviceId: info.subDeviceId
     });
     this.$message.success("绑定成功");
+    this.$emit("getTblList");
     this.handleClose();
   }
   mounted() {}
